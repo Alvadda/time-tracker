@@ -3,3 +3,6 @@ dist
 coverage
 cypress\videos 
 .env
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
