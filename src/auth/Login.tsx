@@ -1,22 +1,13 @@
 import { Button } from '@mui/material'
-import { useDispatch } from 'react-redux'
-import { login } from './authSlice'
+
+import { useFirebaseLogin } from './useFirebaseLogin'
 
 const Login = () => {
-  const dispatch = useDispatch()
-
-  const onLogin = () => {
-    dispatch(
-      login({
-        uid: '1234',
-        name: 'Test User',
-      })
-    )
-  }
+  const { loginInWithGoogle } = useFirebaseLogin()
 
   return (
     <div>
-      <Button variant="contained" onClick={onLogin}>
+      <Button variant="contained" onClick={loginInWithGoogle}>
         Login
       </Button>
     </div>

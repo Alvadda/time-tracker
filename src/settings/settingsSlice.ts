@@ -17,8 +17,10 @@ export const settingsSlice = createSlice({
   },
 })
 
+//SELECTOR
 export const selectDarkMode = (state: RootState) => state.settings.darkMode
 
+//ACTIONS
 export const { setDarkMode } = settingsSlice.actions
 
 export default settingsSlice.reducer

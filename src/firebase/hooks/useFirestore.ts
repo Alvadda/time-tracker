@@ -6,7 +6,9 @@ export const useFirestore = () => {
   const { db } = useFirebaseContext()
   const dispatch = useDispatch()
 
-  const getProjects = () => dispatch(fetchProjects({ db }))
+  const getProjects = () => dispatch(fetchProjects(db))
 
-  return { getProjects }
+  return {
+    getProjects,
+  }
 }

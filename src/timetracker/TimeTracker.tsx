@@ -1,24 +1,31 @@
 import { Button } from '@mui/material'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { selectAuth } from '../auth/authSlice'
 
-import { logout } from '../auth/authSlice'
+import { useFirebaseLogin } from '../auth/useFirebaseLogin'
 import { useFirestore } from '../firebase/hooks/useFirestore'
 import { selectProjects } from '../projects/projectsSlice'
 
 const TimeTracker = () => {
   const { getProjects } = useFirestore()
-  const dispatch = useDispatch()
+  const { logout } = useFirebaseLogin()
+
   const projects = useSelector(selectProjects)
+  const auth = useSelector(selectAuth)
 
   useEffect(() => {
     getProjects()
-  }, [getProjects])
+  }, [])
 
   return (
     <div>
-      <p>{projects[0].name}</p>
-      <Button variant="contained" onClick={() => dispatch(logout())}>
+      <p>Hallo {auth.name}</p>
+      <p>Projects:</p>
+      {projects.map((project) => (
+        <p key={project.name}> {project.name}</p>
+      ))}
+      <Button variant="contained" onClick={logout}>
         Logout
       </Button>
     </div>
