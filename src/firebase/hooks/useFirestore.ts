@@ -1,20 +1,12 @@
-import { collection, getDocs } from 'firebase/firestore'
+import { useDispatch } from 'react-redux'
 import { useFirebaseContext } from '../FirebaseContext'
+import { fetchProjects } from '../../projects/projectsSlice'
 
 export const useFirestore = () => {
   const { db } = useFirebaseContext()
-  const testCollection = collection(db, `test`)
+  const dispatch = useDispatch()
 
-  const getTest = async () => {
-    if (!testCollection) return []
-    const querySnapshot = await getDocs(testCollection)
-    const test: string[] = []
-    querySnapshot.forEach((doc) => {
-      const testDoc = doc.data()
-      test.push(testDoc.name)
-    })
-    return test
-  }
+  const getProjects = () => dispatch(fetchProjects({ db }))
 
-  return { getTest }
+  return { getProjects }
 }

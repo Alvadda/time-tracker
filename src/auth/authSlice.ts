@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
+import { RootState } from '../store/store'
 
 export interface AuthState {
   uid?: string
@@ -21,6 +22,8 @@ export const authSlice = createSlice({
     },
   },
 })
+
+export const selectAuth = (state: RootState) => state.auth
 
 export const { login, logout } = authSlice.actions
 
