@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { collection, getDocs, Firestore } from 'firebase/firestore'
+import { Firestore } from 'firebase/firestore'
 
 import { RootState } from '../store/store'
 import { Project } from '../types/types'
+import { getProjects } from './projectAPI'
 
 export interface ProjectsState {
   projects: Project[]
@@ -10,15 +11,8 @@ export interface ProjectsState {
 
 const initialState: ProjectsState = { projects: [] }
 
-const fetchProjects = createAsyncThunk('projects/fetchByUser', async (db: Firestore) => {
-  const querySnapshot = await getDocs(collection(db, `test`))
-  const projects: Project[] = []
-  querySnapshot.forEach((doc) => {
-    const project = doc.data()
-    projects.push({ name: project.name })
-  })
-
-  return projects
+const fetchProjects = createAsyncThunk('projects/getProjects', async (db: Firestore) => {
+  return await getProjects('test', db)
 })
 
 export const projectsSlice = createSlice({
