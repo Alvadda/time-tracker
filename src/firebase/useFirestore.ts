@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { useFirebaseContext } from '../FirebaseContext'
-import { fetchProjects } from '../../projects/projectsSlice'
+import { fetchProjects } from '../features/projects/projectsSlice'
+import { useFirebaseContext } from './FirebaseContext'
 
 export const useFirestore = () => {
   const { db } = useFirebaseContext()

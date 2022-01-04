@@ -1,11 +1,10 @@
 import { Button } from '@mui/material'
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { selectAuth } from '../auth/authSlice'
-
-import { useFirebaseLogin } from '../auth/useFirebaseLogin'
-import { useFirestore } from '../firebase/hooks/useFirestore'
-import { selectProjects } from '../projects/projectsSlice'
+import { selectAuth } from '../../features/auth/authSlice'
+import { selectProjects } from '../../features/projects/projectsSlice'
+import { useFirestore } from '../../firebase/useFirestore'
+import { useEffectOnce } from '../../hooks/useEffectOnce'
+import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
 
 const TimeTracker = () => {
   const { getProjects } = useFirestore()
@@ -14,9 +13,9 @@ const TimeTracker = () => {
   const projects = useSelector(selectProjects)
   const auth = useSelector(selectAuth)
 
-  useEffect(() => {
+  useEffectOnce(() => {
     getProjects()
-  }, [])
+  })
 
   return (
     <div>

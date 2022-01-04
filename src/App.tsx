@@ -1,15 +1,14 @@
 import { LocalizationProvider } from '@mui/lab'
+import AdapterMoment from '@mui/lab/AdapterMoment'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { blueGrey } from '@mui/material/colors'
 import { useSelector } from 'react-redux'
-import AdapterMoment from '@mui/lab/AdapterMoment'
-
-import { selectAuth } from './auth/authSlice'
-import { selectDarkMode } from './settings/settingsSlice'
-import { useFirebaseAuth } from './auth/useFirebaseAuth'
+import { selectAuth } from './features/auth/authSlice'
+import Login from './features/auth/Login'
+import { selectDarkMode } from './features/settings/settingsSlice'
 import FirebaseProvider from './firebase/FirebaseContext'
-import Login from './auth/Login'
-import TimeTracker from './timetracker/TimeTracker'
+import { useFirebaseAuth } from './hooks/useFirebaseAuth'
+import TimeTracker from './pages/timetracker/TimeTracker'
 import './style/style.scss'
 
 export const App = () => {

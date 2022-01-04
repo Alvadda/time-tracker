@@ -1,5 +1,5 @@
-import { collection, getDocs, Firestore } from 'firebase/firestore'
-import { Project } from '../types/types'
+import { collection, Firestore, getDocs } from 'firebase/firestore'
+import { Project } from '../../types/types'
 
 const getProjects = async (userId: string, db: Firestore) => {
   const querySnapshot = await getDocs(collection(db, 'test'))

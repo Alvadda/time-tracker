@@ -1,6 +1,5 @@
 import { Button } from '@mui/material'
-
-import { useFirebaseLogin } from './useFirebaseLogin'
+import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
 
 const Login = () => {
   const { loginInWithGoogle } = useFirebaseLogin()

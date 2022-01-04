@@ -2,9 +2,8 @@ import { browserLocalPersistence, setPersistence } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-
+import { login, logout } from '../features/auth/authSlice'
 import { useFirebaseContext } from '../firebase/FirebaseContext'
-import { login, logout } from './authSlice'
 
 export const useFirebaseAuth = () => {
   const { auth, db } = useFirebaseContext()
@@ -17,11 +16,8 @@ export const useFirebaseAuth = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        console.log(user)
-
         const userDocRef = doc(db, 'users', user?.uid)
         const userDoc = await getDoc(userDocRef)
-        console.log(userDoc.data())
         if (!userDoc.exists()) {
           try {
             await setDoc(doc(db, 'users', user?.uid), {
