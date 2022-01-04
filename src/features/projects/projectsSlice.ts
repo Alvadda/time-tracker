@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Firestore } from 'firebase/firestore'
+import { getProjects } from '../../api/projectAPI'
 import { RootState } from '../../store/store'
 import { Project } from '../../types/types'
-import { getProjects } from './projectAPI'
 
 export interface ProjectsState {
   projects: Project[]

@@ -4,15 +4,18 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "build-prod": "webpack --config webpack.config.js --mode=production --env=prod",
-    "start": "concurrently --kill-others \"firebase emulators:start\" \"npm run dev\"",
-    "dev": "webpack serve --config webpack.config.js --open",
+    "build-prod": "webpack --mode=production --env=prod",
+    "emu": "firebase emulators:start",
+    "start:emu": "concurrently --kill-others \"firebase emulators:start\" \"npm run dev\"",
+    "start": "npm run dev",
+    "dev": "webpack serve --open --hot",
     "test": "npm run test:unit && npm run test:ui",
     "test:ui": "cypress run",
     "test:ui:open": "cypress open",
     "test:unit": "jest",
     "test:unit:w": "jest --watchAll",
-    "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\""
+    "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "serve": "webpack --mode=production --env=prod && npx serve -s dist"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +27,7 @@
     "@mui/lab": "^5.0.0-alpha.62",
     "@mui/material": "^5.2.6",
     "@mui/styles": "^5.2.3",
+    "@reduxjs/toolkit": "^1.7.1",
     "dotenv": "^10.0.0",
     "firebase": "^9.6.1",
     "moment": "^2.29.1",
@@ -31,7 +35,7 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
-    "@reduxjs/toolkit": "^1.7.1"
+    "workbox-window": "^6.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -50,6 +54,7 @@
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "concurrently": "^7.0.0",
+    "copy-webpack-plugin": "^10.2.0",
     "css-loader": "^6.5.1",
     "cypress": "^9.1.1",
     "eslint": "^8.4.0",
@@ -75,7 +80,10 @@
     "typescript": "^4.5.2",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.6.0"
+    "webpack-dev-server": "^4.6.0",
+    "webpack-pwa-manifest": "^4.3.0",
+    "workbox-precaching": "^6.4.2",
+    "workbox-webpack-plugin": "^6.4.2"
   },
   "browserslist": [
     "> .5% or last 2 versions"
