@@ -23,6 +23,7 @@ export const authSlice = createSlice({
 
 //SELECTOR
 export const selectAuth = (state: RootState) => state.auth
+export const selectUserId = (state: RootState) => state.auth.uid
 
 //ACTIONS
 export const { login, logout } = authSlice.actions
