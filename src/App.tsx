@@ -1,7 +1,8 @@
 import { LocalizationProvider } from '@mui/lab'
 import AdapterMoment from '@mui/lab/AdapterMoment'
-import { Button, createTheme, ThemeProvider, Typography } from '@mui/material'
+import { Button, createTheme, ThemeProvider } from '@mui/material'
 import { blueGrey } from '@mui/material/colors'
+import CssBaseline from '@mui/material/CssBaseline'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectAuth } from './features/auth/authSlice'
@@ -9,7 +10,7 @@ import Login from './features/auth/Login'
 import { selectDarkMode } from './features/settings/settingsSlice'
 import FirebaseProvider from './firebase/FirebaseContext'
 import { useFirebaseAuth } from './hooks/useFirebaseAuth'
-import TimeTracker from './pages/timetracker/TimeTracker'
+import Wizard from './pages/wizard/Wizard'
 
 export const App = () => {
   const [update, setUpdate] = useState(false)
@@ -35,8 +36,8 @@ export const App = () => {
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <FirebaseProvider>
-          <Typography sx={{ color: 'HighlightText' }}>Time Tracker</Typography>
-          {auth.uid ? <TimeTracker /> : <Login />}
+          <CssBaseline />
+          {auth.uid ? <Wizard /> : <Login />}
           {update && <Button onClick={() => window.location.reload()}>Update</Button>}
         </FirebaseProvider>
       </LocalizationProvider>
