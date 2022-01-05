@@ -28,13 +28,6 @@ export const useFirebaseAuth = () => {
             console.log('error', error)
           }
         }
-        console.log(
-          login({
-            uid: user.uid,
-            name: user.displayName || undefined,
-          })
-        )
-
         dispatch(
           login({
             uid: user.uid,

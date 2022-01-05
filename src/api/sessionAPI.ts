@@ -10,13 +10,15 @@ const getActivSessions = async (userId: string, db: Firestore) => {
   const querySnapshot = await getDocs(q)
 
   querySnapshot.forEach((doc) => {
-    const session = doc.data()
+    const docData = doc.data()
     sessions.push({
       id: doc.id,
-      activ: session.activ,
-      start: session.start,
-      end: session.end ? session.end : undefined,
-      docRef: doc.ref,
+      activ: docData.activ,
+      start: docData.start,
+      end: docData.end ? docData.end : undefined,
+      projectId: docData.projectId || undefined,
+      duration: docData.duration || undefined,
+      docRef: docData.ref,
     })
   })
 
@@ -30,6 +32,8 @@ const updateSession = async (session: Session) => {
       activ: session.activ,
       start: session.start,
       end: session.end || null,
+      projectId: session.projectId || null,
+      duration: session.duration || null,
     })
   } catch (error: any) {
     throw new Error(`Update session ${session.id} faild: ${error.message}`)
@@ -37,12 +41,11 @@ const updateSession = async (session: Session) => {
 }
 
 const createSession = async (session: Partial<Session>, userId: string, db: Firestore) => {
-  console.log(sessionPath(userId))
-
   await addDoc(collection(db, sessionPath(userId)), {
     activ: session.activ,
     start: session.start,
     end: session.end || null,
+    projectId: session.projectId || null,
   })
 }
 

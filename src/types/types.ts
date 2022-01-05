@@ -13,6 +13,7 @@ export interface Session {
   start: number
   end?: number
   projectId?: string
+  duration?: number
   docRef: DocumentReference<DocumentData>
 }
 
