@@ -13,8 +13,6 @@ export const useSessionsListener = () => {
   const userId = useSelector(selectUserId)
 
   useEffect(() => {
-    console.log(useSessionsListener)
-
     if (!userId) return
 
     const q = query(collection(db, sessionPath(userId)), orderBy('start', 'desc'))
@@ -27,6 +25,7 @@ export const useSessionsListener = () => {
           activ: docData.activ,
           start: docData.start,
           end: docData.end ? docData.end : undefined,
+          projectId: docData.projectId || undefined,
           docRef: doc.ref,
         })
       })

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Firestore } from 'firebase/firestore'
 import { getProjects } from '../../api/projectAPI'
 import { RootState } from '../../store/store'
@@ -10,8 +10,11 @@ export interface ProjectsState {
 
 const initialState: ProjectsState = { projects: [] }
 
-const fetchProjects = createAsyncThunk('projects/getProjects', async (db: Firestore) => {
-  return await getProjects('test', db)
+const fetchProjects = createAsyncThunk('projects/getProjects', async (db: Firestore, { getState }) => {
+  const { auth } = getState() as any
+  if (!auth?.uid) return []
+
+  return await getProjects(auth.uid, db)
 })
 
 export const projectsSlice = createSlice({
@@ -31,6 +34,10 @@ export const projectsSlice = createSlice({
 
 // SELECTOR
 export const selectProjects = (state: RootState) => state.projects.projects
+export const selectProjectColor = createSelector(
+  selectProjects,
+  (projects) => (projectid: string) => projects.filter((project) => project.id === projectid)
+)
 
 //ACTIONS
 export const { addProject } = projectsSlice.actions
