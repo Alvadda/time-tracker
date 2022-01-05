@@ -37,6 +37,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ userId, projects }) => {
   const [projectId, setProjectId] = useState<string>('')
   const [sessionDuration, setSessionDuration] = useState<string>(DEFAULT_DURATION)
   const [clock, setClock] = useState<string>(clockTick())
+  const [trackDisabled, setTrackDisabled] = useState<boolean>(false)
 
   const activeSessions = useSelector(selectActivSession)
 
@@ -71,6 +72,12 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ userId, projects }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (activeSessions.length > 0) {
+      setProjectId(activeSessions[0].projectId || '')
+    }
+  }, [activeSessions])
+
   const handleChange = (event: SelectChangeEvent<string>) => {
     setProjectId(event.target.value)
   }
@@ -86,6 +93,8 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ userId, projects }) => {
   }
 
   const track = async () => {
+    setTrackDisabled(true)
+    setTimeout(() => setTrackDisabled(false), 1000)
     if (activeSessions.length === 1) {
       await endSession()
     }
@@ -116,23 +125,27 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ userId, projects }) => {
               {sessionDuration}
             </Typography>
           </Grid>
-          <Grid item container direction={'column'} justifyContent={'center'} alignItems={'center'} xs={6}>
-            <Select
-              sx={{ width: '100%' }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={projectId}
-              onChange={handleChange}
-            >
-              {projects.map((project) => (
-                <MenuItem key={project.id} value={project.id}>
-                  {project.name}
-                </MenuItem>
-              ))}
-            </Select>
-            <Button variant="contained" onClick={track}>
-              Track Session
-            </Button>
+          <Grid item container direction={'column'} spacing={2} justifyContent={'center'} alignItems={'center'} xs={6}>
+            <Grid item>
+              <Select
+                sx={{ width: '141px', height: '36px' }}
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={projectId}
+                onChange={handleChange}
+              >
+                {projects.map((project) => (
+                  <MenuItem key={project.id} value={project.id}>
+                    {project.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" disabled={trackDisabled} onClick={track}>
+                Track Session
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
