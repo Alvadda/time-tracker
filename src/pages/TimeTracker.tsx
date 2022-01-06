@@ -21,13 +21,6 @@ const TimeTracker = () => {
     dispatch(fetchProjects(db))
   })
 
-  const getProjectColor = (projectId?: string) => {
-    return projects.find((project) => project.id === projectId)?.color || 'none'
-  }
-
-  const getProjectRate = (projectId?: string) => {
-    return projects.find((project) => project.id === projectId)?.rate || 0
-  }
   return (
     <Grid item container direction={'column'} sx={{ height: '100%' }} justifyContent={'center'} alignItems={'center'}>
       <Grid item sx={{ flex: '0 0 25%', width: '100%' }}>
@@ -35,16 +28,6 @@ const TimeTracker = () => {
         <Divider />
       </Grid>
       <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto' }}>
-        {/* <ul>
-          {sessions.map((session) => (
-            <li key={session.id} style={{ backgroundColor: getProjectColor(session.projectId) }}>
-              {session.duration
-                ? `Duration: ${session.duration}Min, Earnd: ${getProjectRate(session.projectId) * (session.duration / 60)}€`
-                : `Start: ${moment(session.start).format('DD.MM HH:mm')} 
-              | End: ${session.end ? moment(session.end).format('DD.MM HH:mm') : ''}`}
-            </li>
-          ))}
-        </ul> */}
         <SessionList sessions={sessions} projects={projects} />
       </Grid>
     </Grid>

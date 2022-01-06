@@ -1,4 +1,4 @@
-import { collection, Firestore, getDocs } from 'firebase/firestore'
+import { addDoc, collection, Firestore, getDocs } from 'firebase/firestore'
 import { Project } from '../types/types'
 
 const ProjectsPath = (userId: string) => `users/${userId}/projects`
@@ -20,4 +20,24 @@ const getProjects = async (userId: string, db: Firestore) => {
   return projects
 }
 
-export { getProjects }
+const createProject = async (userId: string, name: string, rate: number, color: string, db: Firestore) => {
+  try {
+    const docRef = await addDoc(collection(db, ProjectsPath(userId)), {
+      name,
+      rate,
+      color,
+    })
+
+    const project: Project = {
+      id: docRef.id,
+      name,
+      rate,
+      color,
+    }
+    return project
+  } catch (error: any) {
+    throw new Error(`create Project faild: ${error.message}`)
+  }
+}
+
+export { getProjects, createProject }

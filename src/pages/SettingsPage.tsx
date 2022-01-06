@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomerManager from '../features/customer/CustomerManager'
 import ProjectManager from '../features/projects/ProjectManager'
 import Settings from '../features/settings/Settings'
-import { navigateTo, navigateBack, selectSettingPage } from '../features/settings/settingsSlice'
+import { navigateBack, navigateTo, selectSettingPage } from '../features/settings/settingsSlice'
 import { SettingPage } from '../types/types'
 
 const SettingsPage: VFC = () => {
@@ -26,7 +26,11 @@ const SettingsPage: VFC = () => {
           position={'relative'}
         >
           {page !== 'settings' && (
-            <Button variant="text" sx={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)' }} onClick={() => dispatch(navigateBack())}>
+            <Button
+              variant="text"
+              sx={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)' }}
+              onClick={() => dispatch(navigateBack())}
+            >
               <KeyboardArrowLeftIcon fontSize="medium" />
             </Button>
           )}
