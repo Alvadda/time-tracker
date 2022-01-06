@@ -29,7 +29,7 @@ const SessionList: VFC<SessionListProps> = ({ projects, sessions }) => {
           key={session.id}
           displayDate={moment(session.start).format('DD.MM.YYYY')}
           project={getProjectName(session.projectId)}
-          procectColor={getProjectColor(session.projectId)}
+          projectColor={getProjectColor(session.projectId)}
           duration={minutesToHourMinutes(session.duration || 0)}
           erning={+(getProjectRate(session.projectId) * ((session.duration || 0) / 60)).toFixed(2)}
         />
