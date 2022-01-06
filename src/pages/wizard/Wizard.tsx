@@ -5,7 +5,7 @@ import { BottomNavigation, BottomNavigationAction, Grid } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Page } from '../../types/types'
 import Overview from '../Overview'
-import Settings from '../Settings'
+import SettingsPage from '../SettingsPage'
 import TimeTracker from '../TimeTracker'
 import { navigateTo, selectCurrentPage } from './wizardSlice'
 
@@ -18,7 +18,7 @@ const Wizard = () => {
       <Grid item sx={{ flex: '1 0', height: 'calc(100vh - 60px)' }}>
         {currentPage === 'time-tracker' && <TimeTracker />}
         {currentPage === 'overview' && <Overview />}
-        {currentPage === 'settings' && <Settings />}
+        {currentPage === 'settings' && <SettingsPage />}
       </Grid>
       <Grid item sx={{ flex: '0 0 60px' }}>
         <BottomNavigation

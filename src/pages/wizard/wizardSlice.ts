@@ -6,7 +6,7 @@ export interface WizardState {
   currentPage: Page
 }
 
-const initialState: WizardState = { currentPage: 'time-tracker' }
+const initialState: WizardState = { currentPage: 'settings' }
 
 export const wizardSlice = createSlice({
   name: 'wizard',

@@ -18,3 +18,4 @@ export interface Session {
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'
+export type SettingPage = 'settings' | 'projects' | 'customer'
