@@ -16,7 +16,7 @@ const db = getFirestore(app)
 
 const FirebaseContext = createContext<FirebaseContextValue>({ app, auth, db })
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   connectFirestoreEmulator(db, 'localhost', 5051)
   connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true })
 }
