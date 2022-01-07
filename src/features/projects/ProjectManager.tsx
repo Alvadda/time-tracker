@@ -2,13 +2,11 @@ import AddIcon from '@mui/icons-material/Add'
 import { Box, Fab, Paper, Stack } from '@mui/material'
 import { useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useFirebaseContext } from '../../firebase/FirebaseContext'
 import ProjectForm from './ProjectForm'
 import ProjectItem from './ProjectItem'
-import { fetchCreateProject, selectProjects } from './projectsSlice'
+import { createProject, selectProjects } from './projectsSlice'
 
 const ProjectManager: VFC = () => {
-  const { db } = useFirebaseContext()
   const dispatch = useDispatch()
   const [showForm, setShowForm] = useState(false)
 
@@ -16,11 +14,10 @@ const ProjectManager: VFC = () => {
 
   const onAdd = (name: string, rate: number, color: string) => {
     dispatch(
-      fetchCreateProject({
+      createProject({
         name,
         rate,
         color,
-        db,
       })
     )
   }

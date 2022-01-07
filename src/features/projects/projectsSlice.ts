@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Firestore } from 'firebase/firestore'
-import { createProject, getProjects } from '../../api/projectAPI'
-import { RootState } from '../../store/store'
 import { Project } from '../../types/types'
+import { Extra, RootState } from './../../store/store'
 
 export interface ProjectsState {
   projects: Project[]
@@ -12,26 +10,29 @@ interface CreateProjectParams {
   name: string
   rate: number
   color: string
-  db: Firestore
 }
 
 const initialState: ProjectsState = { projects: [] }
 
-const fetchProjects = createAsyncThunk('projects/getProjects', async (db: Firestore, { getState }) => {
-  const { auth } = getState() as any
-  if (!auth?.uid) return []
+const getProjects = createAsyncThunk<Project[], undefined, { state: RootState; extra: Extra }>(
+  'projects/getProjects',
+  async (_, { getState, extra }) => {
+    const { auth } = getState()
+    if (!auth?.uid) return []
 
-  return await getProjects(auth.uid, db)
-})
+    return await extra.project.getAll(auth.uid)
+  }
+)
 
-const fetchCreateProject = createAsyncThunk('projects/createProject', async (params: CreateProjectParams, { getState, dispatch }) => {
-  const { auth } = getState() as any
-  console.log('test')
-  if (!auth?.uid) return []
+const createProject = createAsyncThunk<Project, CreateProjectParams, { state: RootState; extra: Extra }>(
+  'projects/createProject',
+  async (params, { getState, extra }) => {
+    const { auth } = getState()
+    if (!auth?.uid) throw new Error('User needs to be logged in')
 
-  const project = await createProject(auth.uid, params.name, params.rate, params.color, params.db)
-  dispatch(addProject(project))
-})
+    return await extra.project.create(auth.uid, params.name, params.rate, params.color)
+  }
+)
 
 export const projectsSlice = createSlice({
   name: 'projects',
@@ -42,8 +43,11 @@ export const projectsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchProjects.fulfilled, (state, action) => {
+    builder.addCase(getProjects.fulfilled, (state, action) => {
       state.projects = [...action.payload]
+    })
+    builder.addCase(createProject.fulfilled, (state, action) => {
+      state.projects.push(action.payload)
     })
   },
 })
@@ -57,6 +61,6 @@ export const selectProjectColor = createSelector(
 
 //ACTIONS
 export const { addProject } = projectsSlice.actions
-export { fetchProjects, fetchCreateProject }
+export { getProjects, createProject }
 
 export default projectsSlice.reducer

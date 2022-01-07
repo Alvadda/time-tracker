@@ -3,6 +3,8 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import TimelapseIcon from '@mui/icons-material/Timelapse'
 import { BottomNavigation, BottomNavigationAction, Grid } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { getProjects } from '../../features/projects/projectsSlice'
+import { useEffectOnce } from '../../hooks/useEffectOnce'
 import { Page } from '../../types/types'
 import Overview from '../Overview'
 import SettingsPage from '../SettingsPage'
@@ -12,6 +14,10 @@ import { navigateTo, selectCurrentPage } from './wizardSlice'
 const Wizard = () => {
   const dispatch = useDispatch()
   const currentPage = useSelector(selectCurrentPage)
+
+  useEffectOnce(() => {
+    dispatch(getProjects())
+  })
 
   return (
     <Grid container direction={'column'} sx={{ height: '100vh' }} justifyContent={'center'}>

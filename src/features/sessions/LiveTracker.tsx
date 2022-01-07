@@ -1,15 +1,12 @@
 import { Button, Grid, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useState, VFC } from 'react'
-import { useSelector } from 'react-redux'
-import { createSession, updateSession } from '../../api/sessionAPI'
-import { useFirebaseContext } from '../../firebase/FirebaseContext'
+import { useDispatch, useSelector } from 'react-redux'
 import { Project } from '../../types/types'
-import { selectActivSession } from './sessionsSlice'
+import { createSession, selectActivSession, updateSession } from './sessionsSlice'
 
 const DEFAULT_DURATION = '0:00'
 interface LiveTrackerProps {
-  userId: string
   projects: Project[]
 }
 
@@ -32,8 +29,8 @@ const calcSessionDuration = (startTime: number, endTime: number) => {
   return minute
 }
 
-const LiveTracker: VFC<LiveTrackerProps> = ({ userId, projects }) => {
-  const { db } = useFirebaseContext()
+const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
+  const dispatch = useDispatch()
   const [projectId, setProjectId] = useState<string>('')
   const [sessionDuration, setSessionDuration] = useState<string>(DEFAULT_DURATION)
   const [clock, setClock] = useState<string>(clockTick())
@@ -82,32 +79,25 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ userId, projects }) => {
     setProjectId(event.target.value)
   }
 
-  const endSession = async () => {
+  const endSession = () => {
     const endingSession = { ...activeSessions[0] }
     endingSession.end = new Date().getTime()
     endingSession.activ = false
     endingSession.duration = calcSessionDuration(endingSession.start, endingSession.end)
     endingSession.projectId = projectId
 
-    await updateSession(endingSession)
+    dispatch(updateSession(endingSession))
   }
 
-  const track = async () => {
+  const track = () => {
     setTrackDisabled(true)
     setTimeout(() => setTrackDisabled(false), 1000)
+
     if (activeSessions.length === 1) {
-      await endSession()
+      endSession()
     }
     if (activeSessions.length === 0) {
-      createSession(
-        {
-          activ: true,
-          start: new Date().getTime(),
-          projectId,
-        },
-        userId,
-        db
-      )
+      dispatch(createSession(projectId))
     }
   }
 
