@@ -6,11 +6,16 @@ import CustomerManager from '../features/customer/CustomerManager'
 import ProjectManager from '../features/projects/ProjectManager'
 import Settings from '../features/settings/Settings'
 import { navigateBack, navigateTo, selectSettingPage } from '../features/settings/settingsSlice'
+import { useEffectOnce } from '../hooks/useEffectOnce'
 import { SettingPage } from '../types/types'
 
 const SettingsPage: VFC = () => {
   const dispatch = useDispatch()
   const page = useSelector(selectSettingPage)
+
+  useEffectOnce(() => {
+    dispatch(navigateBack())
+  })
 
   const onNavigation = (to: SettingPage) => {
     dispatch(navigateTo(to))

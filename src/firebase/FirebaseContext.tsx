@@ -1,8 +1,8 @@
-import { createContext, FC, useContext } from 'react'
 import { FirebaseApp, initializeApp } from 'firebase/app'
-import { firebaseConfig } from './firebase.config'
-import { Auth, getAuth } from 'firebase/auth'
+import { Auth, connectAuthEmulator, getAuth } from 'firebase/auth'
 import { connectFirestoreEmulator, Firestore, getFirestore } from 'firebase/firestore'
+import { createContext, FC, useContext } from 'react'
+import { firebaseConfig } from './firebase.config'
 
 interface FirebaseContextValue {
   app: FirebaseApp
@@ -18,6 +18,7 @@ const FirebaseContext = createContext<FirebaseContextValue>({ app, auth, db })
 
 if (process.env.NODE_ENV === 'development') {
   connectFirestoreEmulator(db, 'localhost', 5051)
+  connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true })
 }
 
 export const useFirebaseContext = () => useContext(FirebaseContext)
