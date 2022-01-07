@@ -2,7 +2,7 @@ import { List } from '@mui/material'
 import moment from 'moment'
 import React, { VFC } from 'react'
 import { Project, Session } from '../../types/types'
-import { minutesToHourMinutes } from '../../utils/timeUtils'
+import { minutesToHourMinutes } from '../../utils/timeUtil'
 import SessionItem from './components/SessionItem'
 
 interface SessionListProps {

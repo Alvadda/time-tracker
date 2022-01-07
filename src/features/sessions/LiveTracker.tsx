@@ -1,8 +1,9 @@
-import { Button, Grid, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { Button, Grid, MenuItem, Select, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Project } from '../../types/types'
+import { Project, Session } from '../../types/types'
+import { calcActiveSessionDuration, calcSessionDuration, nowMiliseconds } from '../../utils/timeUtil'
 import { createSession, selectActivSession, updateSession } from './sessionsSlice'
 
 const DEFAULT_DURATION = '0:00'
@@ -10,23 +11,8 @@ interface LiveTrackerProps {
   projects: Project[]
 }
 
-const calcActiveSessionDuration = (startTime: number) => {
-  const start = moment(startTime)
-  const now = moment()
-  const hours = now.diff(start, 'hour')
-  const mins = moment.utc(moment(now, 'HH:mm:ss').diff(moment(start, 'HH:mm:ss'))).format('mm')
-  return `${hours}:${mins}`
-}
-
 const clockTick = () => {
   return moment().format('HH:mm')
-}
-
-const calcSessionDuration = (startTime: number, endTime: number) => {
-  const start = moment(startTime)
-  const end = moment(endTime)
-  const minute = end.diff(start, 'minute')
-  return minute
 }
 
 const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
@@ -36,16 +22,16 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
   const [clock, setClock] = useState<string>(clockTick())
   const [trackDisabled, setTrackDisabled] = useState<boolean>(false)
 
-  const activeSessions = useSelector(selectActivSession)
+  const activeSession = useSelector(selectActivSession)
 
   useEffect(() => {
     let intervalId: NodeJS.Timer
 
-    if (activeSessions.length > 0) {
-      setSessionDuration(calcActiveSessionDuration(activeSessions[0].start))
+    if (activeSession) {
+      setSessionDuration(calcActiveSessionDuration(activeSession.start))
 
       intervalId = setInterval(() => {
-        setSessionDuration(calcActiveSessionDuration(activeSessions[0].start))
+        setSessionDuration(calcActiveSessionDuration(activeSession.start))
       }, 1000)
     } else {
       setSessionDuration(DEFAULT_DURATION)
@@ -56,7 +42,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
         clearInterval(intervalId)
       }
     }
-  }, [setSessionDuration, activeSessions])
+  }, [setSessionDuration, activeSession])
 
   useEffect(() => {
     setClock(clockTick())
@@ -70,18 +56,14 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
   }, [])
 
   useEffect(() => {
-    if (activeSessions.length > 0) {
-      setProjectId(activeSessions[0].projectId || '')
+    if (activeSession) {
+      setProjectId(activeSession.projectId || '')
     }
-  }, [activeSessions])
+  }, [activeSession])
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    setProjectId(event.target.value)
-  }
-
-  const endSession = () => {
-    const endingSession = { ...activeSessions[0] }
-    endingSession.end = new Date().getTime()
+  const endSession = (activeSession: Session) => {
+    const endingSession = { ...activeSession }
+    endingSession.end = nowMiliseconds()
     endingSession.activ = false
     endingSession.duration = calcSessionDuration(endingSession.start, endingSession.end)
     endingSession.projectId = projectId
@@ -93,10 +75,9 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
     setTrackDisabled(true)
     setTimeout(() => setTrackDisabled(false), 1000)
 
-    if (activeSessions.length === 1) {
-      endSession()
-    }
-    if (activeSessions.length === 0) {
+    if (activeSession) {
+      endSession(activeSession)
+    } else {
       dispatch(createSession(projectId))
     }
   }
@@ -122,7 +103,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={projectId}
-                onChange={handleChange}
+                onChange={(event) => setProjectId(event.target.value)}
               >
                 {projects.map((project) => (
                   <MenuItem key={project.id} value={project.id}>

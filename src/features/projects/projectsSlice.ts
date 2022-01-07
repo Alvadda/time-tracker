@@ -15,7 +15,7 @@ interface CreateProjectParams {
 const initialState: ProjectsState = { projects: [] }
 
 const getProjects = createAsyncThunk<Project[], undefined, { state: RootState; extra: Extra }>(
-  'projects/getProjects',
+  'projects/getAll',
   async (_, { getState, extra }) => {
     const { auth } = getState()
     if (!auth?.uid) return []
@@ -25,7 +25,7 @@ const getProjects = createAsyncThunk<Project[], undefined, { state: RootState; e
 )
 
 const createProject = createAsyncThunk<Project, CreateProjectParams, { state: RootState; extra: Extra }>(
-  'projects/createProject',
+  'projects/create',
   async (params, { getState, extra }) => {
     const { auth } = getState()
     if (!auth?.uid) throw new Error('User needs to be logged in')

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Extra, RootState } from '../../store/store'
+import { nowMiliseconds } from '../../utils/timeUtil'
 import { Session } from './../../types/types'
 
 export interface SessionsState {
@@ -17,7 +18,7 @@ const createSession = createAsyncThunk<unknown, string, { state: RootState; extr
     extra.session.create(
       {
         activ: true,
-        start: new Date().getTime(),
+        start: nowMiliseconds(),
         projectId,
       },
       auth.uid
@@ -47,7 +48,8 @@ export const sessionsSlice = createSlice({
 
 //SELECTOR
 export const selectSessions = (state: RootState) => state.sessions.sessions
-export const selectActivSession = (state: RootState) => state.sessions.sessions.filter((session) => session.activ)
+export const selectActivSessions = (state: RootState) => state.sessions.sessions.filter((session) => session.activ)
+export const selectActivSession = (state: RootState) => state.sessions.sessions.find((session) => session.activ)
 
 //ACTIONS
 export const { updateSessions } = sessionsSlice.actions
