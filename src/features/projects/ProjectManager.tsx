@@ -15,8 +15,6 @@ const ProjectManager: VFC = () => {
   const projects = useSelector(selectProjects)
 
   const onAdd = (name: string, rate: number, color: string) => {
-    console.log('testmanager')
-
     dispatch(
       fetchCreateProject({
         name,
@@ -26,6 +24,7 @@ const ProjectManager: VFC = () => {
       })
     )
   }
+
   return (
     <Box height={'100%'} overflow={'auto'} position={'relative'}>
       <Stack spacing={2}>
