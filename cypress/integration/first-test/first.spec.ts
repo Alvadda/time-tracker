@@ -1,10 +1,11 @@
-describe('example', () => {
-  beforeEach(() => {
-    cy.visit('http://localhost:8080/')
-  })
-
-  it('first-test', () => {
-    cy.get('h1').should('exist')
+describe('login', () => {
+  it('login', () => {
+    cy.fixture('login.json').then((login) => {
+      cy.get(`[aria-label="Email"]`).type(login.email)
+      cy.get(`[aria-label="Password"]`).type(login.password)
+      cy.get(`[aria-label="Login"]`).click()
+      cy.get(`[aria-label="Login"]`).should('not.exist')
+    })
   })
 })
 
