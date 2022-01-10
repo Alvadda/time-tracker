@@ -41,7 +41,7 @@ const SettingsPage: VFC = () => {
           )}
           {page}
         </Grid>
-        <Grid item sx={{ flex: '1 0' }} padding={2}>
+        <Grid item sx={{ flex: '1 0' }}>
           {page === 'settings' && <Settings onNavigation={onNavigation} />}
           {page === 'projects' && <ProjectManager />}
           {page === 'customer' && <CustomerManager />}

@@ -17,7 +17,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const darkMode = useSelector(selectDarkMode)
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} padding={2}>
       <Paper>
         <List>
           <ListItem disablePadding>

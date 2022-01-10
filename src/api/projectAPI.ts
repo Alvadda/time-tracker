@@ -1,4 +1,4 @@
-import { addDoc, collection, Firestore, getDocs } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, updateDoc } from 'firebase/firestore'
 import { Project } from '../types/types'
 
 const ProjectsPath = (userId: string) => `users/${userId}/projects`
@@ -20,27 +20,54 @@ const projectAPI = (db: Firestore) => {
     return projects
   }
 
-  const create = async (userId: string, name: string, rate: number, color: string) => {
+  const create = async (userId: string, project: Partial<Project>) => {
     try {
       const docRef = await addDoc(collection(db, ProjectsPath(userId)), {
-        name,
-        rate,
-        color,
+        name: project.name,
+        rate: project.rate || null,
+        color: project.color,
       })
 
-      const project: Project = {
+      const newProject: Project = {
         id: docRef.id,
-        name,
-        rate,
-        color,
+        name: project.name!,
+        rate: project.rate,
+        color: project.color!,
       }
-      return project
+      return newProject
     } catch (error: any) {
       throw new Error(`create Project faild: ${error.message}`)
     }
   }
 
-  return { getAll, create }
+  const update = async (userId: string, project: Project) => {
+    try {
+      const projectRef = doc(db, ProjectsPath(userId), project.id)
+      await updateDoc(projectRef, {
+        id: project.id,
+        name: project.name,
+        rate: project.rate,
+        color: project.color,
+      })
+
+      return project
+    } catch (error: any) {
+      throw new Error(`Update session ${project.id} faild: ${error.message}`)
+    }
+  }
+
+  const remove = async (userId: string, project: Project) => {
+    try {
+      const projectRef = doc(db, ProjectsPath(userId), project.id)
+      await deleteDoc(projectRef)
+
+      return project.id
+    } catch (error: any) {
+      throw new Error(`Delete project ${project.id} faild: ${error.message}`)
+    }
+  }
+
+  return { getAll, create, remove, update }
 }
 
 export default projectAPI

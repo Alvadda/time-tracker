@@ -55,6 +55,7 @@ const TimeTracker = () => {
     closeForm()
     setShowFeedback({ open: true, message: 'Session successfully deleted' })
   }
+
   return (
     <Grid item container direction={'column'} height={'100%'} justifyContent={'center'} alignItems={'center'}>
       <Grid item sx={{ flex: '0 0 30%', width: '100%', paddingTop: '40px' }}>
@@ -84,14 +85,16 @@ const TimeTracker = () => {
             {showFeedback.message}
           </Alert>
         </Snackbar>
-        <Fab
-          size="medium"
-          aria-label="add"
-          sx={{ position: 'fixed', bottom: '70px', right: '10px' }}
-          onClick={() => setCreateNewSession((prev) => !prev)}
-        >
-          <AddIcon />
-        </Fab>
+        {!showForm && (
+          <Fab
+            size="medium"
+            aria-label="add"
+            sx={{ position: 'fixed', bottom: '70px', right: '10px' }}
+            onClick={() => setCreateNewSession((prev) => !prev)}
+          >
+            <AddIcon />
+          </Fab>
+        )}
       </Grid>
     </Grid>
   )
