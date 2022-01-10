@@ -46,6 +46,7 @@ const sessionAPI = (db: Firestore) => {
       activ: session.activ,
       start: session.start,
       end: session.end || null,
+      duration: session.duration || null,
       projectId: session.projectId || null,
     })
   }

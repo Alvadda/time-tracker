@@ -1,4 +1,6 @@
-import { Divider, Grid } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import { Divider, Fab, Grid } from '@mui/material'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectProjects } from '../features/projects/projectsSlice'
 import LiveTracker from '../features/sessions/LiveTracker'
@@ -11,9 +13,18 @@ import { Session } from '../types/types'
 const TimeTracker = () => {
   useSessionsListener()
   const dispatch = useDispatch()
+  const [createNewSession, setCreateNewSession] = useState<boolean>(false)
+
   const sessions = useSelector(selectSessions)
   const selectedSession = useSelector(selectSelectedSession)
   const projects = useSelector(selectProjects)
+
+  const showForm = createNewSession || selectedSession
+
+  const closeForm = () => {
+    dispatch(setSelectedSession(undefined))
+    setCreateNewSession(false)
+  }
 
   const onSelect = (session: Session) => {
     dispatch(setSelectedSession(session))
@@ -21,29 +32,39 @@ const TimeTracker = () => {
 
   const onUpdate = (session: Session) => {
     dispatch(updateSession(session))
+    closeForm()
   }
 
   const onCreate = (session: Partial<Session>) => {
     dispatch(createSession(session))
+    closeForm()
   }
   return (
-    <Grid item container direction={'column'} sx={{ height: '100%' }} justifyContent={'center'} alignItems={'center'}>
+    <Grid item container direction={'column'} height={'100%'} justifyContent={'center'} alignItems={'center'}>
       <Grid item sx={{ flex: '0 0 30%', width: '100%', paddingTop: '40px' }}>
         <LiveTracker projects={projects} />
         <Divider />
       </Grid>
-      <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto' }}>
-        {!selectedSession && <SessionList sessions={sessions} projects={projects} onSelect={onSelect} />}
-        {selectedSession && (
+      <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto', position: 'relative' }}>
+        {!showForm && <SessionList sessions={sessions} projects={projects} onSelect={onSelect} />}
+        {showForm && (
           <SessionForm
-            variant="update"
-            session={sessions[0]}
+            variant={selectedSession ? 'update' : 'create'}
+            session={selectedSession}
             projects={projects}
             onCreate={onCreate}
             onUpdate={onUpdate}
-            onCancle={() => dispatch(setSelectedSession(undefined))}
+            onCancle={closeForm}
           />
         )}
+        <Fab
+          size="medium"
+          aria-label="add"
+          sx={{ position: 'fixed', bottom: '70px', right: '10px' }}
+          onClick={() => setCreateNewSession((prev) => !prev)}
+        >
+          <AddIcon />
+        </Fab>
       </Grid>
     </Grid>
   )

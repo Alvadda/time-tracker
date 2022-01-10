@@ -3,6 +3,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, TextFiel
 import moment, { Moment } from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import { Project, Session } from '../../types/types'
+import { calcSessionDuration, timeInMiliseconds } from '../../utils/timeUtil'
 
 interface SessionFormProps {
   variant?: 'create' | 'update'
@@ -13,10 +14,24 @@ interface SessionFormProps {
   onCancle: () => void
 }
 
-const SessionForm: VFC<SessionFormProps> = ({ variant = 'create', session, projects, onCancle, onCreate, onUpdate }) => {
-  const [startTime, setStartTime] = useState<Moment | null>(moment())
-  const [endTime, setEndTime] = useState<Moment | null>(moment())
+const getStartTime = (time?: Moment) => {
+  return time || moment()
+}
+
+const getDuration = (start: number, end?: number) => {
+  if (end) {
+    return calcSessionDuration(start, end)
+  }
+}
+
+const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, projects, onCancle, onCreate, onUpdate }) => {
+  const [startTime, setStartTime] = useState<Moment | undefined>(moment())
+  const [endTime, setEndTime] = useState<Moment | undefined>(moment())
   const [projectId, setProjectId] = useState<string>('')
+  const isUpdate = variant === 'update'
+
+  const start = timeInMiliseconds(getStartTime(startTime))
+  const end = endTime ? timeInMiliseconds(endTime) : undefined
 
   useEffect(() => {
     if (session) {
@@ -25,6 +40,30 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'create', session, proje
       setProjectId(session.projectId || '')
     }
   }, [session])
+
+  const updateSession = () => {
+    if (session && onUpdate) {
+      onUpdate({
+        ...session,
+        start,
+        end,
+        duration: getDuration(start, end),
+        projectId: projectId,
+      })
+    }
+  }
+
+  const createSession = () => {
+    if (onCreate) {
+      onCreate({
+        activ: false,
+        start,
+        end,
+        duration: getDuration(start, end),
+        projectId: projectId,
+      })
+    }
+  }
 
   return (
     <Box
@@ -43,7 +82,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'create', session, proje
     >
       <Paper sx={{ padding: 2 }}>
         <Typography align="center" marginBottom={4} variant="h5" component={'h3'}>
-          {variant === 'create' ? 'Create a new session' : 'Update the selected session'}
+          {isUpdate ? 'Update the selected session' : 'Create a new session'}
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, justifyContent: 'center', alignContent: 'center', marginBottom: 4 }}>
           <DateTimePicker
@@ -52,7 +91,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'create', session, proje
             value={startTime}
             inputFormat="DD.MM.YY HH:mm"
             onChange={(newValue) => {
-              setStartTime(newValue)
+              setStartTime(newValue || undefined)
             }}
           />
           <DateTimePicker
@@ -63,7 +102,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'create', session, proje
             minDate={startTime}
             minTime={startTime}
             onChange={(newValue) => {
-              setEndTime(newValue)
+              setEndTime(newValue || undefined)
             }}
           />
           <FormControl fullWidth>
@@ -78,7 +117,14 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'create', session, proje
           </FormControl>
         </Box>
         <Box display={'flex'} justifyContent={'space-between'}>
-          <Button variant="contained">{variant === 'create' ? 'Create' : 'Update'}</Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              isUpdate ? updateSession() : createSession()
+            }}
+          >
+            {isUpdate ? 'Update' : 'Create'}
+          </Button>
           <Button variant="outlined" onClick={() => onCancle()}>
             cancle
           </Button>
