@@ -1,6 +1,6 @@
 import { LocalizationProvider } from '@mui/lab'
 import AdapterMoment from '@mui/lab/AdapterMoment'
-import { Button, createTheme, ThemeProvider } from '@mui/material'
+import { Box, Button, createTheme, ThemeProvider } from '@mui/material'
 import { blueGrey } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
 import { useEffect, useState } from 'react'
@@ -37,8 +37,10 @@ export const App = () => {
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <FirebaseProvider>
           <CssBaseline />
-          {auth.uid ? <Wizard /> : <Login />}
-          {update && <Button onClick={() => window.location.reload()}>Update</Button>}
+          <Box maxWidth={'1200px'} height={'100vh'} margin={'0 auto'}>
+            {auth.uid ? <Wizard /> : <Login />}
+            {update && <Button onClick={() => window.location.reload()}>Update</Button>}
+          </Box>
         </FirebaseProvider>
       </LocalizationProvider>
     </ThemeProvider>

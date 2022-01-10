@@ -32,15 +32,23 @@ const Login = () => {
       </Typography>
       <Paper sx={{ padding: 2 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, justifyContent: 'center', alignContent: 'center' }}>
-          <TextField label="Email" variant="standard" value={email} onChange={(event) => setEmail(event.target.value)} type="email" />
           <TextField
+            inputProps={{ 'aria-label': 'Email' }}
+            label="Email"
+            variant="standard"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            type="email"
+          />
+          <TextField
+            inputProps={{ 'aria-label': 'Password' }}
             label="Password"
             variant="standard"
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-          <Button variant="contained" onClick={onSubmit}>
+          <Button aria-label="Login" variant="contained" onClick={onSubmit}>
             Login
           </Button>
         </Box>

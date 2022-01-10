@@ -15,6 +15,14 @@ const clockTick = () => {
   return moment().format('HH:mm')
 }
 
+const createStartSession = (projectId: string): Partial<Session> => {
+  return {
+    activ: true,
+    start: nowMiliseconds(),
+    projectId,
+  }
+}
+
 const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
   const dispatch = useDispatch()
   const [projectId, setProjectId] = useState<string>('')
@@ -78,7 +86,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
     if (activeSession) {
       endSession(activeSession)
     } else {
-      dispatch(createSession(projectId))
+      dispatch(createSession(createStartSession(projectId)))
     }
   }
 

@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-const minutesToHourMinutes = (minutes: number) => {
+const formatDuration = (minutes: number) => {
   const hours = minutes / 60
   const rhours = Math.floor(hours)
   const m = (hours - rhours) * 60
@@ -27,4 +27,4 @@ const nowMiliseconds = () => {
   return new Date().getTime()
 }
 
-export { minutesToHourMinutes, calcActiveSessionDuration, calcSessionDuration, nowMiliseconds }
+export { formatDuration, calcActiveSessionDuration, calcSessionDuration, nowMiliseconds }

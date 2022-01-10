@@ -1,16 +1,19 @@
-import { browserLocalPersistence, setPersistence } from 'firebase/auth'
+import { browserLocalPersistence, inMemoryPersistence, setPersistence } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../features/auth/authSlice'
 import { useFirebaseContext } from '../firebase/FirebaseContext'
 
+const isTest = process.env.NODE_ENV === 'test'
+const persistance = isTest ? inMemoryPersistence : browserLocalPersistence
+
 export const useFirebaseAuth = () => {
   const { auth, db } = useFirebaseContext()
   const dispatch = useDispatch()
 
   useEffect(() => {
-    setPersistence(auth, browserLocalPersistence)
+    setPersistence(auth, persistance)
   }, [auth])
 
   useEffect(() => {

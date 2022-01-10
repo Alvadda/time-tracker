@@ -1,16 +1,17 @@
-import { List } from '@mui/material'
+import { List, ListItem, ListItemButton } from '@mui/material'
 import moment from 'moment'
 import React, { VFC } from 'react'
 import { Project, Session } from '../../types/types'
-import { minutesToHourMinutes } from '../../utils/timeUtil'
+import { formatDuration } from '../../utils/timeUtil'
 import SessionItem from './components/SessionItem'
 
 interface SessionListProps {
   projects: Project[]
   sessions: Session[]
+  onSelect: (session: Session) => void
 }
 
-const SessionList: VFC<SessionListProps> = ({ projects, sessions }) => {
+const SessionList: VFC<SessionListProps> = ({ projects, sessions, onSelect }) => {
   const getProjectColor = (projectId?: string) => {
     return projects.find((project) => project.id === projectId)?.color || 'none'
   }
@@ -25,14 +26,17 @@ const SessionList: VFC<SessionListProps> = ({ projects, sessions }) => {
   return (
     <List>
       {sessions.map((session) => (
-        <SessionItem
-          key={session.id}
-          displayDate={moment(session.start).format('DD.MM.YYYY')}
-          project={getProjectName(session.projectId)}
-          projectColor={getProjectColor(session.projectId)}
-          duration={minutesToHourMinutes(session.duration || 0)}
-          erning={+(getProjectRate(session.projectId) * ((session.duration || 0) / 60)).toFixed(2)}
-        />
+        <ListItem disablePadding key={session.id}>
+          <ListItemButton onClick={() => onSelect(session)}>
+            <SessionItem
+              displayDate={moment(session.start).format('DD.MM.YYYY')}
+              project={getProjectName(session.projectId)}
+              projectColor={getProjectColor(session.projectId)}
+              duration={formatDuration(session.duration || 0)}
+              erning={Number((getProjectRate(session.projectId) * ((session.duration || 0) / 60)).toFixed(2))}
+            />
+          </ListItemButton>
+        </ListItem>
       ))}
     </List>
   )

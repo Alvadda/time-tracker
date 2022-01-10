@@ -1,9 +1,9 @@
 import moment from 'moment'
-import { calcActiveSessionDuration, calcSessionDuration, minutesToHourMinutes, nowMiliseconds } from './timeUtil'
+import { calcActiveSessionDuration, calcSessionDuration, formatDuration, nowMiliseconds } from './timeUtil'
 
 describe('utils/time', () => {
-  test('minutesToHourMinutes', () => {
-    const hoursAndMinutes = minutesToHourMinutes(90)
+  test('formatDuration', () => {
+    const hoursAndMinutes = formatDuration(90)
     expect(hoursAndMinutes).toEqual('1:30')
   })
 
