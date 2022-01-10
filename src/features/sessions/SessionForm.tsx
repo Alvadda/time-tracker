@@ -1,3 +1,4 @@
+import DeleteIcon from '@mui/icons-material/Delete'
 import { DateTimePicker } from '@mui/lab'
 import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material'
 import moment, { Moment } from 'moment'
@@ -11,6 +12,7 @@ interface SessionFormProps {
   projects: Project[]
   onUpdate?: (session: Session) => void
   onCreate?: (session: Partial<Session>) => void
+  onDelete?: (Session: Session) => void
   onCancle: () => void
 }
 
@@ -24,7 +26,7 @@ const getDuration = (start: number, end?: number) => {
   }
 }
 
-const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, projects, onCancle, onCreate, onUpdate }) => {
+const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, projects, onCancle, onCreate, onUpdate, onDelete }) => {
   const [startTime, setStartTime] = useState<Moment | undefined>(moment())
   const [endTime, setEndTime] = useState<Moment | undefined>(moment())
   const [projectId, setProjectId] = useState<string>('')
@@ -62,6 +64,12 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         duration: getDuration(start, end),
         projectId: projectId,
       })
+    }
+  }
+
+  const deleteSession = () => {
+    if (onDelete && session) {
+      onDelete(session)
     }
   }
 
@@ -125,6 +133,11 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
           >
             {isUpdate ? 'Update' : 'Create'}
           </Button>
+          {isUpdate && (
+            <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteSession()}>
+              Delete
+            </Button>
+          )}
           <Button variant="outlined" onClick={() => onCancle()}>
             cancle
           </Button>

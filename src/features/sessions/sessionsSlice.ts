@@ -29,6 +29,16 @@ const updateSession = createAsyncThunk<unknown, Session, { state: RootState; ext
   }
 )
 
+const deleteSession = createAsyncThunk<unknown, Session, { state: RootState; extra: Extra }>(
+  'session/delete',
+  async (session, { getState, extra }) => {
+    const { auth } = getState()
+    if (!auth?.uid) throw new Error('User needs to be logged in')
+
+    extra.session.remove(session)
+  }
+)
+
 export const sessionsSlice = createSlice({
   name: 'sessions',
   initialState,
@@ -50,6 +60,6 @@ export const selectSelectedSession = (state: RootState) => state.sessions.select
 
 //ACTIONS
 export const { updateSessions, setSelectedSession } = sessionsSlice.actions
-export { createSession, updateSession }
+export { createSession, updateSession, deleteSession }
 
 export default sessionsSlice.reducer
