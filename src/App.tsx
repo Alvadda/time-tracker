@@ -1,6 +1,6 @@
 import { LocalizationProvider } from '@mui/lab'
 import AdapterMoment from '@mui/lab/AdapterMoment'
-import { Box, Button, createTheme, ThemeProvider } from '@mui/material'
+import { Alert, Box, Button, createTheme, Snackbar, ThemeProvider } from '@mui/material'
 import { blueGrey } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
 import { useEffect, useState } from 'react'
@@ -39,7 +39,26 @@ export const App = () => {
           <CssBaseline />
           <Box maxWidth={'1200px'} height={'100vh'} margin={'0 auto'}>
             {auth.uid ? <Wizard /> : <Login />}
-            {update && <Button onClick={() => window.location.reload()}>Update</Button>}
+            {update && (
+              <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                open={update}
+                autoHideDuration={15000}
+                onClose={() => setUpdate(false)}
+              >
+                <Alert
+                  severity="info"
+                  sx={{ width: '100%' }}
+                  action={
+                    <Button color="inherit" size="small" onClick={() => window.location.reload()}>
+                      Update now
+                    </Button>
+                  }
+                >
+                  New update available!
+                </Alert>
+              </Snackbar>
+            )}
           </Box>
         </FirebaseProvider>
       </LocalizationProvider>

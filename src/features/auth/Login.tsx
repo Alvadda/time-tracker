@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
 
 const Login = () => {
-  const { loginInWithGoogle, loginWithEmail } = useFirebaseLogin()
+  const { loginWithEmail } = useFirebaseLogin()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -53,9 +53,6 @@ const Login = () => {
           </Button>
         </Box>
       </Paper>
-      <Button variant="contained" onClick={loginInWithGoogle}>
-        Login with Google
-      </Button>
     </Box>
   )
 }

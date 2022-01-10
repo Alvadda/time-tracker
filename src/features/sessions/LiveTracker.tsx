@@ -1,4 +1,4 @@
-import { Button, Grid, MenuItem, Select, Typography } from '@mui/material'
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -92,7 +92,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
 
   return (
     <Grid item container direction={'column'} sx={{ height: '100%' }} justifyContent={'center'} alignItems={'center'}>
-      <Grid item sx={{ flex: '0 0 35%', width: '100%' }} justifyContent={'center'} alignItems={'center'}>
+      <Grid item sx={{ flex: '0 0 20%', width: '100%' }} justifyContent={'center'} alignItems={'center'}>
         <Typography variant="h3" component="h3" align="center">
           {clock}
         </Typography>
@@ -104,27 +104,20 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
               {sessionDuration}
             </Typography>
           </Grid>
-          <Grid item container direction={'column'} spacing={2} justifyContent={'center'} alignItems={'center'} xs={6}>
-            <Grid item>
-              <Select
-                sx={{ width: '141px', height: '36px' }}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={projectId}
-                onChange={(event) => setProjectId(event.target.value)}
-              >
+          <Grid item container direction={'column'} gap={2} justifyContent={'center'} alignItems={'center'} xs={6} padding={2}>
+            <FormControl sx={{ width: '141px' }}>
+              <InputLabel>Project</InputLabel>
+              <Select sx={{ width: '141px' }} label="Project" value={projectId} onChange={(event) => setProjectId(event.target.value)}>
                 {projects.map((project) => (
                   <MenuItem key={project.id} value={project.id}>
                     {project.name}
                   </MenuItem>
                 ))}
               </Select>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" disabled={trackDisabled} onClick={track}>
-                Track Session
-              </Button>
-            </Grid>
+            </FormControl>
+            <Button variant="contained" disabled={trackDisabled} onClick={track}>
+              Track Session
+            </Button>
           </Grid>
         </Grid>
       </Grid>
