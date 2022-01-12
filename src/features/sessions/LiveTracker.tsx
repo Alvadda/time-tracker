@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { Button, Chip, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -92,14 +92,17 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
 
   return (
     <Grid item container direction={'column'} sx={{ height: '100%' }} justifyContent={'center'} alignItems={'center'}>
-      <Grid item sx={{ flex: '0 0 20%', width: '100%' }} justifyContent={'center'} alignItems={'center'}>
+      <Grid item sx={{ flex: '0 0 20%', width: '100%' }} justifyContent={'center'} alignItems={'center'} position={'relative'}>
+        {activeSession && (
+          <Chip label="Working" color="success" sx={{ position: 'absolute', top: '50%', left: '10%', transform: 'translateY(-50%)' }} />
+        )}
         <Typography variant="h3" component="h3" align="center">
           {clock}
         </Typography>
       </Grid>
       <Grid item container sx={{ flex: '1 0', width: '100%' }} justifyContent={'center'} alignItems={'center'}>
         <Grid item container justifyContent={'center'} alignItems={'center'}>
-          <Grid item container justifyContent={'center'} alignItems={'center'} xs={6}>
+          <Grid item container display={'flex'} justifyContent={'center'} alignItems={'center'} xs={6}>
             <Typography variant="h4" component="h4" align="center">
               {sessionDuration}
             </Typography>

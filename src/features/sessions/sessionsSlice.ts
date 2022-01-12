@@ -55,8 +55,13 @@ export const sessionsSlice = createSlice({
 //SELECTOR
 export const selectSessions = (state: RootState) => state.sessions.sessions
 export const selectActivSessions = (state: RootState) => state.sessions.sessions.filter((session) => session.activ)
+export const selectInactivSessions = (state: RootState) => state.sessions.sessions.filter((session) => !session.activ)
 export const selectActivSession = (state: RootState) => state.sessions.sessions.find((session) => session.activ)
 export const selectSelectedSession = (state: RootState) => state.sessions.selectedSession
+export const selectInactiveSessionsFromTo = (fromMs: number, toMs: number) => {
+  return (state: RootState) =>
+    state.sessions.sessions.filter((session) => !session.activ && session.start >= fromMs && session.start <= toMs)
+}
 
 //ACTIONS
 export const { updateSessions, setSelectedSession } = sessionsSlice.actions

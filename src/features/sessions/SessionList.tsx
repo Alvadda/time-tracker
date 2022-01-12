@@ -2,7 +2,7 @@ import { List, ListItem, ListItemButton } from '@mui/material'
 import moment from 'moment'
 import React, { VFC } from 'react'
 import { Project, Session } from '../../types/types'
-import { formatDuration } from '../../utils/timeUtil'
+import { formatMinToHourMin } from '../../utils/timeUtil'
 import SessionItem from './components/SessionItem'
 
 interface SessionListProps {
@@ -32,7 +32,7 @@ const SessionList: VFC<SessionListProps> = ({ projects, sessions, onSelect }) =>
               displayDate={moment(session.start).format('DD.MM.YYYY')}
               project={getProjectName(session.projectId)}
               projectColor={getProjectColor(session.projectId)}
-              duration={formatDuration(session.duration || 0)}
+              duration={formatMinToHourMin(session.duration || 0)}
               erning={Number((getProjectRate(session.projectId) * ((session.duration || 0) / 60)).toFixed(2))}
             />
           </ListItemButton>

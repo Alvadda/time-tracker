@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add'
 import { Alert, Divider, Fab, Grid, Snackbar } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectProjects } from '../features/projects/projectsSlice'
 import LiveTracker from '../features/sessions/LiveTracker'
@@ -9,8 +9,8 @@ import SessionList from '../features/sessions/SessionList'
 import {
   createSession,
   deleteSession,
+  selectInactivSessions,
   selectSelectedSession,
-  selectSessions,
   setSelectedSession,
   updateSession,
 } from '../features/sessions/sessionsSlice'
@@ -23,11 +23,18 @@ const TimeTracker = () => {
   const [createNewSession, setCreateNewSession] = useState<boolean>(false)
   const [showFeedback, setShowFeedback] = useState({ open: false, message: '' })
 
-  const sessions = useSelector(selectSessions)
+  const sessions = useSelector(selectInactivSessions)
   const selectedSession = useSelector(selectSelectedSession)
   const projects = useSelector(selectProjects)
 
   const showForm = createNewSession || selectedSession
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSelectedSession(undefined))
+      setCreateNewSession(false)
+    }
+  }, [setCreateNewSession, dispatch])
 
   const closeForm = () => {
     dispatch(setSelectedSession(undefined))
