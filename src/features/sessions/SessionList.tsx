@@ -17,7 +17,7 @@ const SessionList: VFC<SessionListProps> = ({ projects, sessions, onSelect }) =>
   }
 
   const getProjectRate = (projectId?: string) => {
-    return projects.find((project) => project.id === projectId)?.rate || 0
+    return projects.find((project) => project.id === projectId)?.rate
   }
 
   const getProjectName = (projectId?: string) => {

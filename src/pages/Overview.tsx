@@ -1,18 +1,22 @@
-import { DateTimePicker } from '@mui/lab'
-import { Box, Grid, TextField } from '@mui/material'
+import { DatePicker } from '@mui/lab'
+import { Box, Divider, Grid, List, ListItem, ListItemButton, TextField } from '@mui/material'
 import moment, { Moment } from 'moment'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import ProjectStats from '../features/overview/projectStats'
 import { selectProjects } from '../features/projects/projectsSlice'
 import { selectInactiveSessionsFromTo } from '../features/sessions/sessionsSlice'
-import { formatMinToHourMin, timeInMiliseconds } from '../utils/timeUtil'
+import { calcEarningFromMin, timeInMiliseconds } from '../utils/timeUtil'
+
+const defaultFromDate = moment().subtract(7, 'd').startOf('day')
+const defaultToDate = moment().endOf('day')
 
 const Overview = () => {
-  const [fromDate, setFromDate] = useState<Moment | undefined>(moment().subtract(7, 'd'))
-  const [toDate, setToDate] = useState<Moment | undefined>(moment())
+  const [fromDate, setFromDate] = useState<Moment>(defaultFromDate)
+  const [toDate, setToDate] = useState<Moment>(defaultToDate)
 
-  const fromInMS = timeInMiliseconds(fromDate!)
-  const toInMS = timeInMiliseconds(toDate!)
+  const fromInMS = timeInMiliseconds(fromDate)
+  const toInMS = timeInMiliseconds(toDate)
 
   const sessionInRage = useSelector(selectInactiveSessionsFromTo(fromInMS, toInMS))
   const projects = useSelector(selectProjects)
@@ -21,8 +25,7 @@ const Overview = () => {
     const sessionsToProject = sessionInRage.filter((session) => session.projectId === project.id)
 
     const earning = sessionsToProject.reduce((sum, session) => {
-      const rate = project.rate || 0
-      return sum + ((session.duration || 0) * rate) / 60
+      return sum + calcEarningFromMin(session.duration, project.rate)
     }, 0)
 
     const minutes = sessionsToProject.reduce((sum, session) => {
@@ -31,6 +34,10 @@ const Overview = () => {
 
     return { ...project, earning, minutes }
   })
+
+  const projectWithStatsAndSession = projectWithStats.filter((project) =>
+    Boolean(sessionInRage.find((session) => session.projectId === project.id))
+  )
 
   const { totalEarning, totalMinutes } = projectWithStats.reduce(
     (sum, project) => {
@@ -43,43 +50,51 @@ const Overview = () => {
   )
 
   return (
-    <Box height={'100%'}>
-      <Grid container direction={'column'} sx={{ height: '100%' }} justifyContent={'center'}>
-        <Grid
-          item
-          container
-          sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }}
-          position={'relative'}
-        >
-          overview
-        </Grid>
-        <Grid item container sx={{ flex: '1 0' }} justifyContent={'flex-start'}>
-          <Box padding={2} display={'flex'} gap={2}>
-            <DateTimePicker
-              renderInput={(props) => <TextField {...props} />}
-              label="From"
-              value={fromDate}
-              inputFormat="DD.MM.YY HH:mm"
-              onChange={(newValue) => {
-                setFromDate(newValue || undefined)
-              }}
-            />
-            <DateTimePicker
-              renderInput={(props) => <TextField {...props} />}
-              label="To"
-              value={toDate}
-              inputFormat="DD.MM.YY HH:mm"
-              minDate={fromDate}
-              minTime={fromDate}
-              onChange={(newValue) => {
-                setToDate(newValue || undefined)
-              }}
-            />
-          </Box>
-          {formatMinToHourMin(totalMinutes)} Hours | {totalEarning.toFixed(2)}€
-        </Grid>
+    <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
+      <Grid item container sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
+        overview
       </Grid>
-    </Box>
+      <Grid item container sx={{ flex: '0 0 35%' }} flexDirection={'column'} overflow={'hidden'}>
+        <Box padding={2} display={'flex'} gap={2}>
+          <DatePicker
+            renderInput={(props) => <TextField {...props} />}
+            label="From"
+            value={fromDate}
+            inputFormat="DD.MM.YYYY"
+            mask="DD.MM.YYYY"
+            onChange={(newValue) => {
+              setFromDate(newValue || defaultFromDate)
+            }}
+          />
+          <DatePicker
+            renderInput={(props) => <TextField {...props} />}
+            label="To"
+            value={toDate}
+            inputFormat="DD.MM.YYYY"
+            mask="DD.MM.YYYY"
+            minDate={fromDate}
+            onChange={(newValue) => {
+              setToDate(newValue || defaultToDate)
+            }}
+          />
+        </Box>
+        <Box padding={2} width={'100%'}>
+          <ProjectStats header="Total" time={totalMinutes} earning={totalEarning} />
+        </Box>
+        <Divider />
+      </Grid>
+      <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto', position: 'relative' }}>
+        <List>
+          {projectWithStatsAndSession.map((project) => (
+            <ListItem disablePadding key={project.id}>
+              <ListItemButton>
+                <ProjectStats header={project.name} headerColor={project.color} time={project.minutes} earning={project.rate || 0} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Grid>
+    </Grid>
   )
 }
 
