@@ -2,7 +2,9 @@ import moment, { Moment } from 'moment'
 
 const formatNumberToTwoDigits = (number: number) => ('0' + number).slice(-2)
 
-const formatMinToHourMin = (minutes: number) => {
+const formatMinToHourMin = (minutes?: number) => {
+  if (!minutes) return '0:00'
+
   const hours = minutes / 60
   const rhours = Math.floor(hours)
   const m = (hours - rhours) * 60
@@ -25,6 +27,13 @@ const calcSessionDuration = (startTimeMS: number, endTimeMS: number) => {
   return minute
 }
 
+const calcEarningFromMin = (minutes?: number, hourRate?: number) => {
+  const time = minutes || 0
+  const rate = hourRate || 0
+
+  return (time * rate) / 60
+}
+
 const nowMiliseconds = () => {
   return new Date().getTime()
 }
@@ -37,4 +46,4 @@ const timeInMiliseconds = (time: Date | Moment) => {
   }
 }
 
-export { formatMinToHourMin, calcActiveSessionDuration, calcSessionDuration, nowMiliseconds, timeInMiliseconds }
+export { formatMinToHourMin, calcActiveSessionDuration, calcSessionDuration, nowMiliseconds, timeInMiliseconds, calcEarningFromMin }
