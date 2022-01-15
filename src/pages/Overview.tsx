@@ -54,7 +54,7 @@ const Overview = () => {
       <Grid item container sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
         overview
       </Grid>
-      <Grid item container sx={{ flex: '0 0 35%' }} flexDirection={'column'} overflow={'hidden'}>
+      <Grid item container flexDirection={'column'} overflow={'hidden'}>
         <Box padding={2} display={'flex'} gap={2}>
           <DatePicker
             renderInput={(props) => <TextField {...props} />}
