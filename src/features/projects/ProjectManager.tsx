@@ -60,7 +60,7 @@ const ProjectManager: VFC = () => {
           onCancle={closeForm}
         />
       )}
-      {!showForm && <AddButton onClick={() => setCreateNewProject((prev) => !prev)} />}
+      {!showForm && <AddButton onClick={() => setCreateNewProject(true)} />}
     </Box>
   )
 }

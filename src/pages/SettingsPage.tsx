@@ -23,7 +23,12 @@ const SettingsPage: VFC = () => {
 
   return (
     <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
-      <Grid item container sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
+      <Grid
+        item
+        container
+        sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center', textTransform: 'capitalize' }}
+        position={'relative'}
+      >
         {page !== 'settings' && (
           <Button
             variant="text"

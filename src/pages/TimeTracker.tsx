@@ -92,7 +92,7 @@ const TimeTracker = () => {
             {showFeedback.message}
           </Alert>
         </Snackbar>
-        {!showForm && <AddButton onClick={() => setCreateNewSession((prev) => !prev)} />}
+        {!showForm && <AddButton onClick={() => setCreateNewSession(true)} />}
       </Grid>
     </Grid>
   )
