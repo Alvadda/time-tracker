@@ -1,7 +1,7 @@
-import AddIcon from '@mui/icons-material/Add'
-import { Alert, Divider, Fab, Grid, Snackbar } from '@mui/material'
+import { Alert, Divider, Grid, Snackbar } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import AddButton from '../components/AddButton'
 import { selectProjects } from '../features/projects/projectsSlice'
 import LiveTracker from '../features/sessions/LiveTracker'
 import SessionForm from '../features/sessions/SessionForm'
@@ -92,16 +92,7 @@ const TimeTracker = () => {
             {showFeedback.message}
           </Alert>
         </Snackbar>
-        {!showForm && (
-          <Fab
-            size="medium"
-            aria-label="add"
-            sx={{ position: 'fixed', bottom: '70px', right: '10px' }}
-            onClick={() => setCreateNewSession((prev) => !prev)}
-          >
-            <AddIcon />
-          </Fab>
-        )}
+        {!showForm && <AddButton onClick={() => setCreateNewSession((prev) => !prev)} />}
       </Grid>
     </Grid>
   )

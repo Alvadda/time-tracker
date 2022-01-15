@@ -1,7 +1,7 @@
-import AddIcon from '@mui/icons-material/Add'
-import { Box, Fab } from '@mui/material'
+import { Box } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import AddButton from '../../components/AddButton'
 import { Project } from '../../types/types'
 import ProjectForm from './ProjectForm'
 import ProjectList from './ProjectList'
@@ -35,19 +35,16 @@ const ProjectManager: VFC = () => {
   const onUpdate = (project: Project) => {
     dispatch(updateProject(project))
     closeForm()
-    // setShowFeedback({ open: true, message: 'Session successfully updated' })
   }
 
   const onCreate = (project: Partial<Project>) => {
     dispatch(createProject(project))
     closeForm()
-    // setShowFeedback({ open: true, message: 'Session successfully created' })
   }
 
   const onDelete = (project: Project) => {
     dispatch(deleteProject(project))
     closeForm()
-    // setShowFeedback({ open: true, message: 'Session successfully deleted' })
   }
 
   return (
@@ -64,16 +61,7 @@ const ProjectManager: VFC = () => {
           onCancle={closeForm}
         />
       )}
-      {!showForm && (
-        <Fab
-          size="medium"
-          aria-label="add"
-          sx={{ position: 'fixed', bottom: '70px', right: '10px' }}
-          onClick={() => setCreateNewProject((prev) => !prev)}
-        >
-          <AddIcon />
-        </Fab>
-      )}
+      {!showForm && <AddButton onClick={() => setCreateNewProject((prev) => !prev)} />}
     </Box>
   )
 }
