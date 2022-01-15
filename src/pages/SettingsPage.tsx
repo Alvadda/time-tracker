@@ -1,5 +1,5 @@
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import { Box, Button, Grid } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import { VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomerManager from '../features/customer/CustomerManager'
@@ -22,32 +22,25 @@ const SettingsPage: VFC = () => {
   }
 
   return (
-    <Box height={'100%'}>
-      <Grid container direction={'column'} sx={{ height: '100%' }} justifyContent={'center'}>
-        <Grid
-          item
-          container
-          sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }}
-          position={'relative'}
-        >
-          {page !== 'settings' && (
-            <Button
-              variant="text"
-              sx={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)' }}
-              onClick={() => dispatch(navigateBack())}
-            >
-              <KeyboardArrowLeftIcon fontSize="medium" />
-            </Button>
-          )}
-          {page}
-        </Grid>
-        <Grid item sx={{ flex: '1 0' }}>
-          {page === 'settings' && <Settings onNavigation={onNavigation} />}
-          {page === 'projects' && <ProjectManager />}
-          {page === 'customer' && <CustomerManager />}
-        </Grid>
+    <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
+      <Grid item container sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
+        {page !== 'settings' && (
+          <Button
+            variant="text"
+            sx={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)' }}
+            onClick={() => dispatch(navigateBack())}
+          >
+            <KeyboardArrowLeftIcon fontSize="medium" />
+          </Button>
+        )}
+        {page}
       </Grid>
-    </Box>
+      <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto', position: 'relative' }}>
+        {page === 'settings' && <Settings onNavigation={onNavigation} />}
+        {page === 'projects' && <ProjectManager />}
+        {page === 'customer' && <CustomerManager />}
+      </Grid>
+    </Grid>
   )
 }
 
