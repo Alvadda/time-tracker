@@ -1,7 +1,6 @@
 import { LocalizationProvider } from '@mui/lab'
 import AdapterMoment from '@mui/lab/AdapterMoment'
 import { Alert, Box, Button, createTheme, Snackbar, ThemeProvider } from '@mui/material'
-import { blueGrey } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -21,7 +20,6 @@ export const App = () => {
   const theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light',
-      primary: blueGrey,
     },
   })
 
