@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, updateDoc } from 'firebase/firestore'
 import { Customer } from '../types/types'
-import { setValue } from './apiUtils'
+import { setValueFromFb, setValueToFb } from './apiUtils'
 
 const customerPath = (userId: string) => `users/${userId}/customers`
 
@@ -16,13 +16,13 @@ const projectAPI = (db: Firestore) => {
       customers.push({
         id: doc.id,
         name: docData.name,
-        contact: setValue(docData.contact),
-        email: setValue(docData.email),
-        address: setValue(docData.address),
-        phone: setValue(docData.phone),
-        rate: setValue(docData.rate),
-        defaultBreak: setValue(docData.defaultBreak),
-        note: setValue(docData.note),
+        contact: setValueFromFb(docData.contact),
+        email: setValueFromFb(docData.email),
+        address: setValueFromFb(docData.address),
+        phone: setValueFromFb(docData.phone),
+        rate: setValueFromFb(docData.rate),
+        defaultBreak: setValueFromFb(docData.defaultBreak),
+        note: setValueFromFb(docData.note),
       })
     })
     return customers
@@ -32,25 +32,25 @@ const projectAPI = (db: Firestore) => {
     try {
       const docRef = await addDoc(collection(db, customerPath(userId)), {
         name: customer.name,
-        contact: customer.contact || null,
-        email: customer.email || null,
-        address: customer.address || null,
-        phone: customer.phone || null,
-        rate: customer.rate || null,
-        defaultBreak: customer.defaultBreak || null,
-        note: customer.note || null,
+        contact: setValueToFb(customer.contact),
+        email: setValueToFb(customer.email),
+        address: setValueToFb(customer.address),
+        phone: setValueToFb(customer.phone),
+        rate: setValueToFb(customer.rate),
+        defaultBreak: setValueToFb(customer.defaultBreak),
+        note: setValueToFb(customer.note),
       })
 
       const newCustomer: Customer = {
         id: docRef.id,
         name: customer.name!,
-        contact: setValue(customer.contact),
-        email: setValue(customer.email),
-        address: setValue(customer.address),
-        phone: setValue(customer.phone),
-        rate: setValue(customer.rate),
-        defaultBreak: setValue(customer.defaultBreak),
-        note: setValue(customer.note),
+        contact: setValueFromFb(customer.contact),
+        email: setValueFromFb(customer.email),
+        address: setValueFromFb(customer.address),
+        phone: setValueFromFb(customer.phone),
+        rate: setValueFromFb(customer.rate),
+        defaultBreak: setValueFromFb(customer.defaultBreak),
+        note: setValueFromFb(customer.note),
       }
 
       return newCustomer
@@ -65,13 +65,13 @@ const projectAPI = (db: Firestore) => {
       await updateDoc(customerRef, {
         id: customer.id,
         name: customer.name,
-        contact: customer.contact || null,
-        email: customer.email || null,
-        address: customer.address || null,
-        phone: customer.phone || null,
-        rate: customer.rate || null,
-        defaultBreak: customer.defaultBreak || null,
-        note: customer.note || null,
+        contact: setValueToFb(customer.contact),
+        email: setValueToFb(customer.email),
+        address: setValueToFb(customer.address),
+        phone: setValueToFb(customer.phone),
+        rate: setValueToFb(customer.rate),
+        defaultBreak: setValueToFb(customer.defaultBreak),
+        note: setValueToFb(customer.note),
       })
 
       return customer
