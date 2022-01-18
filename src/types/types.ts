@@ -17,5 +17,17 @@ export interface Session {
   docRef: DocumentReference<DocumentData>
 }
 
+export interface Customer {
+  id: string
+  name: string
+  contact?: string
+  email?: string
+  address?: string
+  phone?: string
+  rate?: number
+  defaultBreak?: number
+  note?: string
+}
+
 export type Page = 'time-tracker' | 'overview' | 'settings'
 export type SettingPage = 'settings' | 'projects' | 'customer'
