@@ -1,6 +1,7 @@
+import CloseIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { DateTimePicker } from '@mui/lab'
-import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material'
 import moment, { Moment } from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import { Project, Session } from '../../types/types'
@@ -77,22 +78,40 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
     <Box
       component="form"
       sx={{
-        width: '100%',
-        height: '100%',
-        padding: 2,
+        width: '100vw',
+        height: '100vh',
+        position: 'fixed',
+        inset: '0',
+        zIndex: 100,
+        backgroundColor: 'background.default',
         display: 'flex',
-        gap: 2,
         flexDirection: 'column',
-        justifyContent: 'center',
       }}
       noValidate
       autoComplete="off"
     >
-      <Paper sx={{ padding: 2 }}>
-        <Typography align="center" marginBottom={4} variant="h5" component={'h3'}>
-          {isUpdate ? 'Update the selected session' : 'Create a new session'}
-        </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, justifyContent: 'center', alignContent: 'center', marginBottom: 4 }}>
+      <Box sx={{ flex: '0 0 40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
+        <Button
+          variant="text"
+          sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}
+          onClick={() => onCancle()}
+        >
+          <CloseIcon fontSize="medium" />
+        </Button>
+        Session
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: 2,
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Stack gap={2} width={'100%'}>
           <DateTimePicker
             renderInput={(props) => <TextField {...props} />}
             label="Start Time"
@@ -123,8 +142,8 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
               ))}
             </Select>
           </FormControl>
-        </Box>
-        <Box display={'flex'} justifyContent={'space-between'}>
+        </Stack>
+        <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
           <Button
             variant="contained"
             onClick={() => {
@@ -142,7 +161,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
             cancle
           </Button>
         </Box>
-      </Paper>
+      </Box>
     </Box>
   )
 }
