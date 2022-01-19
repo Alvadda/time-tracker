@@ -3,6 +3,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import TimelapseIcon from '@mui/icons-material/Timelapse'
 import { BottomNavigation, BottomNavigationAction, Grid } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { getCustomers } from '../../features/customer/customersSlice'
 import { getProjects } from '../../features/projects/projectsSlice'
 import { useEffectOnce } from '../../hooks/useEffectOnce'
 import { Page } from '../../types/types'
@@ -17,6 +18,7 @@ const Wizard = () => {
 
   useEffectOnce(() => {
     dispatch(getProjects())
+    dispatch(getCustomers())
   })
 
   return (

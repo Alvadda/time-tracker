@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import API from '../api/api'
 import authReducer from '../features/auth/authSlice'
+import customerReducer from '../features/customer/customersSlice'
 import projectsReducer from '../features/projects/projectsSlice'
 import sessionsReducer from '../features/sessions/sessionsSlice'
 import settingsReducer from '../features/settings/settingsSlice'
@@ -12,6 +13,7 @@ export const store = configureStore({
     auth: authReducer,
     projects: projectsReducer,
     sessions: sessionsReducer,
+    customers: customerReducer,
     settings: settingsReducer,
     wizard: wizardReducer,
   },

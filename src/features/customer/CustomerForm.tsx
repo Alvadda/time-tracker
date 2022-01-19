@@ -1,14 +1,15 @@
 import CloseIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Box, Button, Stack, TextField } from '@mui/material'
-import { useState, VFC } from 'react'
+import { useEffect, useState, VFC } from 'react'
+import { Customer } from '../../types/types'
 
 interface CustomerFormProps {
-  // variant?: 'create' | 'update'
-  // project?: Project
-  // onUpdate?: (project: Project) => void
-  // onCreate?: (project: Partial<Project>) => void
-  // onDelete?: (project: Project) => void
+  variant?: 'create' | 'update'
+  customer?: Customer
+  onUpdate: (customer: Customer) => void
+  onCreate: (customer: Partial<Customer>) => void
+  onDelete: (customer: Customer) => void
   onCancle: () => void
 }
 
@@ -20,10 +21,10 @@ interface State {
   phone: string
   rate: string
   defaultBreak: string
-  notes: string
+  note: string
 }
 
-const CustomerForm: VFC<CustomerFormProps> = ({ onCancle }) => {
+const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, onUpdate, onCreate, onDelete, onCancle }) => {
   const [state, setstate] = useState<State>({
     name: '',
     contact: '',
@@ -32,10 +33,61 @@ const CustomerForm: VFC<CustomerFormProps> = ({ onCancle }) => {
     phone: '',
     rate: '',
     defaultBreak: '',
-    notes: '',
+    note: '',
   })
 
-  const isUpdate = true
+  const isUpdate = variant === 'update'
+
+  useEffect(() => {
+    if (customer) {
+      setstate({
+        name: customer.name,
+        contact: customer.contact || '',
+        email: customer.email || '',
+        address: customer.address || '',
+        phone: customer.phone || '',
+        rate: customer.rate?.toString() || '',
+        defaultBreak: customer.defaultBreak?.toString() || '',
+        note: customer.note || '',
+      })
+    }
+  }, [customer])
+
+  const customerFromState = {
+    name: state.name,
+    contact: state.contact,
+    email: state.email,
+    address: state.address,
+    phone: state.phone,
+    rate: Number(state.rate),
+    defaultBreak: Number(state.defaultBreak),
+    note: state.note,
+  }
+
+  const updateCustomer = () => {
+    if (customer) {
+      onUpdate({
+        ...customer,
+        ...customerFromState,
+      })
+    }
+  }
+
+  const deleteCustomer = () => {
+    if (customer) {
+      onDelete(customer)
+    }
+  }
+
+  const isCustomerValid = () => {
+    let valid = true
+
+    if (Number.isNaN(Number(state.rate))) valid = false
+    if (Number.isNaN(Number(state.defaultBreak))) valid = false
+    if (!state.name) valid = false
+
+    return valid
+  }
 
   return (
     <Box
@@ -123,14 +175,22 @@ const CustomerForm: VFC<CustomerFormProps> = ({ onCancle }) => {
             variant="standard"
             multiline
             rows={3}
-            value={state.notes}
-            onChange={(event) => setstate((state) => ({ ...state, notes: event.target.value }))}
+            value={state.note}
+            onChange={(event) => setstate((state) => ({ ...state, note: event.target.value }))}
           />
         </Stack>
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
-          <Button variant="contained">{isUpdate ? 'Update' : 'Create'}</Button>
+          <Button
+            variant="contained"
+            disabled={!isCustomerValid()}
+            onClick={() => {
+              isUpdate ? updateCustomer() : onCreate(customerFromState)
+            }}
+          >
+            {isUpdate ? 'Update' : 'Create'}
+          </Button>
           {isUpdate && (
-            <Button variant="contained" color="error" startIcon={<DeleteIcon />}>
+            <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteCustomer()}>
               Delete
             </Button>
           )}

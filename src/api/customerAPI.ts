@@ -6,7 +6,7 @@ import { setValueFromFb, setValueToFb } from './apiUtils'
 
 const customerPath = (userId: string) => `users/${userId}/customers`
 
-const projectAPI = (db: Firestore) => {
+const customerAPI = (db: Firestore) => {
   const getAll = async (userId: string) => {
     const customers: Customer[] = []
 
@@ -94,4 +94,4 @@ const projectAPI = (db: Firestore) => {
   return { getAll, create, remove, update }
 }
 
-export default projectAPI
+export default customerAPI

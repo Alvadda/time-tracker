@@ -59,7 +59,7 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, onCan
   }
 
   const isProjectValid = () => {
-    return !Boolean(color && name && rate)
+    return Boolean(color && name && rate)
   }
   return (
     <Box
@@ -95,7 +95,7 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, onCan
         <Box display={'flex'} justifyContent={'space-between'}>
           <Button
             variant="contained"
-            disabled={isProjectValid()}
+            disabled={!isProjectValid()}
             onClick={() => {
               isUpdate ? updateProject() : createProject()
             }}
