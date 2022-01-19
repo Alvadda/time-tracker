@@ -1,11 +1,10 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew'
-import { Box, List, ListItem, ListItemButton, Paper } from '@mui/material'
+import { Box } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AddButton from '../../components/AddButton'
 import { Customer } from '../../types/types'
-import Label from '../settings/components/Label'
 import CustomerForm from './CustomerForm'
+import CustomerList from './CustomerList'
 import {
   createCustomer,
   deleteCustomer,
@@ -58,19 +57,7 @@ const CustomerManager: VFC = () => {
 
   return (
     <Box height={'100%'}>
-      <List>
-        {customers.map((customer) => (
-          <ListItem disablePadding key={customer.id}>
-            <ListItemButton onClick={() => onSelect(customer)}>
-              <Paper sx={{ width: '100%', padding: 2 }}>
-                <Label label={customer.name}>
-                  <OpenInNewIcon />
-                </Label>
-              </Paper>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <CustomerList customers={customers} onSelect={onSelect}></CustomerList>
       {showForm && (
         <CustomerForm
           variant={selectedCustomer ? 'update' : 'create'}

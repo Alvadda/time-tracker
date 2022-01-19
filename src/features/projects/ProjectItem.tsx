@@ -1,6 +1,8 @@
-import { Box, Card, CardContent, Typography } from '@mui/material'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import { Paper } from '@mui/material'
 import { VFC } from 'react'
 import { Project } from '../../types/types'
+import Label from '../settings/components/Label'
 
 interface ProjectProps {
   project: Project
@@ -8,20 +10,11 @@ interface ProjectProps {
 
 const ProjectItem: VFC<ProjectProps> = ({ project }) => {
   return (
-    <Card sx={{ width: '100%', padding: 1 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color={project.color} gutterBottom>
-          {project.name}
-        </Typography>
-        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-          <Typography variant="h6" component="div">
-            Rate {project.rate}€
-          </Typography>
-          <Typography variant="h6" component="div"></Typography>
-          <Typography variant="h6" component="div"></Typography>
-        </Box>
-      </CardContent>
-    </Card>
+    <Paper sx={{ width: '100%', padding: 2, color: project.color }}>
+      <Label label={project.name}>
+        <OpenInNewIcon />
+      </Label>
+    </Paper>
   )
 }
 

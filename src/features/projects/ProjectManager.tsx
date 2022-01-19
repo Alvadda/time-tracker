@@ -49,7 +49,7 @@ const ProjectManager: VFC = () => {
 
   return (
     <Box height={'100%'} overflow={'auto'} position={'relative'}>
-      {!showForm && <ProjectList projects={projects} onSelect={onSelect} />}
+      <ProjectList projects={projects} onSelect={onSelect} />
       {showForm && (
         <ProjectForm
           variant={selectedProjects ? 'update' : 'create'}
