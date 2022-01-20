@@ -58,6 +58,16 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
           </ListItem>
         </List>
       </Paper>
+
+      <Paper>
+        <List>
+          <ListItem>
+            <ListItemButton onClick={logout}>
+              <Label label="Version">{process.env.VERSION}</Label>
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Paper>
     </Stack>
   )
 }

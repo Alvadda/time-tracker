@@ -8,7 +8,7 @@ import { selectProjects } from '../features/projects/projectsSlice'
 import { selectInactiveSessionsFromTo } from '../features/sessions/sessionsSlice'
 import { calcEarningFromMin, timeInMiliseconds } from '../utils/timeUtil'
 
-const defaultFromDate = moment().subtract(7, 'd').startOf('day')
+const defaultFromDate = moment().subtract(20, 'd').startOf('day')
 const defaultToDate = moment().endOf('day')
 
 const Overview = () => {
@@ -32,7 +32,7 @@ const Overview = () => {
       return sum + (session.duration || 0)
     }, 0)
 
-    return { ...project, earning, minutes }
+    return { ...project, earning, minutes, sessions: sessionsToProject }
   })
 
   const projectWithStatsAndSession = projectWithStats.filter((project) =>
@@ -78,6 +78,7 @@ const Overview = () => {
             }}
           />
         </Box>
+
         <Box padding={2} width={'100%'}>
           <ProjectStats header="Total" time={totalMinutes} earning={totalEarning} />
         </Box>

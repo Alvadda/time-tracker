@@ -5,6 +5,7 @@ export interface Project {
   name: string
   color: string
   rate?: number
+  customerId?: string
 }
 
 export interface Session {
