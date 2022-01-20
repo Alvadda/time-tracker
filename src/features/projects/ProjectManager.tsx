@@ -3,6 +3,7 @@ import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AddButton from '../../components/AddButton'
 import { Project } from '../../types/types'
+import { selectCustomers } from '../customer/customersSlice'
 import ProjectForm from './ProjectForm'
 import ProjectList from './ProjectList'
 import { createProject, deleteProject, selectProjects, selectSelectedProject, setSelectedProject, updateProject } from './projectsSlice'
@@ -12,6 +13,7 @@ const ProjectManager: VFC = () => {
   const [createNewProject, setCreateNewProject] = useState<boolean>(false)
 
   const projects = useSelector(selectProjects)
+  const customers = useSelector(selectCustomers)
   const selectedProjects = useSelector(selectSelectedProject)
 
   const showForm = createNewProject || selectedProjects
@@ -54,6 +56,7 @@ const ProjectManager: VFC = () => {
         <ProjectForm
           variant={selectedProjects ? 'update' : 'create'}
           project={selectedProjects}
+          customers={customers}
           onCreate={onCreate}
           onUpdate={onUpdate}
           onDelete={onDelete}

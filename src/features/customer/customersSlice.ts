@@ -81,6 +81,9 @@ export const customersSlice = createSlice({
 // SELECTOR
 export const selectCustomers = (state: RootState) => state.customers.customers
 export const selectSelectedCustomer = (state: RootState) => state.customers.selectedCustomer
+export const selectCustomerToCurrentProject = (state: RootState) => {
+  return state.customers.customers.find((customer) => state.projects.selectedProject?.customerId === customer.id)
+}
 
 //ACTIONS
 export const { addCustomer, setSelectedCustomer } = customersSlice.actions

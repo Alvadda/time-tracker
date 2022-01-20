@@ -53,7 +53,7 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
     }
   }, [customer])
 
-  const customerFromState = {
+  const customerFromState: Partial<Customer> = {
     name: state.name,
     contact: state.contact,
     email: state.email,
