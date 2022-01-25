@@ -1,7 +1,7 @@
-import CloseIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Box, Button, Stack, TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
+import ScreenBox from '../../components/ScreenBox'
 import { Customer } from '../../types/types'
 
 interface CustomerFormProps {
@@ -90,116 +90,83 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
   }
 
   return (
-    <Box
-      sx={{
-        width: '100vw',
-        height: '100vh',
-        position: 'fixed',
-        inset: '0',
-        zIndex: 100,
-        backgroundColor: 'background.default',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Box sx={{ flex: '0 0 40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
+    <ScreenBox header="Customer" onClose={onCancle}>
+      <Stack gap={2} width={'100%'}>
+        <TextField
+          label="Name"
+          variant="standard"
+          value={state.name}
+          onChange={(event) => setstate((state) => ({ ...state, name: event.target.value }))}
+        />
+        <TextField
+          label="Contact"
+          variant="standard"
+          value={state.contact}
+          onChange={(event) => setstate((state) => ({ ...state, contact: event.target.value }))}
+        />
+        <TextField
+          label="Email"
+          variant="standard"
+          type={'email'}
+          value={state.email}
+          onChange={(event) => setstate((state) => ({ ...state, email: event.target.value }))}
+        />
+        <TextField
+          label="Address"
+          variant="standard"
+          value={state.address}
+          onChange={(event) => setstate((state) => ({ ...state, address: event.target.value }))}
+        />
+        <TextField
+          label="Phone"
+          variant="standard"
+          type={'tel'}
+          value={state.phone}
+          onChange={(event) => setstate((state) => ({ ...state, phone: event.target.value }))}
+        />
+        <TextField
+          label="Rate"
+          variant="standard"
+          type={'number'}
+          value={state.rate}
+          onChange={(event) => setstate((state) => ({ ...state, rate: event.target.value }))}
+        />
+        <TextField
+          label="Default break"
+          variant="standard"
+          type={'number'}
+          value={state.defaultBreak}
+          onChange={(event) => setstate((state) => ({ ...state, defaultBreak: event.target.value }))}
+        />
+        <TextField
+          label="Notes"
+          variant="standard"
+          multiline
+          rows={3}
+          value={state.note}
+          onChange={(event) => setstate((state) => ({ ...state, note: event.target.value }))}
+        />
+      </Stack>
+      <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
         <Button
-          variant="text"
-          sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}
-          onClick={() => onCancle()}
+          variant="contained"
+          disabled={!isCustomerValid()}
+          onClick={() => {
+            isUpdate ? updateCustomer() : onCreate(customerFromState)
+          }}
         >
-          <CloseIcon fontSize="medium" />
+          {isUpdate ? 'Update' : 'Create'}
         </Button>
-        Customer
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: 2,
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        <Stack gap={2} width={'100%'}>
-          <TextField
-            label="Name"
-            variant="standard"
-            value={state.name}
-            onChange={(event) => setstate((state) => ({ ...state, name: event.target.value }))}
-          />
-          <TextField
-            label="Contact"
-            variant="standard"
-            value={state.contact}
-            onChange={(event) => setstate((state) => ({ ...state, contact: event.target.value }))}
-          />
-          <TextField
-            label="Email"
-            variant="standard"
-            type={'email'}
-            value={state.email}
-            onChange={(event) => setstate((state) => ({ ...state, email: event.target.value }))}
-          />
-          <TextField
-            label="Address"
-            variant="standard"
-            value={state.address}
-            onChange={(event) => setstate((state) => ({ ...state, address: event.target.value }))}
-          />
-          <TextField
-            label="Phone"
-            variant="standard"
-            type={'tel'}
-            value={state.phone}
-            onChange={(event) => setstate((state) => ({ ...state, phone: event.target.value }))}
-          />
-          <TextField
-            label="Rate"
-            variant="standard"
-            type={'number'}
-            value={state.rate}
-            onChange={(event) => setstate((state) => ({ ...state, rate: event.target.value }))}
-          />
-          <TextField
-            label="Default break"
-            variant="standard"
-            type={'number'}
-            value={state.defaultBreak}
-            onChange={(event) => setstate((state) => ({ ...state, defaultBreak: event.target.value }))}
-          />
-          <TextField
-            label="Notes"
-            variant="standard"
-            multiline
-            rows={3}
-            value={state.note}
-            onChange={(event) => setstate((state) => ({ ...state, note: event.target.value }))}
-          />
-        </Stack>
-        <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
-          <Button
-            variant="contained"
-            disabled={!isCustomerValid()}
-            onClick={() => {
-              isUpdate ? updateCustomer() : onCreate(customerFromState)
-            }}
-          >
-            {isUpdate ? 'Update' : 'Create'}
+        {isUpdate && (
+          <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteCustomer()}>
+            Delete
           </Button>
-          {isUpdate && (
-            <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteCustomer()}>
-              Delete
-            </Button>
-          )}
-          <Button variant="outlined" onClick={() => onCancle()}>
-            cancle
-          </Button>
-        </Box>
+        )}
+        <Button variant="outlined" onClick={() => onCancle()}>
+          cancle
+        </Button>
       </Box>
-    </Box>
+    </ScreenBox>
   )
 }
 
