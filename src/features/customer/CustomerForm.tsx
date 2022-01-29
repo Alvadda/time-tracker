@@ -1,7 +1,6 @@
-import { Box, Button, Stack, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
-import DeleteButton from '../../components/DeleteButton'
-import ScreenBox from '../../components/ScreenBox'
+import FormBox from '../../components/FormBox'
 import { Customer } from '../../types/types'
 
 interface CustomerFormProps {
@@ -90,79 +89,70 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
   }
 
   return (
-    <ScreenBox header="Customer" onClose={onCancle}>
-      <Stack gap={2} width={'100%'}>
-        <TextField
-          label="Name"
-          variant="standard"
-          value={state.name}
-          onChange={(event) => setstate((state) => ({ ...state, name: event.target.value }))}
-        />
-        <TextField
-          label="Contact"
-          variant="standard"
-          value={state.contact}
-          onChange={(event) => setstate((state) => ({ ...state, contact: event.target.value }))}
-        />
-        <TextField
-          label="Email"
-          variant="standard"
-          type={'email'}
-          value={state.email}
-          onChange={(event) => setstate((state) => ({ ...state, email: event.target.value }))}
-        />
-        <TextField
-          label="Address"
-          variant="standard"
-          value={state.address}
-          onChange={(event) => setstate((state) => ({ ...state, address: event.target.value }))}
-        />
-        <TextField
-          label="Phone"
-          variant="standard"
-          type={'tel'}
-          value={state.phone}
-          onChange={(event) => setstate((state) => ({ ...state, phone: event.target.value }))}
-        />
-        <TextField
-          label="Rate"
-          variant="standard"
-          type={'number'}
-          value={state.rate}
-          onChange={(event) => setstate((state) => ({ ...state, rate: event.target.value }))}
-        />
-        <TextField
-          label="Default break"
-          variant="standard"
-          type={'number'}
-          value={state.defaultBreak}
-          onChange={(event) => setstate((state) => ({ ...state, defaultBreak: event.target.value }))}
-        />
-        <TextField
-          label="Notes"
-          variant="standard"
-          multiline
-          rows={3}
-          value={state.note}
-          onChange={(event) => setstate((state) => ({ ...state, note: event.target.value }))}
-        />
-      </Stack>
-      <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
-        <Button
-          variant="contained"
-          disabled={!isCustomerValid()}
-          onClick={() => {
-            isUpdate ? updateCustomer() : onCreate(customerFromState)
-          }}
-        >
-          {isUpdate ? 'Update' : 'Create'}
-        </Button>
-        {isUpdate && <DeleteButton onClick={deleteCustomer} />}
-        <Button variant="outlined" onClick={() => onCancle()}>
-          cancle
-        </Button>
-      </Box>
-    </ScreenBox>
+    <FormBox
+      header="Customer"
+      isValid={isCustomerValid()}
+      update={isUpdate}
+      onCreate={() => onCreate(customerFromState)}
+      onUpdate={updateCustomer}
+      onDelete={deleteCustomer}
+      onClose={onCancle}
+    >
+      <TextField
+        label="Name"
+        variant="standard"
+        value={state.name}
+        onChange={(event) => setstate((state) => ({ ...state, name: event.target.value }))}
+      />
+      <TextField
+        label="Contact"
+        variant="standard"
+        value={state.contact}
+        onChange={(event) => setstate((state) => ({ ...state, contact: event.target.value }))}
+      />
+      <TextField
+        label="Email"
+        variant="standard"
+        type={'email'}
+        value={state.email}
+        onChange={(event) => setstate((state) => ({ ...state, email: event.target.value }))}
+      />
+      <TextField
+        label="Address"
+        variant="standard"
+        value={state.address}
+        onChange={(event) => setstate((state) => ({ ...state, address: event.target.value }))}
+      />
+      <TextField
+        label="Phone"
+        variant="standard"
+        type={'tel'}
+        value={state.phone}
+        onChange={(event) => setstate((state) => ({ ...state, phone: event.target.value }))}
+      />
+      <TextField
+        label="Rate"
+        variant="standard"
+        type={'number'}
+        value={state.rate}
+        onChange={(event) => setstate((state) => ({ ...state, rate: event.target.value }))}
+      />
+      <TextField
+        label="Default break"
+        variant="standard"
+        type={'number'}
+        value={state.defaultBreak}
+        onChange={(event) => setstate((state) => ({ ...state, defaultBreak: event.target.value }))}
+      />
+      <TextField
+        label="Notes"
+        variant="standard"
+        multiline
+        rows={3}
+        value={state.note}
+        onChange={(event) => setstate((state) => ({ ...state, note: event.target.value }))}
+      />
+    </FormBox>
   )
 }
 

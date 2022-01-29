@@ -1,13 +1,19 @@
 import CloseIcon from '@mui/icons-material/Close'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import { FC } from 'react'
+import DeleteButton from './DeleteButton'
 
-interface ScreenBoxProps {
+interface FormBoxProps {
   header: string
+  isValid: boolean
+  update?: boolean
+  onCreate: () => void
+  onUpdate: () => void
+  onDelete: () => void
   onClose: () => void
 }
 
-const ScreenBox: FC<ScreenBoxProps> = ({ header, onClose, children }) => {
+const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, onDelete, onUpdate, onClose, children }) => {
   return (
     <Box
       component="form"
@@ -41,10 +47,27 @@ const ScreenBox: FC<ScreenBoxProps> = ({ header, onClose, children }) => {
           height: '100%',
         }}
       >
-        {children}
+        <Stack gap={2} width={'100%'}>
+          {children}
+        </Stack>
+        <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
+          <Button
+            variant="contained"
+            disabled={!isValid}
+            onClick={() => {
+              update ? onUpdate() : onCreate()
+            }}
+          >
+            {update ? 'Update' : 'Create'}
+          </Button>
+          {update && <DeleteButton onClick={onDelete} />}
+          <Button variant="outlined" onClick={() => onClose()}>
+            cancle
+          </Button>
+        </Box>
       </Box>
     </Box>
   )
 }
 
-export default ScreenBox
+export default FormBox

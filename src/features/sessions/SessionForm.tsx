@@ -1,9 +1,8 @@
 import { DateTimePicker } from '@mui/lab'
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material'
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import moment, { Moment } from 'moment'
 import { useEffect, useState, VFC } from 'react'
-import DeleteButton from '../../components/DeleteButton'
-import ScreenBox from '../../components/ScreenBox'
+import FormBox from '../../components/FormBox'
 import { Project, Session } from '../../types/types'
 import { calcSessionDuration, timeInMiliseconds } from '../../utils/timeUtil'
 
@@ -75,54 +74,46 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
   }
 
   return (
-    <ScreenBox header="Session" onClose={onCancle}>
-      <Stack gap={2} width={'100%'}>
-        <DateTimePicker
-          renderInput={(props) => <TextField {...props} />}
-          label="Start Time"
-          value={startTime}
-          inputFormat="DD.MM.YY HH:mm"
-          onChange={(newValue) => {
-            setStartTime(newValue || undefined)
-          }}
-        />
-        <DateTimePicker
-          renderInput={(props) => <TextField {...props} />}
-          label="End Time"
-          value={endTime}
-          inputFormat="DD.MM.YY HH:mm"
-          minDate={startTime}
-          minTime={startTime}
-          onChange={(newValue) => {
-            setEndTime(newValue || undefined)
-          }}
-        />
-        <FormControl fullWidth>
-          <InputLabel>Project</InputLabel>
-          <Select label="Project" value={projectId} onChange={(event) => setProjectId(event.target.value)}>
-            {projects.map((project) => (
-              <MenuItem key={project.id} value={project.id}>
-                {project.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Stack>
-      <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
-        <Button
-          variant="contained"
-          onClick={() => {
-            isUpdate ? updateSession() : createSession()
-          }}
-        >
-          {isUpdate ? 'Update' : 'Create'}
-        </Button>
-        {isUpdate && <DeleteButton onClick={deleteSession} />}
-        <Button variant="outlined" onClick={() => onCancle()}>
-          cancle
-        </Button>
-      </Box>
-    </ScreenBox>
+    <FormBox
+      header="Session"
+      isValid={true}
+      update={isUpdate}
+      onCreate={createSession}
+      onUpdate={updateSession}
+      onDelete={deleteSession}
+      onClose={onCancle}
+    >
+      <DateTimePicker
+        renderInput={(props) => <TextField {...props} />}
+        label="Start Time"
+        value={startTime}
+        inputFormat="DD.MM.YY HH:mm"
+        onChange={(newValue) => {
+          setStartTime(newValue || undefined)
+        }}
+      />
+      <DateTimePicker
+        renderInput={(props) => <TextField {...props} />}
+        label="End Time"
+        value={endTime}
+        inputFormat="DD.MM.YY HH:mm"
+        minDate={startTime}
+        minTime={startTime}
+        onChange={(newValue) => {
+          setEndTime(newValue || undefined)
+        }}
+      />
+      <FormControl fullWidth>
+        <InputLabel>Project</InputLabel>
+        <Select label="Project" value={projectId} onChange={(event) => setProjectId(event.target.value)}>
+          {projects.map((project) => (
+            <MenuItem key={project.id} value={project.id}>
+              {project.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </FormBox>
   )
 }
 

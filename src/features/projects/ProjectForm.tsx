@@ -1,8 +1,7 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material'
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
-import DeleteButton from '../../components/DeleteButton'
-import ScreenBox from '../../components/ScreenBox'
+import FormBox from '../../components/FormBox'
 import { Customer, Project } from '../../types/types'
 
 interface ProjectFormProps {
@@ -62,38 +61,29 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
     return Boolean(color && name && rate)
   }
   return (
-    <ScreenBox header="Project" onClose={onCancle}>
-      <Stack gap={2} width={'100%'}>
-        <TextField label="Name" variant="standard" value={name} onChange={(event) => setName(event.target.value)} />
-        <TextField label="Rate" variant="standard" type="number" value={rate} onChange={(event) => setRate(event.target.value)} />
-        <FormControl>
-          <InputLabel>Customer</InputLabel>
-          <Select label="Customer" variant="standard" value={customerSelect} onChange={(event) => setCustomerSelect(event.target.value)}>
-            {customers?.map((customer) => (
-              <MenuItem key={customer.id} value={customer.id}>
-                {customer.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <HexColorPicker color={color} onChange={setColor} />
-      </Stack>
-      <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
-        <Button
-          variant="contained"
-          disabled={!isProjectValid()}
-          onClick={() => {
-            isUpdate ? updateProject() : onCreate(projectFromForm)
-          }}
-        >
-          {isUpdate ? 'Update' : 'Create'}
-        </Button>
-        {isUpdate && <DeleteButton onClick={deleteProject} />}
-        <Button variant="outlined" onClick={() => onCancle()}>
-          cancle
-        </Button>
-      </Box>
-    </ScreenBox>
+    <FormBox
+      header="Project"
+      isValid={isProjectValid()}
+      update={isUpdate}
+      onCreate={() => onCreate(projectFromForm)}
+      onUpdate={updateProject}
+      onDelete={deleteProject}
+      onClose={onCancle}
+    >
+      <TextField label="Name" variant="standard" value={name} onChange={(event) => setName(event.target.value)} />
+      <TextField label="Rate" variant="standard" type="number" value={rate} onChange={(event) => setRate(event.target.value)} />
+      <FormControl>
+        <InputLabel>Customer</InputLabel>
+        <Select label="Customer" variant="standard" value={customerSelect} onChange={(event) => setCustomerSelect(event.target.value)}>
+          {customers?.map((customer) => (
+            <MenuItem key={customer.id} value={customer.id}>
+              {customer.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <HexColorPicker color={color} onChange={setColor} />
+    </FormBox>
   )
 }
 
