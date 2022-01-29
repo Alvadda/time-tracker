@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import API from '../api/api'
 import authReducer from '../features/auth/authSlice'
-import customerReducer from '../features/customer/customersSlice'
+import customersReducer from '../features/customer/customersSlice'
 import projectsReducer from '../features/projects/projectsSlice'
 import sessionsReducer from '../features/sessions/sessionsSlice'
 import settingsReducer from '../features/settings/settingsSlice'
+import tasksReducer from '../features/task/taskSlice'
 import { db } from '../firebase/initFirebase'
 import wizardReducer from '../pages/wizard/wizardSlice'
 
@@ -13,7 +14,8 @@ export const store = configureStore({
     auth: authReducer,
     projects: projectsReducer,
     sessions: sessionsReducer,
-    customers: customerReducer,
+    customers: customersReducer,
+    tasks: tasksReducer,
     settings: settingsReducer,
     wizard: wizardReducer,
   },

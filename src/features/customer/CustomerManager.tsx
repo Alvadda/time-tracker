@@ -17,7 +17,6 @@ import {
 const CustomerManager: VFC = () => {
   const dispatch = useDispatch()
   const [createNewCustomer, setCreateNewCustomer] = useState<boolean>(false)
-  console.log(createNewCustomer)
 
   const customers = useSelector(selectCustomers)
   const selectedCustomer = useSelector(selectSelectedCustomer)

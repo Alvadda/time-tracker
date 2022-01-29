@@ -6,6 +6,7 @@ import CustomerManager from '../features/customer/CustomerManager'
 import ProjectManager from '../features/projects/ProjectManager'
 import Settings from '../features/settings/Settings'
 import { navigateBack, navigateTo, selectSettingPage } from '../features/settings/settingsSlice'
+import TaskManager from '../features/task/TaskManager'
 import { useEffectOnce } from '../hooks/useEffectOnce'
 import { SettingPage } from '../types/types'
 
@@ -44,6 +45,7 @@ const SettingsPage: VFC = () => {
         {page === 'settings' && <Settings onNavigation={onNavigation} />}
         {page === 'projects' && <ProjectManager />}
         {page === 'customer' && <CustomerManager />}
+        {page === 'tasks' && <TaskManager />}
       </Grid>
     </Grid>
   )

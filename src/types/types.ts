@@ -15,6 +15,7 @@ export interface Session {
   end?: number
   projectId?: string
   duration?: number
+  taskId?: string
   docRef: DocumentReference<DocumentData>
 }
 
@@ -30,5 +31,11 @@ export interface Customer {
   note?: string
 }
 
+export interface Task {
+  id: string
+  name: string
+  note?: string
+}
+
 export type Page = 'time-tracker' | 'overview' | 'settings'
-export type SettingPage = 'settings' | 'projects' | 'customer'
+export type SettingPage = 'settings' | 'projects' | 'customer' | 'tasks'

@@ -34,6 +34,13 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
               </Label>
             </ListItemButton>
           </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => onNavigation('tasks')}>
+              <Label label="Tasks">
+                <KeyboardArrowRightOutlined />
+              </Label>
+            </ListItemButton>
+          </ListItem>
         </List>
       </Paper>
 
