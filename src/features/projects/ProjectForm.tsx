@@ -1,7 +1,7 @@
-import DeleteIcon from '@mui/icons-material/Delete'
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
+import DeleteButton from '../../components/DeleteButton'
 import ScreenBox from '../../components/ScreenBox'
 import { Customer, Project } from '../../types/types'
 
@@ -88,11 +88,7 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
         >
           {isUpdate ? 'Update' : 'Create'}
         </Button>
-        {isUpdate && (
-          <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteProject()}>
-            Delete
-          </Button>
-        )}
+        {isUpdate && <DeleteButton onClick={deleteProject} />}
         <Button variant="outlined" onClick={() => onCancle()}>
           cancle
         </Button>

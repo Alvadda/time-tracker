@@ -1,8 +1,8 @@
-import DeleteIcon from '@mui/icons-material/Delete'
 import { DateTimePicker } from '@mui/lab'
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material'
 import moment, { Moment } from 'moment'
 import { useEffect, useState, VFC } from 'react'
+import DeleteButton from '../../components/DeleteButton'
 import ScreenBox from '../../components/ScreenBox'
 import { Project, Session } from '../../types/types'
 import { calcSessionDuration, timeInMiliseconds } from '../../utils/timeUtil'
@@ -117,11 +117,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         >
           {isUpdate ? 'Update' : 'Create'}
         </Button>
-        {isUpdate && (
-          <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteSession()}>
-            Delete
-          </Button>
-        )}
+        {isUpdate && <DeleteButton onClick={deleteSession} />}
         <Button variant="outlined" onClick={() => onCancle()}>
           cancle
         </Button>

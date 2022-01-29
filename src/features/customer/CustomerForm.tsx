@@ -1,6 +1,6 @@
-import DeleteIcon from '@mui/icons-material/Delete'
 import { Box, Button, Stack, TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
+import DeleteButton from '../../components/DeleteButton'
 import ScreenBox from '../../components/ScreenBox'
 import { Customer } from '../../types/types'
 
@@ -157,11 +157,7 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
         >
           {isUpdate ? 'Update' : 'Create'}
         </Button>
-        {isUpdate && (
-          <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteCustomer()}>
-            Delete
-          </Button>
-        )}
+        {isUpdate && <DeleteButton onClick={deleteCustomer} />}
         <Button variant="outlined" onClick={() => onCancle()}>
           cancle
         </Button>
