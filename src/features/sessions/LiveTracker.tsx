@@ -1,3 +1,5 @@
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import StopIcon from '@mui/icons-material/Stop'
 import { Button, Chip, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useState, VFC } from 'react'
@@ -108,9 +110,9 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
             </Typography>
           </Grid>
           <Grid item container direction={'column'} gap={2} justifyContent={'center'} alignItems={'center'} xs={6} padding={2}>
-            <FormControl sx={{ width: '141px' }}>
+            <FormControl fullWidth>
               <InputLabel>Project</InputLabel>
-              <Select sx={{ width: '141px' }} label="Project" value={projectId} onChange={(event) => setProjectId(event.target.value)}>
+              <Select label="Project" value={projectId} onChange={(event) => setProjectId(event.target.value)}>
                 {projects.map((project) => (
                   <MenuItem key={project.id} value={project.id}>
                     {project.name}
@@ -118,8 +120,14 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
                 ))}
               </Select>
             </FormControl>
-            <Button variant="contained" disabled={trackDisabled} onClick={track}>
-              Track Session
+            <Button
+              fullWidth
+              variant="contained"
+              disabled={trackDisabled}
+              onClick={track}
+              startIcon={activeSession ? <StopIcon /> : <PlayArrowIcon />}
+            >
+              {activeSession ? 'Stop' : 'Start'}
             </Button>
           </Grid>
         </Grid>
