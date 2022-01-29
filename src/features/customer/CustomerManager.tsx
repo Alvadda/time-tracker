@@ -2,9 +2,9 @@ import { Box } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AddButton from '../../components/AddButton'
+import FormList from '../../components/FormList'
 import { Customer } from '../../types/types'
 import CustomerForm from './CustomerForm'
-import CustomerList from './CustomerList'
 import {
   createCustomer,
   deleteCustomer,
@@ -57,7 +57,7 @@ const CustomerManager: VFC = () => {
 
   return (
     <Box height={'100%'}>
-      <CustomerList customers={customers} onSelect={onSelect}></CustomerList>
+      <FormList form={customers} onSelect={onSelect} />
       {showForm && (
         <CustomerForm
           variant={selectedCustomer ? 'update' : 'create'}

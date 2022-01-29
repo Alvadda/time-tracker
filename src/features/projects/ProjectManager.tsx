@@ -2,10 +2,10 @@ import { Box } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AddButton from '../../components/AddButton'
+import FormList from '../../components/FormList'
 import { Project } from '../../types/types'
 import { selectCustomers } from '../customer/customersSlice'
 import ProjectForm from './ProjectForm'
-import ProjectList from './ProjectList'
 import { createProject, deleteProject, selectProjects, selectSelectedProject, setSelectedProject, updateProject } from './projectsSlice'
 
 const ProjectManager: VFC = () => {
@@ -51,7 +51,7 @@ const ProjectManager: VFC = () => {
 
   return (
     <Box height={'100%'} overflow={'auto'} position={'relative'}>
-      <ProjectList projects={projects} onSelect={onSelect} />
+      <FormList form={projects} onSelect={onSelect} />
       {showForm && (
         <ProjectForm
           variant={selectedProjects ? 'update' : 'create'}
