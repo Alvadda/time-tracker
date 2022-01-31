@@ -34,7 +34,7 @@ export interface Customer {
 export interface Task {
   id: string
   name: string
-  note?: string
+  description?: string
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'

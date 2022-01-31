@@ -82,8 +82,8 @@ const customerAPI = (db: Firestore) => {
 
   const remove = async (userId: string, customer: Customer) => {
     try {
-      const projectRef = doc(db, customerPath(userId), customer.id)
-      await deleteDoc(projectRef)
+      const customerRef = doc(db, customerPath(userId), customer.id)
+      await deleteDoc(customerRef)
 
       return customer.id
     } catch (error: any) {
