@@ -15,7 +15,7 @@ export interface Session {
   end?: number
   projectId?: string
   duration?: number
-  taskId?: string
+  taskIds?: string[]
   docRef: DocumentReference<DocumentData>
 }
 

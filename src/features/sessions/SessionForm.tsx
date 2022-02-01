@@ -1,18 +1,19 @@
 import { DateTimePicker } from '@mui/lab'
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from '@mui/material'
 import moment, { Moment } from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import FormBox from '../../components/FormBox'
-import { Project, Session } from '../../types/types'
+import { Project, Session, Task } from '../../types/types'
 import { calcSessionDuration, timeInMiliseconds } from '../../utils/timeUtil'
 
 interface SessionFormProps {
   variant?: 'create' | 'update'
   session?: Session
   projects: Project[]
-  onUpdate?: (session: Session) => void
-  onCreate?: (session: Partial<Session>) => void
-  onDelete?: (Session: Session) => void
+  tasks: Task[]
+  onUpdate: (session: Session) => void
+  onCreate: (session: Partial<Session>) => void
+  onDelete: (Session: Session) => void
   onCancle: () => void
 }
 
@@ -26,63 +27,71 @@ const getDuration = (start: number, end?: number) => {
   }
 }
 
-const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, projects, onCancle, onCreate, onUpdate, onDelete }) => {
+const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, projects, tasks, onCancle, onCreate, onUpdate, onDelete }) => {
   const [startTime, setStartTime] = useState<Moment | undefined>(moment())
   const [endTime, setEndTime] = useState<Moment | undefined>(moment())
   const [projectId, setProjectId] = useState<string>('')
+  const [taskIds, setTaskIds] = useState<string[]>([])
   const isUpdate = variant === 'update'
 
   const start = timeInMiliseconds(getStartTime(startTime))
   const end = endTime ? timeInMiliseconds(endTime) : undefined
+
+  const sessionFromForm: Partial<Session> = {
+    start,
+    end,
+    duration: getDuration(start, end),
+    projectId,
+    taskIds,
+  }
 
   useEffect(() => {
     if (session) {
       setStartTime(moment(session.start))
       setEndTime(moment(session.end || moment()))
       setProjectId(session.projectId || '')
+      setTaskIds(session.taskIds || [])
     }
   }, [session])
 
-  const updateSession = () => {
-    if (session && onUpdate) {
+  const getTaskNameToId = (id: string) => {
+    return tasks.find((task) => task.id === id)?.name
+  }
+
+  const update = () => {
+    if (session) {
       onUpdate({
         ...session,
-        start,
-        end,
-        duration: getDuration(start, end),
-        projectId: projectId,
+        ...sessionFromForm,
       })
     }
   }
 
-  const createSession = () => {
-    if (onCreate) {
-      onCreate({
-        activ: false,
-        start,
-        end,
-        duration: getDuration(start, end),
-        projectId: projectId,
-      })
-    }
+  const create = () => {
+    onCreate({
+      ...sessionFromForm,
+      activ: false,
+    })
   }
 
-  const deleteSession = () => {
-    if (onDelete && session) {
+  const remove = () => {
+    if (session) {
       onDelete(session)
     }
   }
 
+  const handleChange = (event: SelectChangeEvent<typeof taskIds>) => {
+    const {
+      target: { value },
+    } = event
+    setTaskIds(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    )
+  }
+
   return (
-    <FormBox
-      header="Session"
-      isValid={true}
-      update={isUpdate}
-      onCreate={createSession}
-      onUpdate={updateSession}
-      onDelete={deleteSession}
-      onClose={onCancle}
-    >
+    <FormBox header="Session" isValid={true} update={isUpdate} onCreate={create} onUpdate={update} onDelete={remove} onClose={onCancle}>
       <DateTimePicker
         renderInput={(props) => <TextField {...props} />}
         label="Start Time"
@@ -109,6 +118,29 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
           {projects.map((project) => (
             <MenuItem key={project.id} value={project.id}>
               {project.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl fullWidth>
+        <InputLabel id="session-tasks">Tasks</InputLabel>
+        <Select
+          labelId="session-tasks"
+          multiple
+          value={taskIds}
+          onChange={handleChange}
+          input={<OutlinedInput label="Tasks" />}
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((id) => (
+                <Chip key={id} label={getTaskNameToId(id)} />
+              ))}
+            </Box>
+          )}
+        >
+          {tasks.map((task) => (
+            <MenuItem key={task.id} value={task.id}>
+              {task.name}
             </MenuItem>
           ))}
         </Select>

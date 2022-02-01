@@ -19,6 +19,7 @@ const sessionAPI = (db: Firestore) => {
         end: docData.end ? docData.end : undefined,
         projectId: docData.projectId || undefined,
         duration: docData.duration || undefined,
+        taskIds: docData.taskIds || [],
         docRef: docData.ref,
       })
     })
@@ -35,6 +36,7 @@ const sessionAPI = (db: Firestore) => {
         end: session.end || null,
         projectId: session.projectId || null,
         duration: session.duration || null,
+        taskIds: session.taskIds || [],
       })
     } catch (error: any) {
       throw new Error(`Update session ${session.id} faild: ${error.message}`)
@@ -48,6 +50,7 @@ const sessionAPI = (db: Firestore) => {
       end: session.end || null,
       duration: session.duration || null,
       projectId: session.projectId || null,
+      taskIds: session.taskIds || [],
     })
   }
 

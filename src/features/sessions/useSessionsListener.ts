@@ -27,6 +27,7 @@ export const useSessionsListener = () => {
           end: docData.end ? docData.end : undefined,
           projectId: docData.projectId || undefined,
           duration: docData.duration || undefined,
+          taskIds: docData.taskIds || [],
           docRef: doc.ref,
         })
       })

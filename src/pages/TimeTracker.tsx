@@ -15,6 +15,7 @@ import {
   updateSession,
 } from '../features/sessions/sessionsSlice'
 import { useSessionsListener } from '../features/sessions/useSessionsListener'
+import { selectTasks } from '../features/task/taskSlice'
 import { Session } from '../types/types'
 
 const TimeTracker = () => {
@@ -26,6 +27,7 @@ const TimeTracker = () => {
   const sessions = useSelector(selectInactivSessions)
   const selectedSession = useSelector(selectSelectedSession)
   const projects = useSelector(selectProjects)
+  const tasks = useSelector(selectTasks)
 
   const showForm = createNewSession || selectedSession
 
@@ -76,6 +78,7 @@ const TimeTracker = () => {
             variant={selectedSession ? 'update' : 'create'}
             session={selectedSession}
             projects={projects}
+            tasks={tasks}
             onCreate={onCreate}
             onUpdate={onUpdate}
             onDelete={onDelete}
