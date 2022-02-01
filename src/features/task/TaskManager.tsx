@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import AddButton from '../../components/AddButton'
 import FormList from '../../components/FormList'
 import { Task } from '../../types/types'
 import TaskForm from './TaskForm'
@@ -12,6 +13,8 @@ const TaskManager: VFC = () => {
 
   const tasks = useSelector(selectTasks)
   const selectedTask = useSelector(selectSelectedTask)
+
+  const showForm = createNewTask || selectedTask
 
   useEffect(() => {
     return () => {
@@ -46,7 +49,7 @@ const TaskManager: VFC = () => {
   return (
     <Box height={'100%'}>
       <FormList form={tasks} onSelect={onSelect} />
-      {selectedTask && (
+      {showForm && (
         <TaskForm
           isUpdate={Boolean(selectedTask)}
           task={selectedTask}
@@ -56,6 +59,7 @@ const TaskManager: VFC = () => {
           onCancle={closeForm}
         />
       )}
+      {!showForm && <AddButton onClick={() => setCreateNewTask(true)} />}
     </Box>
   )
 }

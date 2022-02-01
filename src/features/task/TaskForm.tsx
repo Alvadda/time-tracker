@@ -1,10 +1,10 @@
 import { TextField } from '@mui/material'
-import { useState, VFC } from 'react'
+import { useEffect, useState, VFC } from 'react'
 import FormBox from '../../components/FormBox'
 import { Task } from '../../types/types'
 
 interface TaskFormProps {
-  task: Task
+  task?: Task
   isUpdate: boolean
   onUpdate: (task: Task) => void
   onCreate: (task: Partial<Task>) => void
@@ -20,6 +20,13 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
     name,
     description,
   }
+
+  useEffect(() => {
+    if (task) {
+      setName(task.name)
+      setDescription(task.description || '')
+    }
+  }, [task])
 
   const updateTask = () => {
     if (task) {
