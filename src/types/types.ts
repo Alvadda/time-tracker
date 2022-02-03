@@ -35,6 +35,7 @@ export interface Task {
   id: string
   name: string
   description?: string
+  color: string
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'

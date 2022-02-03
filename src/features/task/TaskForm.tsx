@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
+import { HexColorPicker } from 'react-colorful'
 import FormBox from '../../components/FormBox'
 import { Task } from '../../types/types'
 
@@ -15,16 +16,19 @@ interface TaskFormProps {
 const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDelete, onCancle }) => {
   const [name, setName] = useState<string>('')
   const [description, setDescription] = useState<string>('')
+  const [color, setColor] = useState<string>('#FFF')
 
   const taskFromForm: Partial<Task> = {
     name,
     description,
+    color,
   }
 
   useEffect(() => {
     if (task) {
       setName(task.name)
       setDescription(task.description || '')
+      setColor(task.color)
     }
   }, [task])
 
@@ -66,6 +70,7 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
         value={description}
         onChange={(event) => setDescription(event.target.value)}
       />
+      <HexColorPicker color={color} onChange={setColor} />
     </FormBox>
   )
 }

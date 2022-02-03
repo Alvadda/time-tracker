@@ -17,6 +17,7 @@ const taskAPI = (db: Firestore) => {
         id: doc.id,
         name: docData.name,
         description: setValueFromFb(docData.description),
+        color: setValueFromFb(docData.color),
       })
     })
     return tasks
@@ -27,12 +28,14 @@ const taskAPI = (db: Firestore) => {
       const docRef = await addDoc(collection(db, taskPath(userId)), {
         name: task.name,
         description: setValueToFb(task.description),
+        color: setValueToFb(task.color),
       })
 
       const newTask: Task = {
         id: docRef.id,
         name: task.name!,
         description: setValueFromFb(task.description),
+        color: setValueFromFb(task.color),
       }
 
       return newTask
@@ -48,6 +51,7 @@ const taskAPI = (db: Firestore) => {
         id: task.id,
         name: task.name,
         description: setValueToFb(task.description),
+        color: setValueToFb(task.color),
       })
 
       return task

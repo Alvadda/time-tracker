@@ -58,6 +58,9 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
     return tasks.find((task) => task.id === id)?.name
   }
 
+  const getTaskColorToId = (id: string) => {
+    return tasks.find((task) => task.id === id)?.color
+  }
   const update = () => {
     if (session) {
       onUpdate({
@@ -133,13 +136,13 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((id) => (
-                <Chip key={id} label={getTaskNameToId(id)} />
+                <Chip key={id} label={getTaskNameToId(id)} sx={{ backgroundColor: getTaskColorToId(id) }} />
               ))}
             </Box>
           )}
         >
           {tasks.map((task) => (
-            <MenuItem key={task.id} value={task.id}>
+            <MenuItem key={task.id} value={task.id} sx={{ color: task.color }}>
               {task.name}
             </MenuItem>
           ))}
