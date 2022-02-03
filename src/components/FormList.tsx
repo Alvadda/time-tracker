@@ -1,16 +1,12 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
-import { List, ListItem, ListItemButton, Paper } from '@mui/material'
+import StarIcon from '@mui/icons-material/Star'
+import { Box, List, ListItem, ListItemButton, Paper } from '@mui/material'
 import Label from '../features/settings/components/Label'
+import { Form } from '../types/types'
 
 interface FormListProps<T> {
   form: T[]
   onSelect: (item: T) => void
-}
-
-interface Form {
-  id: string
-  name: string
-  color?: string
 }
 
 const FormList = <T extends Form>({ form, onSelect }: FormListProps<T>) => {
@@ -19,9 +15,12 @@ const FormList = <T extends Form>({ form, onSelect }: FormListProps<T>) => {
       {form.map((form: T) => (
         <ListItem disablePadding key={form.id}>
           <ListItemButton onClick={() => onSelect(form)}>
-            <Paper sx={{ width: '100%', padding: 2, color: form.color || 'text.primary' }}>
+            <Paper sx={{ width: '100%', padding: 2 }}>
               <Label label={form.name}>
-                <OpenInNewIcon />
+                <Box sx={{ color: form.color || 'text.primary' }}>
+                  {form.isFavorite && <StarIcon sx={{ color: 'yellow' }} />}
+                  <OpenInNewIcon />
+                </Box>
               </Label>
             </Paper>
           </ListItemButton>

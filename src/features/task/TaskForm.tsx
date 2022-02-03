@@ -1,4 +1,6 @@
-import { TextField } from '@mui/material'
+import StarIcon from '@mui/icons-material/Star'
+import StarBorderIcon from '@mui/icons-material/StarBorder'
+import { Checkbox, TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import FormBox from '../../components/FormBox'
@@ -17,11 +19,13 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
   const [name, setName] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [color, setColor] = useState<string>('#FFF')
+  const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
   const taskFromForm: Partial<Task> = {
     name,
     description,
     color,
+    isFavorite,
   }
 
   useEffect(() => {
@@ -29,6 +33,7 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
       setName(task.name)
       setDescription(task.description || '')
       setColor(task.color)
+      setIsFavorite(Boolean(task.isFavorite))
     }
   }, [task])
 
@@ -71,6 +76,13 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
         onChange={(event) => setDescription(event.target.value)}
       />
       <HexColorPicker color={color} onChange={setColor} />
+      <Checkbox
+        icon={<StarBorderIcon />}
+        checkedIcon={<StarIcon />}
+        value={isFavorite}
+        checked={isFavorite}
+        onChange={() => setIsFavorite((current) => !current)}
+      />
     </FormBox>
   )
 }

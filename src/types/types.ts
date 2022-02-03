@@ -1,8 +1,13 @@
 import { DocumentData, DocumentReference } from 'firebase/firestore'
 
-export interface Project {
+export interface Form {
   id: string
   name: string
+  color?: string
+  isFavorite?: boolean
+}
+
+export interface Project extends Form {
   color: string
   rate?: number
   customerId?: string
@@ -19,9 +24,7 @@ export interface Session {
   docRef: DocumentReference<DocumentData>
 }
 
-export interface Customer {
-  id: string
-  name: string
+export interface Customer extends Form {
   contact?: string
   email?: string
   address?: string
@@ -31,9 +34,7 @@ export interface Customer {
   note?: string
 }
 
-export interface Task {
-  id: string
-  name: string
+export interface Task extends Form {
   description?: string
   color: string
 }

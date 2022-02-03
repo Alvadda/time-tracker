@@ -18,6 +18,7 @@ const taskAPI = (db: Firestore) => {
         name: docData.name,
         description: setValueFromFb(docData.description),
         color: setValueFromFb(docData.color),
+        isFavorite: setValueFromFb(docData.isFavorite),
       })
     })
     return tasks
@@ -29,6 +30,7 @@ const taskAPI = (db: Firestore) => {
         name: task.name,
         description: setValueToFb(task.description),
         color: setValueToFb(task.color),
+        isFavorite: setValueToFb(task.isFavorite),
       })
 
       const newTask: Task = {
@@ -36,6 +38,7 @@ const taskAPI = (db: Firestore) => {
         name: task.name!,
         description: setValueFromFb(task.description),
         color: setValueFromFb(task.color),
+        isFavorite: setValueFromFb(task.isFavorite),
       }
 
       return newTask
@@ -52,6 +55,7 @@ const taskAPI = (db: Firestore) => {
         name: task.name,
         description: setValueToFb(task.description),
         color: setValueToFb(task.color),
+        isFavorite: setValueToFb(task.isFavorite),
       })
 
       return task
