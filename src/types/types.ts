@@ -1,5 +1,3 @@
-import { DocumentData, DocumentReference } from 'firebase/firestore'
-
 export interface Form {
   id: string
   name: string
@@ -21,7 +19,6 @@ export interface Session {
   projectId?: string
   duration?: number
   taskIds?: string[]
-  docRef: DocumentReference<DocumentData>
 }
 
 export interface Customer extends Form {

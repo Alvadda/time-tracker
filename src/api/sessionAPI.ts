@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { addDoc, collection, deleteDoc, Firestore, getDocs, query, updateDoc, where } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, query, updateDoc, where } from 'firebase/firestore'
 import { Session } from '../types/types'
+import { setValueFromFb, setValueToFb } from './apiUtils'
 
 export const sessionPath = (userId: string) => `users/${userId}/session`
 
@@ -16,26 +17,26 @@ const sessionAPI = (db: Firestore) => {
         id: doc.id,
         activ: docData.activ,
         start: docData.start,
-        end: docData.end ? docData.end : undefined,
-        projectId: docData.projectId || undefined,
-        duration: docData.duration || undefined,
-        taskIds: docData.taskIds || [],
-        docRef: docData.ref,
+        end: setValueFromFb(docData.end),
+        projectId: setValueFromFb(docData.projectId),
+        duration: setValueFromFb(docData.duration),
+        taskIds: setValueFromFb(docData.taskIds),
       })
     })
 
     return sessions
   }
 
-  const update = async (session: Session) => {
+  const update = async (userId: string, session: Session) => {
     try {
-      await updateDoc(session.docRef, {
+      const sessionRef = doc(db, sessionPath(userId), session.id)
+      await updateDoc(sessionRef, {
         id: session.id,
         activ: session.activ,
         start: session.start,
-        end: session.end || null,
-        projectId: session.projectId || null,
-        duration: session.duration || null,
+        end: setValueToFb(session.end),
+        projectId: setValueToFb(session.projectId),
+        duration: setValueToFb(session.duration),
         taskIds: session.taskIds || [],
       })
     } catch (error: any) {
@@ -44,19 +45,24 @@ const sessionAPI = (db: Firestore) => {
   }
 
   const create = async (session: Partial<Session>, userId: string) => {
-    await addDoc(collection(db, sessionPath(userId)), {
-      activ: session.activ,
-      start: session.start,
-      end: session.end || null,
-      duration: session.duration || null,
-      projectId: session.projectId || null,
-      taskIds: session.taskIds || [],
-    })
+    try {
+      await addDoc(collection(db, sessionPath(userId)), {
+        activ: session.activ,
+        start: session.start,
+        end: setValueToFb(session.end),
+        projectId: setValueToFb(session.projectId),
+        duration: setValueToFb(session.duration),
+        taskIds: session.taskIds || [],
+      })
+    } catch (error: any) {
+      throw new Error(`Create session ${session.id} faild: ${error.message}`)
+    }
   }
 
-  const remove = async (session: Session) => {
+  const remove = async (userId: string, session: Session) => {
     try {
-      await deleteDoc(session.docRef)
+      const sessionRef = doc(db, sessionPath(userId), session.id)
+      await deleteDoc(sessionRef)
     } catch (error: any) {
       throw new Error(`Delete session ${session.id} faild: ${error.message}`)
     }

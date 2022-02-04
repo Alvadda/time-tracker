@@ -25,7 +25,7 @@ const updateSession = createAsyncThunk<unknown, Session, { state: RootState; ext
     const { auth } = getState()
     if (!auth?.uid) throw new Error('User needs to be logged in')
 
-    extra.session.update(session)
+    extra.session.update(auth.uid, session)
   }
 )
 
@@ -35,7 +35,7 @@ const deleteSession = createAsyncThunk<unknown, Session, { state: RootState; ext
     const { auth } = getState()
     if (!auth?.uid) throw new Error('User needs to be logged in')
 
-    extra.session.remove(session)
+    extra.session.remove(auth.uid, session)
   }
 )
 
