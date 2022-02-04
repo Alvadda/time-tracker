@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, updateDoc } from 'firebase/firestore'
 import { Project } from '../types/types'
+import { setValueFromFb, setValueToFb } from './apiUtils'
 
 const ProjectsPath = (userId: string) => `users/${userId}/projects`
 
@@ -14,10 +15,10 @@ const projectAPI = (db: Firestore) => {
       const docData = doc.data()
       projects.push({
         id: doc.id,
-        name: docData.name,
-        color: docData.color,
-        rate: docData.rate || undefined,
-        customerId: docData.customerId || undefined,
+        name: setValueFromFb(docData.name),
+        color: setValueFromFb(docData.color),
+        rate: setValueFromFb(docData.rate),
+        customerId: setValueFromFb(docData.customerId),
       })
     })
     return projects
@@ -27,17 +28,17 @@ const projectAPI = (db: Firestore) => {
     try {
       const docRef = await addDoc(collection(db, ProjectsPath(userId)), {
         name: project.name,
-        rate: project.rate || null,
-        color: project.color,
-        customerId: project.customerId || null,
+        rate: setValueToFb(project.rate),
+        color: setValueToFb(project.color),
+        customerId: setValueToFb(project.customerId),
       })
 
       const newProject: Project = {
         id: docRef.id,
         name: project.name!,
-        rate: project.rate,
-        color: project.color!,
-        customerId: project.customerId,
+        rate: setValueFromFb(project.rate),
+        color: setValueFromFb(project.color),
+        customerId: setValueFromFb(project.customerId),
       }
       return newProject
     } catch (error: any) {
@@ -51,9 +52,9 @@ const projectAPI = (db: Firestore) => {
       await updateDoc(projectRef, {
         id: project.id,
         name: project.name,
-        rate: project.rate,
-        color: project.color,
-        customerId: project.customerId,
+        rate: setValueToFb(project.rate),
+        color: setValueToFb(project.color),
+        customerId: setValueToFb(project.customerId),
       })
 
       return project
