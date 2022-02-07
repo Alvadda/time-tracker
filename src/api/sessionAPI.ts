@@ -18,8 +18,9 @@ const sessionAPI = (db: Firestore) => {
         activ: docData.activ,
         start: docData.start,
         end: setValueFromFb(docData.end),
-        projectId: setValueFromFb(docData.projectId),
         duration: setValueFromFb(docData.duration),
+        note: setValueFromFb(docData.note),
+        projectId: setValueFromFb(docData.projectId),
         taskIds: setValueFromFb(docData.taskIds),
       })
     })
@@ -35,8 +36,9 @@ const sessionAPI = (db: Firestore) => {
         activ: session.activ,
         start: session.start,
         end: setValueToFb(session.end),
-        projectId: setValueToFb(session.projectId),
         duration: setValueToFb(session.duration),
+        note: setValueToFb(session.note),
+        projectId: setValueToFb(session.projectId),
         taskIds: session.taskIds || [],
       })
     } catch (error: any) {
@@ -50,8 +52,9 @@ const sessionAPI = (db: Firestore) => {
         activ: session.activ,
         start: session.start,
         end: setValueToFb(session.end),
-        projectId: setValueToFb(session.projectId),
         duration: setValueToFb(session.duration),
+        note: setValueToFb(session.note),
+        projectId: setValueToFb(session.projectId),
         taskIds: session.taskIds || [],
       })
     } catch (error: any) {

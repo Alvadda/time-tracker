@@ -1,6 +1,7 @@
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { setValueFromFb } from '../../api/apiUtils'
 import { sessionPath } from '../../api/sessionAPI'
 import { useFirebaseContext } from '../../firebase/FirebaseContext'
 import { Session } from '../../types/types'
@@ -24,11 +25,11 @@ export const useSessionsListener = () => {
           id: doc.id,
           activ: docData.activ,
           start: docData.start,
-          end: docData.end ? docData.end : undefined,
-          projectId: docData.projectId || undefined,
-          duration: docData.duration || undefined,
+          end: setValueFromFb(docData.end),
+          projectId: setValueFromFb(docData.projectId),
+          duration: setValueFromFb(docData.duration),
           taskIds: docData.taskIds || [],
-          docRef: doc.ref,
+          note: setValueFromFb(docData.note),
         })
       })
       dispatch(updateSessions(sessions))

@@ -16,8 +16,9 @@ export interface Session {
   activ: boolean
   start: number
   end?: number
-  projectId?: string
   duration?: number
+  note?: string
+  projectId?: string
   taskIds?: string[]
 }
 

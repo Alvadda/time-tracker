@@ -32,6 +32,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
   const [endTime, setEndTime] = useState<Moment | undefined>(moment())
   const [projectId, setProjectId] = useState<string>('')
   const [taskIds, setTaskIds] = useState<string[]>([])
+  const [note, setNote] = useState<string>('')
   const isUpdate = variant === 'update'
 
   const start = timeInMiliseconds(getStartTime(startTime))
@@ -41,15 +42,19 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
     start,
     end,
     duration: getDuration(start, end),
+    note,
     projectId,
     taskIds,
   }
 
   useEffect(() => {
     if (session) {
+      console.log(session)
+
       setStartTime(moment(session.start))
       setEndTime(moment(session.end || moment()))
       setProjectId(session.projectId || '')
+      setNote(session.note || '')
       setTaskIds(session.taskIds || [])
     }
   }, [session])
@@ -148,6 +153,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
           ))}
         </Select>
       </FormControl>
+      <TextField label="Note" variant="standard" multiline rows={5} value={note} onChange={(event) => setNote(event.target.value)} />
     </FormBox>
   )
 }
