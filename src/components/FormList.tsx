@@ -17,7 +17,7 @@ const FormList = <T extends Form>({ form, onSelect }: FormListProps<T>) => {
           <ListItemButton onClick={() => onSelect(form)}>
             <Paper sx={{ width: '100%', padding: 2 }}>
               <Label label={form.name}>
-                <Box sx={{ color: form.color || 'text.primary' }}>
+                <Box sx={{ color: form.color || 'text.primary', display: 'flex', gap: 1 }}>
                   {form.isFavorite && <StarIcon sx={{ color: 'yellow' }} />}
                   <OpenInNewIcon />
                 </Box>

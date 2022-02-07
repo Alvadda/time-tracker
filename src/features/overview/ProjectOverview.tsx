@@ -8,11 +8,10 @@ import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
 interface ProjectOverviewProps {
   project: Project
   sessions: Session[]
+  onClose: () => void
 }
 
-const ProjectOverview: VFC<ProjectOverviewProps> = ({ project, sessions }) => {
-  console.log(sessions)
-
+const ProjectOverview: VFC<ProjectOverviewProps> = ({ project, sessions, onClose }) => {
   return (
     <Box
       sx={{
@@ -28,7 +27,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ project, sessions }) => {
       }}
     >
       <Box sx={{ flex: '0 0 40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
-        <Button variant="text" sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }} onClick={() => {}}>
+        <Button variant="text" sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }} onClick={() => onClose()}>
           <CloseIcon fontSize="medium" />
         </Button>
         {project.name}
@@ -42,7 +41,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ project, sessions }) => {
                 secondary={`${moment(session.start).format('hh:mm')} - ${moment(session.end).format('hh:mm')}`}
               />
               <ListItemText
-                primary={`${calcEarningFromMin(session.duration, project.rate)} €`}
+                primary={`${calcEarningFromMin(session.duration, project.rate).toFixed(2)} €`}
                 secondary={formatMinToHourMin(session.duration)}
               />
             </ListItem>

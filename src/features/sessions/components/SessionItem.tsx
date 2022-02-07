@@ -22,7 +22,7 @@ const SessionItem: VFC<SessionItemProps> = ({ displayDate, project, projectColor
             {project}
           </Typography>
           <Typography variant="h6" component="div" align="right">
-            {erning > 0 && `${erning}€`} {duration}H
+            {erning > 0 && `${erning.toFixed(2)}€`} {duration}H
           </Typography>
         </Box>
       </CardContent>

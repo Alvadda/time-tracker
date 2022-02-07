@@ -33,7 +33,7 @@ const SessionList: VFC<SessionListProps> = ({ projects, sessions, onSelect }) =>
               project={getProjectName(session.projectId)}
               projectColor={getProjectColor(session.projectId)}
               duration={formatMinToHourMin(session.duration)}
-              erning={+calcEarningFromMin(session.duration, getProjectRate(session.projectId)).toFixed(2)}
+              erning={calcEarningFromMin(session.duration, getProjectRate(session.projectId))}
             />
           </ListItemButton>
         </ListItem>

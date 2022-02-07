@@ -3,6 +3,7 @@ import { Box, Divider, Grid, List, ListItem, ListItemButton, TextField } from '@
 import moment, { Moment } from 'moment'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import ProjectOverview from '../features/overview/ProjectOverview'
 import ProjectStats from '../features/overview/projectStats'
 import { selectProjects } from '../features/projects/projectsSlice'
 import { selectInactiveSessionsFromTo } from '../features/sessions/sessionsSlice'
@@ -14,6 +15,7 @@ const defaultToDate = moment().endOf('day')
 const Overview = () => {
   const [fromDate, setFromDate] = useState<Moment>(defaultFromDate)
   const [toDate, setToDate] = useState<Moment>(defaultToDate)
+  const [selectedProject, setSelectedProject] = useState<string | undefined>()
 
   const fromInMS = timeInMiliseconds(fromDate)
   const toInMS = timeInMiliseconds(toDate)
@@ -48,6 +50,8 @@ const Overview = () => {
     },
     { totalEarning: 0, totalMinutes: 0 }
   )
+
+  const selectedStats = projectWithStatsAndSession.find((project) => project.id === selectedProject)
 
   return (
     <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
@@ -88,13 +92,16 @@ const Overview = () => {
         <List>
           {projectWithStatsAndSession.map((project) => (
             <ListItem disablePadding key={project.id}>
-              <ListItemButton>
+              <ListItemButton onClick={() => setSelectedProject(project.id)}>
                 <ProjectStats header={project.name} headerColor={project.color} time={project.minutes} earning={project.rate || 0} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Grid>
+      {selectedProject && (
+        <ProjectOverview onClose={() => setSelectedProject(undefined)} project={selectedStats} sessions={selectedStats?.sessions || []} />
+      )}
     </Grid>
   )
 }
