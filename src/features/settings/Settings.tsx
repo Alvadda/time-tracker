@@ -1,12 +1,12 @@
 import { KeyboardArrowRightOutlined } from '@mui/icons-material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { List, ListItem, ListItemButton, Paper, Stack, Switch } from '@mui/material'
+import { InputAdornment, List, ListItem, ListItemButton, Paper, Stack, Switch, TextField } from '@mui/material'
 import { VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
 import { SettingPage } from '../../types/types'
 import Label from './components/Label'
-import { selectDarkMode, setDarkMode } from './settingsSlice'
+import { selectBreak, selectBreakApplyRule, selectDarkMode, setBreak, setBreakApplyRule, setDarkMode } from './settingsSlice'
 interface SettingsProps {
   onNavigation: (to: SettingPage) => void
 }
@@ -14,7 +14,10 @@ interface SettingsProps {
 const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const dispatch = useDispatch()
   const { logout } = useFirebaseLogin()
+
   const darkMode = useSelector(selectDarkMode)
+  const defaultBreak = useSelector(selectBreak)
+  const defaultBreakApplyRule = useSelector(selectBreakApplyRule)
 
   return (
     <Stack spacing={2} padding={2}>
@@ -47,8 +50,41 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem>
+            <Label label="Default break">
+              <TextField
+                sx={{ maxWidth: '20%' }}
+                variant="standard"
+                type="number"
+                value={defaultBreak}
+                onChange={(event) => dispatch(setBreak(event.target.value))}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">m</InputAdornment>,
+                }}
+              />
+            </Label>
+          </ListItem>
+          <ListItem>
+            <Label label="Apply rule">
+              <TextField
+                sx={{ maxWidth: '20%' }}
+                variant="standard"
+                type="number"
+                value={defaultBreakApplyRule}
+                onChange={(event) => dispatch(setBreakApplyRule(event.target.value))}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">h</InputAdornment>,
+                }}
+              />
+            </Label>
+          </ListItem>
+        </List>
+      </Paper>
+
+      <Paper>
+        <List>
+          <ListItem>
             <Label label="Darkmode">
-              <Switch checked={darkMode} onChange={() => dispatch(setDarkMode(!darkMode))} inputProps={{ 'aria-label': 'controlled' }} />
+              <Switch checked={darkMode} onChange={() => dispatch(setDarkMode(!darkMode))} />
             </Label>
           </ListItem>
         </List>

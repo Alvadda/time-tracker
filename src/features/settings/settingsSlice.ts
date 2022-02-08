@@ -3,11 +3,13 @@ import { RootState } from '../../store/store'
 import { SettingPage } from '../../types/types'
 
 export interface SettingsState {
-  darkMode: boolean
   page: SettingPage
+  darkMode: boolean
+  break: string
+  breakApplyRule: string
 }
 
-const initialState: SettingsState = { darkMode: true, page: 'settings' }
+const initialState: SettingsState = { darkMode: true, page: 'settings', break: '0', breakApplyRule: '0' }
 
 export const settingsSlice = createSlice({
   name: 'settings',
@@ -15,6 +17,12 @@ export const settingsSlice = createSlice({
   reducers: {
     setDarkMode: (state, action: PayloadAction<boolean>) => {
       state.darkMode = action.payload
+    },
+    setBreak: (state, action: PayloadAction<string>) => {
+      state.break = action.payload
+    },
+    setBreakApplyRule: (state, action: PayloadAction<string>) => {
+      state.breakApplyRule = action.payload
     },
     navigateTo: (state, action: PayloadAction<SettingPage>) => {
       state.page = action.payload
@@ -26,10 +34,12 @@ export const settingsSlice = createSlice({
 })
 
 //SELECTOR
-export const selectDarkMode = (state: RootState) => state.settings.darkMode
 export const selectSettingPage = (state: RootState) => state.settings.page
+export const selectDarkMode = (state: RootState) => state.settings.darkMode
+export const selectBreak = (state: RootState) => state.settings.break
+export const selectBreakApplyRule = (state: RootState) => state.settings.breakApplyRule
 
 //ACTIONS
-export const { setDarkMode, navigateBack, navigateTo } = settingsSlice.actions
+export const { setDarkMode, navigateBack, navigateTo, setBreak, setBreakApplyRule } = settingsSlice.actions
 
 export default settingsSlice.reducer
