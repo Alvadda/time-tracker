@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../../store/store'
-import { Project, SettingPage } from '../../types/types'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Extra, RootState } from '../../store/store'
+import { Project, SettingPage, Settings } from '../../types/types'
 
 export interface SettingsState {
   page: SettingPage
@@ -11,6 +11,15 @@ export interface SettingsState {
 }
 
 const initialState: SettingsState = { darkMode: true, page: 'settings', break: '0', breakApplyRule: '0' }
+
+const getSettings = createAsyncThunk<Settings | undefined, undefined, { state: RootState; extra: Extra }>(
+  'settings/get',
+  async (_, { getState, extra }) => {
+    const { auth } = getState()
+    if (!auth?.uid) return undefined
+    return await extra.user.get(auth.uid)
+  }
+)
 
 export const settingsSlice = createSlice({
   name: 'settings',
@@ -35,6 +44,13 @@ export const settingsSlice = createSlice({
       state.page = 'settings'
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getSettings.fulfilled, (state, action) => {
+      ;(state.darkMode = Boolean(action.payload?.darkMode)),
+        (state.break = action.payload?.defaultBreak || ''),
+        (state.breakApplyRule = action.payload?.defaultBreakRule || '')
+    })
+  },
 })
 
 //SELECTOR
@@ -46,5 +62,6 @@ export const selectBreakApplyRule = (state: RootState) => state.settings.breakAp
 
 //ACTIONS
 export const { setDarkMode, navigateBack, navigateTo, setBreak, setBreakApplyRule, setDefaultProject } = settingsSlice.actions
+export { getSettings }
 
 export default settingsSlice.reducer

@@ -14,7 +14,6 @@ const getProjects = createAsyncThunk<Project[], undefined, { state: RootState; e
   async (_, { getState, extra }) => {
     const { auth } = getState()
     if (!auth?.uid) return []
-
     return await extra.project.getAll(auth.uid)
   }
 )

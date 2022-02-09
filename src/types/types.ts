@@ -37,5 +37,12 @@ export interface Task extends Form {
   color: string
 }
 
+export interface Settings {
+  darkMode: boolean
+  defaultProjectId?: string
+  defaultBreak?: string
+  defaultBreakRule?: string
+}
+
 export type Page = 'time-tracker' | 'overview' | 'settings'
 export type SettingPage = 'settings' | 'projects' | 'customer' | 'tasks'
