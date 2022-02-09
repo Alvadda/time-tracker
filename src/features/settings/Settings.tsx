@@ -1,12 +1,22 @@
 import { KeyboardArrowRightOutlined } from '@mui/icons-material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { InputAdornment, List, ListItem, ListItemButton, Paper, Stack, Switch, TextField } from '@mui/material'
+import { InputAdornment, List, ListItem, ListItemButton, MenuItem, Paper, Select, Stack, Switch, TextField } from '@mui/material'
 import { VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
 import { SettingPage } from '../../types/types'
+import { selectProjects } from '../projects/projectsSlice'
 import Label from './components/Label'
-import { selectBreak, selectBreakApplyRule, selectDarkMode, setBreak, setBreakApplyRule, setDarkMode } from './settingsSlice'
+import {
+  selectBreak,
+  selectBreakApplyRule,
+  selectDarkMode,
+  selectDefaultProject,
+  setBreak,
+  setBreakApplyRule,
+  setDarkMode,
+  setDefaultProject,
+} from './settingsSlice'
 interface SettingsProps {
   onNavigation: (to: SettingPage) => void
 }
@@ -16,8 +26,14 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const { logout } = useFirebaseLogin()
 
   const darkMode = useSelector(selectDarkMode)
+  const defaultProject = useSelector(selectDefaultProject)
   const defaultBreak = useSelector(selectBreak)
   const defaultBreakApplyRule = useSelector(selectBreakApplyRule)
+  const projects = useSelector(selectProjects)
+
+  const getProjectToId = (id: string) => {
+    return projects.find((project) => project.id === id)
+  }
 
   return (
     <Stack spacing={2} padding={2}>
@@ -50,6 +66,20 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem>
+            <Label label="Default Project">
+              <Select
+                value={defaultProject?.id || ''}
+                onChange={(event) => dispatch(setDefaultProject(getProjectToId(event.target.value)))}
+              >
+                {projects.map((project) => (
+                  <MenuItem key={project.id} value={project.id}>
+                    {project.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Label>
+          </ListItem>
+          <ListItem>
             <Label label="Default break">
               <TextField
                 sx={{ maxWidth: '20%' }}
@@ -64,7 +94,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
             </Label>
           </ListItem>
           <ListItem>
-            <Label label="Apply rule">
+            <Label label="Default break apply rule">
               <TextField
                 sx={{ maxWidth: '20%' }}
                 variant="standard"

@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../store/store'
-import { SettingPage } from '../../types/types'
+import { Project, SettingPage } from '../../types/types'
 
 export interface SettingsState {
   page: SettingPage
   darkMode: boolean
+  defaultProject?: Project
   break: string
   breakApplyRule: string
 }
@@ -17,6 +18,9 @@ export const settingsSlice = createSlice({
   reducers: {
     setDarkMode: (state, action: PayloadAction<boolean>) => {
       state.darkMode = action.payload
+    },
+    setDefaultProject: (state, action: PayloadAction<Project | undefined>) => {
+      state.defaultProject = action.payload
     },
     setBreak: (state, action: PayloadAction<string>) => {
       state.break = action.payload
@@ -36,10 +40,11 @@ export const settingsSlice = createSlice({
 //SELECTOR
 export const selectSettingPage = (state: RootState) => state.settings.page
 export const selectDarkMode = (state: RootState) => state.settings.darkMode
+export const selectDefaultProject = (state: RootState) => state.settings.defaultProject
 export const selectBreak = (state: RootState) => state.settings.break
 export const selectBreakApplyRule = (state: RootState) => state.settings.breakApplyRule
 
 //ACTIONS
-export const { setDarkMode, navigateBack, navigateTo, setBreak, setBreakApplyRule } = settingsSlice.actions
+export const { setDarkMode, navigateBack, navigateTo, setBreak, setBreakApplyRule, setDefaultProject } = settingsSlice.actions
 
 export default settingsSlice.reducer
