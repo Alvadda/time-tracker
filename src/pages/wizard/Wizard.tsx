@@ -25,6 +25,19 @@ const Wizard = () => {
     dispatch(getSettings())
   })
 
+  useEffectOnce(() => {
+    const handleVisibilitychange = () => {
+      if (document.visibilityState === 'visible') {
+        dispatch(navigateTo('time-tracker'))
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibilitychange)
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilitychange)
+    }
+  })
+
   return (
     <Grid container direction={'column'} sx={{ height: '100vh', width: '100vw' }} justifyContent={'center'}>
       <Grid item sx={{ flex: '1 0', height: 'calc(100vh - 60px)' }}>
