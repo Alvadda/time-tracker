@@ -6,6 +6,7 @@ import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Project, Session } from '../../types/types'
 import { calcActiveSessionDuration, calcSessionDuration, nowMiliseconds } from '../../utils/timeUtil'
+import { selectDefaultProjectId } from '../settings/settingsSlice'
 import { createSession, selectActivSession, updateSession } from './sessionsSlice'
 
 const DEFAULT_DURATION = '0:00'
@@ -33,6 +34,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
   const [trackDisabled, setTrackDisabled] = useState<boolean>(false)
 
   const activeSession = useSelector(selectActivSession)
+  const defaultProject = useSelector(selectDefaultProjectId)
 
   useEffect(() => {
     let intervalId: NodeJS.Timer
@@ -68,8 +70,10 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
   useEffect(() => {
     if (activeSession) {
       setProjectId(activeSession.projectId || '')
+    } else {
+      setProjectId(defaultProject)
     }
-  }, [activeSession])
+  }, [activeSession, defaultProject])
 
   const endSession = (activeSession: Session) => {
     const endingSession = { ...activeSession }
