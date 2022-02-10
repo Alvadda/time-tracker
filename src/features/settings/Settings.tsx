@@ -1,21 +1,22 @@
 import { KeyboardArrowRightOutlined } from '@mui/icons-material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { InputAdornment, List, ListItem, ListItemButton, MenuItem, Paper, Select, Stack, Switch, TextField } from '@mui/material'
-import { VFC } from 'react'
+import { useEffect, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
 import { SettingPage } from '../../types/types'
 import { selectProjects } from '../projects/projectsSlice'
 import Label from './components/Label'
 import {
-  selectBreak,
-  selectBreakApplyRule,
   selectDarkMode,
-  selectDefaultProject,
+  selectDefaultBreak,
+  selectDefaultBreakRule,
+  selectDefaultProjectId,
   setBreak,
   setBreakApplyRule,
   setDarkMode,
-  setDefaultProject,
+  setDefaultProjectId,
+  updateSettings,
 } from './settingsSlice'
 interface SettingsProps {
   onNavigation: (to: SettingPage) => void
@@ -26,14 +27,16 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const { logout } = useFirebaseLogin()
 
   const darkMode = useSelector(selectDarkMode)
-  const defaultProject = useSelector(selectDefaultProject)
-  const defaultBreak = useSelector(selectBreak)
-  const defaultBreakApplyRule = useSelector(selectBreakApplyRule)
+  const defaultProjectId = useSelector(selectDefaultProjectId)
+  const defaultBreak = useSelector(selectDefaultBreak)
+  const defaultBreakApplyRule = useSelector(selectDefaultBreakRule)
   const projects = useSelector(selectProjects)
 
-  const getProjectToId = (id: string) => {
-    return projects.find((project) => project.id === id)
-  }
+  useEffect(() => {
+    return () => {
+      dispatch(updateSettings())
+    }
+  }, [dispatch])
 
   return (
     <Stack spacing={2} padding={2}>
@@ -67,10 +70,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
         <List>
           <ListItem>
             <Label label="Default Project">
-              <Select
-                value={defaultProject?.id || ''}
-                onChange={(event) => dispatch(setDefaultProject(getProjectToId(event.target.value)))}
-              >
+              <Select value={defaultProjectId} onChange={(event) => dispatch(setDefaultProjectId(event.target.value))}>
                 {projects.map((project) => (
                   <MenuItem key={project.id} value={project.id}>
                     {project.name}

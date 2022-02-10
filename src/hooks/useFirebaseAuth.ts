@@ -26,6 +26,7 @@ export const useFirebaseAuth = () => {
             await setDoc(doc(db, 'users', user?.uid), {
               name: user.displayName,
               email: user.email,
+              settings: { darkMode: true, defaultProjectId: '', defaultBreak: '0', defaultBreakRule: '0' },
             })
           } catch (error) {
             console.log('error', error)

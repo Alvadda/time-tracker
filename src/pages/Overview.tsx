@@ -9,10 +9,10 @@ import { selectProjects } from '../features/projects/projectsSlice'
 import { selectInactiveSessionsFromTo } from '../features/sessions/sessionsSlice'
 import { calcEarningFromMin, timeInMiliseconds } from '../utils/timeUtil'
 
-const defaultFromDate = moment().subtract(20, 'd').startOf('day')
-const defaultToDate = moment().endOf('day')
-
 const Overview = () => {
+  const defaultFromDate = moment().subtract(7, 'd').startOf('day')
+  const defaultToDate = moment().endOf('day')
+
   const [fromDate, setFromDate] = useState<Moment>(defaultFromDate)
   const [toDate, setToDate] = useState<Moment>(defaultToDate)
   const [selectedProject, setSelectedProject] = useState<string | undefined>()

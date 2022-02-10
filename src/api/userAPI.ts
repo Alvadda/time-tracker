@@ -1,7 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { doc, Firestore, getDoc, updateDoc } from 'firebase/firestore'
-import { Settings } from '../types/types'
+import { AppSettings } from '../types/types'
+
+const mapSettings = (doc: any): AppSettings => {
+  return {
+    darkMode: doc.darkMode,
+    defaultProjectId: doc.defaultProjectId || '',
+    defaultBreak: doc.defaultBreak || '0',
+    defaultBreakRule: doc.defaultBreakRule || '0',
+  }
+}
 
 const userPath = 'users'
 
@@ -11,11 +20,11 @@ const userAPI = (db: Firestore) => {
     const docSnap = await getDoc(userRef)
 
     if (docSnap.exists()) {
-      return docSnap.data().settings as unknown as Settings
+      return mapSettings(docSnap.data().settings)
     }
   }
 
-  const updateSettings = async (userId: string, settings: Settings) => {
+  const updateSettings = async (userId: string, settings: AppSettings) => {
     try {
       const userRef = doc(db, userPath, userId)
       await updateDoc(userRef, {

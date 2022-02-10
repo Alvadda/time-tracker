@@ -1,23 +1,34 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Extra, RootState } from '../../store/store'
-import { Project, SettingPage, Settings } from '../../types/types'
+import { AppSettings, SettingPage } from '../../types/types'
 
 export interface SettingsState {
   page: SettingPage
-  darkMode: boolean
-  defaultProject?: Project
-  break: string
-  breakApplyRule: string
+  appSettings: AppSettings
 }
 
-const initialState: SettingsState = { darkMode: true, page: 'settings', break: '0', breakApplyRule: '0' }
+const initialState: SettingsState = {
+  page: 'settings',
+  appSettings: { darkMode: true, defaultProjectId: '', defaultBreak: '0', defaultBreakRule: '0' },
+}
 
-const getSettings = createAsyncThunk<Settings | undefined, undefined, { state: RootState; extra: Extra }>(
+const getSettings = createAsyncThunk<AppSettings | undefined, undefined, { state: RootState; extra: Extra }>(
   'settings/get',
   async (_, { getState, extra }) => {
     const { auth } = getState()
     if (!auth?.uid) return undefined
+
     return await extra.user.get(auth.uid)
+  }
+)
+
+const updateSettings = createAsyncThunk<AppSettings, undefined, { state: RootState; extra: Extra }>(
+  'settings/update',
+  async (_, { getState, extra }) => {
+    const { auth, settings } = getState()
+    if (!auth?.uid) throw new Error('User needs to be logged in')
+
+    return await extra.user.updateSettings(auth.uid, settings.appSettings)
   }
 )
 
@@ -26,16 +37,16 @@ export const settingsSlice = createSlice({
   initialState,
   reducers: {
     setDarkMode: (state, action: PayloadAction<boolean>) => {
-      state.darkMode = action.payload
+      state.appSettings.darkMode = action.payload
     },
-    setDefaultProject: (state, action: PayloadAction<Project | undefined>) => {
-      state.defaultProject = action.payload
+    setDefaultProjectId: (state, action: PayloadAction<string>) => {
+      state.appSettings.defaultProjectId = action.payload
     },
     setBreak: (state, action: PayloadAction<string>) => {
-      state.break = action.payload
+      state.appSettings.defaultBreak = action.payload
     },
     setBreakApplyRule: (state, action: PayloadAction<string>) => {
-      state.breakApplyRule = action.payload
+      state.appSettings.defaultBreakRule = action.payload
     },
     navigateTo: (state, action: PayloadAction<SettingPage>) => {
       state.page = action.payload
@@ -46,22 +57,25 @@ export const settingsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getSettings.fulfilled, (state, action) => {
-      ;(state.darkMode = Boolean(action.payload?.darkMode)),
-        (state.break = action.payload?.defaultBreak || ''),
-        (state.breakApplyRule = action.payload?.defaultBreakRule || '')
+      if (action.payload) {
+        state.appSettings = action.payload
+      }
+    })
+    builder.addCase(updateSettings.fulfilled, (state, action) => {
+      state.appSettings = action.payload
     })
   },
 })
 
 //SELECTOR
 export const selectSettingPage = (state: RootState) => state.settings.page
-export const selectDarkMode = (state: RootState) => state.settings.darkMode
-export const selectDefaultProject = (state: RootState) => state.settings.defaultProject
-export const selectBreak = (state: RootState) => state.settings.break
-export const selectBreakApplyRule = (state: RootState) => state.settings.breakApplyRule
+export const selectDarkMode = (state: RootState) => state.settings.appSettings.darkMode
+export const selectDefaultProjectId = (state: RootState) => state.settings.appSettings.defaultProjectId
+export const selectDefaultBreak = (state: RootState) => state.settings.appSettings.defaultBreak
+export const selectDefaultBreakRule = (state: RootState) => state.settings.appSettings.defaultBreakRule
 
 //ACTIONS
-export const { setDarkMode, navigateBack, navigateTo, setBreak, setBreakApplyRule, setDefaultProject } = settingsSlice.actions
-export { getSettings }
+export const { setDarkMode, navigateBack, navigateTo, setBreak, setBreakApplyRule, setDefaultProjectId } = settingsSlice.actions
+export { getSettings, updateSettings }
 
 export default settingsSlice.reducer

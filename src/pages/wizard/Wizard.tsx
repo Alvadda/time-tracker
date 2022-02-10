@@ -5,6 +5,7 @@ import { BottomNavigation, BottomNavigationAction, Grid } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCustomers } from '../../features/customer/customersSlice'
 import { getProjects } from '../../features/projects/projectsSlice'
+import { getSettings } from '../../features/settings/settingsSlice'
 import { getTasks } from '../../features/task/taskSlice'
 import { useEffectOnce } from '../../hooks/useEffectOnce'
 import { Page } from '../../types/types'
@@ -21,6 +22,7 @@ const Wizard = () => {
     dispatch(getProjects())
     dispatch(getCustomers())
     dispatch(getTasks())
+    dispatch(getSettings())
   })
 
   return (

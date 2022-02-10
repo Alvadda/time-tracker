@@ -37,9 +37,9 @@ export interface Task extends Form {
   color: string
 }
 
-export interface Settings {
+export interface AppSettings {
   darkMode: boolean
-  defaultProjectId?: string
+  defaultProjectId: string
   defaultBreak?: string
   defaultBreakRule?: string
 }
