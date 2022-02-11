@@ -3,12 +3,20 @@
 import { doc, Firestore, getDoc, updateDoc } from 'firebase/firestore'
 import { AppSettings } from '../types/types'
 
-const mapSettings = (doc: any): AppSettings => {
+const mapSettings = (settings: any): AppSettings => {
+  if (!settings)
+    return {
+      darkMode: true,
+      defaultProjectId: '',
+      defaultBreak: '0',
+      defaultBreakRule: '0',
+    }
+
   return {
-    darkMode: doc.darkMode,
-    defaultProjectId: doc.defaultProjectId || '',
-    defaultBreak: doc.defaultBreak || '0',
-    defaultBreakRule: doc.defaultBreakRule || '0',
+    darkMode: settings.darkMode ?? true,
+    defaultProjectId: settings.defaultProjectId || '',
+    defaultBreak: settings.defaultBreak || '0',
+    defaultBreakRule: settings.defaultBreakRule || '0',
   }
 }
 
