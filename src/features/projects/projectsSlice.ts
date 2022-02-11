@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Project } from '../../types/types'
+import { calcEarningFromMin } from '../../utils/timeUtil'
+import { selectInactiveSessionsFromTo } from '../sessions/sessionsSlice'
 import { Extra, RootState } from './../../store/store'
 
 export interface ProjectsState {
@@ -80,10 +82,23 @@ export const projectsSlice = createSlice({
 // SELECTOR
 export const selectProjects = (state: RootState) => state.projects.projects
 export const selectSelectedProject = (state: RootState) => state.projects.selectedProject
-export const selectProjectColor = createSelector(
-  selectProjects,
-  (projects) => (projectid: string) => projects.filter((project) => project.id === projectid)
-)
+export const selectProjectsInRage = (from: number, to: number) => {
+  return createSelector(selectInactiveSessionsFromTo(from, to), selectProjects, (sessions, projects) =>
+    projects.map((project) => {
+      const sessionsToProject = sessions.filter((session) => session.projectId === project.id)
+
+      const earning = sessionsToProject.reduce((sum, session) => {
+        return sum + calcEarningFromMin(session.duration, project.rate)
+      }, 0)
+
+      const minutes = sessionsToProject.reduce((sum, session) => {
+        return sum + (session.duration || 0)
+      }, 0)
+
+      return { ...project, earning, minutes, sessions: sessionsToProject }
+    })
+  )
+}
 
 //ACTIONS
 export const { addProject, setSelectedProject } = projectsSlice.actions

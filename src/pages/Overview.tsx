@@ -5,9 +5,8 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ProjectOverview from '../features/overview/ProjectOverview'
 import ProjectStats from '../features/overview/projectStats'
-import { selectProjects } from '../features/projects/projectsSlice'
-import { selectInactiveSessionsFromTo } from '../features/sessions/sessionsSlice'
-import { calcEarningFromMin, timeInMiliseconds } from '../utils/timeUtil'
+import { selectProjectsInRage } from '../features/projects/projectsSlice'
+import { timeInMiliseconds } from '../utils/timeUtil'
 
 const Overview = () => {
   const defaultFromDate = moment().subtract(7, 'd').startOf('day')
@@ -20,26 +19,9 @@ const Overview = () => {
   const fromInMS = timeInMiliseconds(fromDate)
   const toInMS = timeInMiliseconds(toDate)
 
-  const sessionInRage = useSelector(selectInactiveSessionsFromTo(fromInMS, toInMS))
-  const projects = useSelector(selectProjects)
+  const projectWithStats = useSelector(selectProjectsInRage(fromInMS, toInMS))
 
-  const projectWithStats = projects.map((project) => {
-    const sessionsToProject = sessionInRage.filter((session) => session.projectId === project.id)
-
-    const earning = sessionsToProject.reduce((sum, session) => {
-      return sum + calcEarningFromMin(session.duration, project.rate)
-    }, 0)
-
-    const minutes = sessionsToProject.reduce((sum, session) => {
-      return sum + (session.duration || 0)
-    }, 0)
-
-    return { ...project, earning, minutes, sessions: sessionsToProject }
-  })
-
-  const projectWithStatsAndSession = projectWithStats.filter((project) =>
-    Boolean(sessionInRage.find((session) => session.projectId === project.id))
-  )
+  const projectWithStatsAndSession = projectWithStats.filter((project) => project.sessions.length > 0)
 
   const { totalEarning, totalMinutes } = projectWithStats.reduce(
     (sum, project) => {
@@ -93,7 +75,7 @@ const Overview = () => {
           {projectWithStatsAndSession.map((project) => (
             <ListItem disablePadding key={project.id}>
               <ListItemButton onClick={() => setSelectedProject(project.id)}>
-                <ProjectStats header={project.name} headerColor={project.color} time={project.minutes} earning={project.rate || 0} />
+                <ProjectStats header={project.name} headerColor={project.color} time={project.minutes} earning={project.earning || 0} />
               </ListItemButton>
             </ListItem>
           ))}
