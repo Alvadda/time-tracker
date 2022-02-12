@@ -2,16 +2,15 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Divider, List, ListItem, ListItemText } from '@mui/material'
 import moment from 'moment'
 import React, { VFC } from 'react'
-import { Project, Session } from '../../types/types'
+import { ProjectStats } from '../../types/types'
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
 
 interface ProjectOverviewProps {
-  project: Project
-  sessions: Session[]
+  projectStats: ProjectStats
   onClose: () => void
 }
 
-const ProjectOverview: VFC<ProjectOverviewProps> = ({ project, sessions, onClose }) => {
+const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) => {
   return (
     <Box
       sx={{
@@ -30,10 +29,10 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ project, sessions, onClose
         <Button variant="text" sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }} onClick={() => onClose()}>
           <CloseIcon fontSize="medium" />
         </Button>
-        {project.name}
+        {projectStats.project.name}
       </Box>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-        {sessions.map((session) => (
+        {projectStats.sessions.map((session) => (
           <React.Fragment key={session.id}>
             <ListItem>
               <ListItemText
@@ -41,7 +40,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ project, sessions, onClose
                 secondary={`${moment(session.start).format('hh:mm')} - ${moment(session.end).format('hh:mm')}`}
               />
               <ListItemText
-                primary={`${calcEarningFromMin(session.duration, project.rate).toFixed(2)} €`}
+                primary={`${calcEarningFromMin(session.duration, projectStats.project.rate).toFixed(2)} €`}
                 secondary={formatMinToHourMin(session.duration)}
               />
             </ListItem>

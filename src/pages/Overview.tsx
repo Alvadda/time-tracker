@@ -1,39 +1,38 @@
 import { DatePicker } from '@mui/lab'
 import { Box, Divider, Grid, List, ListItem, ListItemButton, TextField } from '@mui/material'
 import moment, { Moment } from 'moment'
-import { useState } from 'react'
+import { useState, VFC } from 'react'
 import { useSelector } from 'react-redux'
 import ProjectOverview from '../features/overview/ProjectOverview'
-import ProjectStats from '../features/overview/projectStats'
+import ProjectStatsOverview from '../features/overview/ProjectStatsOverview'
 import { selectProjectsInRage } from '../features/projects/projectsSlice'
+import { ProjectStats } from '../types/types'
 import { timeInMiliseconds } from '../utils/timeUtil'
 
-const Overview = () => {
+const Overview: VFC = ({}) => {
   const defaultFromDate = moment().subtract(7, 'd').startOf('day')
   const defaultToDate = moment().endOf('day')
 
   const [fromDate, setFromDate] = useState<Moment>(defaultFromDate)
   const [toDate, setToDate] = useState<Moment>(defaultToDate)
-  const [selectedProject, setSelectedProject] = useState<string | undefined>()
+  const [selectedProjectStats, setSelectedProjectStats] = useState<ProjectStats | undefined>()
 
   const fromInMS = timeInMiliseconds(fromDate)
   const toInMS = timeInMiliseconds(toDate)
 
-  const projectWithStats = useSelector(selectProjectsInRage(fromInMS, toInMS))
+  const projectStats = useSelector(selectProjectsInRage(fromInMS, toInMS))
 
-  const projectWithStatsAndSession = projectWithStats.filter((project) => project.sessions.length > 0)
+  const projectStatsWithSession = projectStats.filter((project) => project.sessions.length > 0)
 
-  const { totalEarning, totalMinutes } = projectWithStats.reduce(
-    (sum, project) => {
+  const { totalEarning, totalMinutes } = projectStats.reduce(
+    (sum, projectStats) => {
       return {
-        totalEarning: sum.totalEarning + project.earning,
-        totalMinutes: sum.totalMinutes + project.minutes,
+        totalEarning: sum.totalEarning + projectStats.totalEarning,
+        totalMinutes: sum.totalMinutes + projectStats.totalMinutesWorked,
       }
     },
     { totalEarning: 0, totalMinutes: 0 }
   )
-
-  const selectedStats = projectWithStatsAndSession.find((project) => project.id === selectedProject)
 
   return (
     <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
@@ -66,24 +65,27 @@ const Overview = () => {
         </Box>
 
         <Box padding={2} width={'100%'}>
-          <ProjectStats header="Total" time={totalMinutes} earning={totalEarning} />
+          <ProjectStatsOverview header="Total" time={totalMinutes} earning={totalEarning} />
         </Box>
         <Divider />
       </Grid>
       <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto', position: 'relative' }}>
         <List>
-          {projectWithStatsAndSession.map((project) => (
-            <ListItem disablePadding key={project.id}>
-              <ListItemButton onClick={() => setSelectedProject(project.id)}>
-                <ProjectStats header={project.name} headerColor={project.color} time={project.minutes} earning={project.earning || 0} />
+          {projectStatsWithSession.map((projectStats) => (
+            <ListItem disablePadding key={projectStats.project.id}>
+              <ListItemButton onClick={() => setSelectedProjectStats(projectStats)}>
+                <ProjectStatsOverview
+                  header={projectStats.project.name}
+                  headerColor={projectStats.project.color}
+                  time={projectStats.totalMinutesWorked}
+                  earning={projectStats.totalEarning}
+                />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Grid>
-      {selectedProject && (
-        <ProjectOverview onClose={() => setSelectedProject(undefined)} project={selectedStats} sessions={selectedStats?.sessions || []} />
-      )}
+      {selectedProjectStats && <ProjectOverview onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />}
     </Grid>
   )
 }

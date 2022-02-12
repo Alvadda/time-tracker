@@ -2,14 +2,14 @@ import { Box, Card, CardContent, Typography } from '@mui/material'
 import { VFC } from 'react'
 import { formatMinToHourMin } from '../../utils/timeUtil'
 
-interface ProjectStatsProps {
+interface ProjectStatsOverviewProps {
   header: string
   headerColor?: string
   time: number
   earning: number
 }
 
-const ProjectStats: VFC<ProjectStatsProps> = ({ header, time, earning, headerColor = 'text.secondary' }) => {
+const ProjectStatsOverview: VFC<ProjectStatsOverviewProps> = ({ header, time, earning, headerColor = 'text.secondary' }) => {
   return (
     <Card sx={{ width: '100%' }}>
       <CardContent>
@@ -39,4 +39,4 @@ const ProjectStats: VFC<ProjectStatsProps> = ({ header, time, earning, headerCol
   )
 }
 
-export default ProjectStats
+export default ProjectStatsOverview

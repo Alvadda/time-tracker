@@ -22,6 +22,12 @@ export interface Session {
   taskIds?: string[]
 }
 
+export interface ProjectStats {
+  project: Project
+  sessions: Session[]
+  totalEarning: number
+  totalMinutesWorked: number
+}
 export interface Customer extends Form {
   contact?: string
   email?: string
