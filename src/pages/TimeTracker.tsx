@@ -16,7 +16,7 @@ import {
 } from '../features/sessions/sessionsSlice'
 import { useSessionsListener } from '../features/sessions/useSessionsListener'
 import { selectTasks } from '../features/task/taskSlice'
-import { Session } from '../types/types'
+import { Session } from '../types'
 
 const TimeTracker = () => {
   useSessionsListener()

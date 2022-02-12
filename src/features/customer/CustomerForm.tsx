@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import FormBox from '../../components/FormBox'
-import { Customer } from '../../types/types'
+import { Customer } from '../../types'
 
 interface CustomerFormProps {
   variant?: 'create' | 'update'

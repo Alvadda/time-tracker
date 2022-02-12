@@ -8,7 +8,8 @@ import { getProjects } from '../../features/projects/projectsSlice'
 import { getSettings } from '../../features/settings/settingsSlice'
 import { getTasks } from '../../features/task/taskSlice'
 import { useEffectOnce } from '../../hooks/useEffectOnce'
-import { Page } from '../../types/types'
+import { Page } from '../../types'
+import { NAV_BAR_HEIGHT } from '../../utils/constants '
 import Overview from '../Overview'
 import SettingsPage from '../SettingsPage'
 import TimeTracker from '../TimeTracker'
@@ -40,12 +41,12 @@ const Wizard = () => {
 
   return (
     <Grid container direction={'column'} sx={{ height: '100vh', width: '100vw' }} justifyContent={'center'}>
-      <Grid item sx={{ flex: '1 0', height: 'calc(100vh - 60px)' }}>
+      <Grid item sx={{ flex: '1 0', height: `calc(100vh - ${NAV_BAR_HEIGHT}px)` }}>
         {currentPage === 'time-tracker' && <TimeTracker />}
         {currentPage === 'overview' && <Overview />}
         {currentPage === 'settings' && <SettingsPage />}
       </Grid>
-      <Grid item sx={{ flex: '0 0 60px' }}>
+      <Grid item sx={{ flex: `0 0 ${NAV_BAR_HEIGHT}px` }}>
         <BottomNavigation
           value={currentPage}
           onChange={(_, newPage: Page) => {

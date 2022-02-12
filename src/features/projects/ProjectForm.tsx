@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/mater
 import { useEffect, useState, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import FormBox from '../../components/FormBox'
-import { Customer, Project } from '../../types/types'
+import { Customer, Project } from '../../types'
 
 interface ProjectFormProps {
   variant?: 'create' | 'update'

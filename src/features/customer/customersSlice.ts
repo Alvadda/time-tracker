@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Extra, RootState } from '../../store/store'
-import { Customer } from '../../types/types'
+import { Customer } from '../../types'
 
 export interface CustomersState {
   customers: Customer[]

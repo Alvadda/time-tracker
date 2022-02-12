@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Extra, RootState } from '../../store/store'
-import { Session } from './../../types/types'
+import { Session } from '../../types'
 
 export interface SessionsState {
   sessions: Session[]

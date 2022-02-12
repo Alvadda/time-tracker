@@ -1,4 +1,4 @@
-import { Task } from '../../types/types'
+import { Task } from '../../types'
 import taskReducer, { addTask, setSelectedTask } from './taskSlice'
 
 describe('feature/sessions', () => {

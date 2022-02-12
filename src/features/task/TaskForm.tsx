@@ -4,7 +4,7 @@ import { Checkbox, TextField } from '@mui/material'
 import { useEffect, useState, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import FormBox from '../../components/FormBox'
-import { Task } from '../../types/types'
+import { Task } from '../../types'
 
 interface TaskFormProps {
   task?: Task

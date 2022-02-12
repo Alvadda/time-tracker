@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemButton } from '@mui/material'
 import moment from 'moment'
 import React, { VFC } from 'react'
-import { Project, Session } from '../../types/types'
+import { Project, Session } from '../../types'
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
 import SessionItem from './components/SessionItem'
 

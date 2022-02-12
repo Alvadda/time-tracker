@@ -1,4 +1,4 @@
-import { Session } from '../../types/types'
+import { Session } from '../../types'
 import sessionsReducer, { updateSessions } from './sessionsSlice'
 
 describe('feature/sessions', () => {

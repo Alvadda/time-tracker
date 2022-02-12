@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Project, ProjectStats } from '../../types/types'
+import { Project, ProjectStats } from '../../types'
 import { calcEarningFromMin } from '../../utils/timeUtil'
 import { selectInactiveSessionsFromTo } from '../sessions/sessionsSlice'
 import { Extra, RootState } from './../../store/store'

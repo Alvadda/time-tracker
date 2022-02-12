@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, updateDoc } from 'firebase/firestore'
-import { Customer } from '../types/types'
+import { Customer } from '../types'
 import { setValueFromFb, setValueToFb } from './apiUtils'
 
 const customerPath = (userId: string) => `users/${userId}/customers`

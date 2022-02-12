@@ -8,7 +8,7 @@ import Settings from '../features/settings/Settings'
 import { navigateBack, navigateTo, selectSettingPage } from '../features/settings/settingsSlice'
 import TaskManager from '../features/task/TaskManager'
 import { useEffectOnce } from '../hooks/useEffectOnce'
-import { SettingPage } from '../types/types'
+import { SettingPage } from '../types'
 
 const SettingsPage: VFC = () => {
   const dispatch = useDispatch()

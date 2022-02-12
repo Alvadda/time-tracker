@@ -3,7 +3,7 @@ import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Se
 import moment, { Moment } from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import FormBox from '../../components/FormBox'
-import { Project, Session, Task } from '../../types/types'
+import { Project, Session, Task } from '../../types'
 import { calcSessionDuration, timeInMiliseconds } from '../../utils/timeUtil'
 
 interface SessionFormProps {

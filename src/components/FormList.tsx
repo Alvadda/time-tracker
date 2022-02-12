@@ -2,7 +2,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import StarIcon from '@mui/icons-material/Star'
 import { Box, List, ListItem, ListItemButton, Paper } from '@mui/material'
 import Label from '../features/settings/components/Label'
-import { Form } from '../types/types'
+import { Form } from '../types'
 
 interface FormListProps<T> {
   form: T[]

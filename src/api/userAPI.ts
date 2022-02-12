@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { doc, Firestore, getDoc, updateDoc } from 'firebase/firestore'
-import { AppSettings } from '../types/types'
+import { AppSettings } from '../types'
 
 const mapSettings = (settings: any): AppSettings => {
   if (!settings)

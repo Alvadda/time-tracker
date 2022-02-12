@@ -2,7 +2,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Divider, List, ListItem, ListItemText } from '@mui/material'
 import moment from 'moment'
 import React, { VFC } from 'react'
-import { ProjectStats } from '../../types/types'
+import { ProjectStats } from '../../types'
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
 
 interface ProjectOverviewProps {

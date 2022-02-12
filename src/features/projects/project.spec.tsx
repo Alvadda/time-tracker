@@ -1,4 +1,4 @@
-import { Project } from '../../types/types'
+import { Project } from '../../types'
 import projectReducer, { addProject } from './projectsSlice'
 
 describe('feature/project', () => {

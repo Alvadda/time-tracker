@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setValueFromFb } from '../../api/apiUtils'
 import { sessionPath } from '../../api/sessionAPI'
 import { useFirebaseContext } from '../../firebase/FirebaseContext'
-import { Session } from '../../types/types'
+import { Session } from '../../types'
 import { selectUserId } from '../auth/authSlice'
 import { updateSessions } from './sessionsSlice'
 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../store/store'
-import { Page } from '../../types/types'
+import { Page } from '../../types'
 
 export interface WizardState {
   currentPage: Page

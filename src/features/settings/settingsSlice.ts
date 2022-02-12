@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Extra, RootState } from '../../store/store'
-import { AppSettings, SettingPage } from '../../types/types'
+import { AppSettings, SettingPage } from '../../types'
 
 export interface SettingsState {
   page: SettingPage

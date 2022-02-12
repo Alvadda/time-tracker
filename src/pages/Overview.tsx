@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import ProjectOverview from '../features/overview/ProjectOverview'
 import ProjectStatsOverview from '../features/overview/ProjectStatsOverview'
 import { selectProjectsInRage } from '../features/projects/projectsSlice'
-import { ProjectStats } from '../types/types'
+import { ProjectStats } from '../types'
 import { timeInMiliseconds } from '../utils/timeUtil'
 
 const Overview: VFC = ({}) => {

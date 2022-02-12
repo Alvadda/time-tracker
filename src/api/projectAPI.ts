@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, updateDoc } from 'firebase/firestore'
-import { Project } from '../types/types'
+import { Project } from '../types'
 import { setValueFromFb, setValueToFb } from './apiUtils'
 
 const ProjectsPath = (userId: string) => `users/${userId}/projects`

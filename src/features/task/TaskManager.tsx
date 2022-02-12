@@ -3,7 +3,7 @@ import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AddButton from '../../components/AddButton'
 import FormList from '../../components/FormList'
-import { Task } from '../../types/types'
+import { Task } from '../../types'
 import TaskForm from './TaskForm'
 import { createTask, deleteTask, selectSelectedTask, selectTasks, setSelectedTask, updateTask } from './taskSlice'
 

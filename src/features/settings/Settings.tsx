@@ -4,7 +4,7 @@ import { InputAdornment, List, ListItem, ListItemButton, MenuItem, Paper, Select
 import { useEffect, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
-import { SettingPage } from '../../types/types'
+import { SettingPage } from '../../types'
 import { selectProjects } from '../projects/projectsSlice'
 import Label from './components/Label'
 import {

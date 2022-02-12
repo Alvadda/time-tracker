@@ -4,7 +4,7 @@ import { Button, Chip, FormControl, Grid, InputLabel, MenuItem, Select, Typograp
 import moment from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Project, Session } from '../../types/types'
+import { Project, Session } from '../../types'
 import { calcActiveSessionDuration, calcSessionDuration, nowMiliseconds } from '../../utils/timeUtil'
 import { selectDefaultProjectId } from '../settings/settingsSlice'
 import { createSession, selectActivSession, updateSession } from './sessionsSlice'

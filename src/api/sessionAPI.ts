@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, query, updateDoc, where } from 'firebase/firestore'
-import { Session } from '../types/types'
+import { Session } from '../types'
 import { setValueFromFb, setValueToFb } from './apiUtils'
 
 export const sessionPath = (userId: string) => `users/${userId}/session`

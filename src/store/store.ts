@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import API from '../api/api'
+import API from '../api'
 import authReducer from '../features/auth/authSlice'
 import customersReducer from '../features/customer/customersSlice'
 import projectsReducer from '../features/projects/projectsSlice'

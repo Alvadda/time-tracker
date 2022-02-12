@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, updateDoc } from 'firebase/firestore'
-import { Task } from '../types/types'
+import { Task } from '../types'
 import { setValueFromFb, setValueToFb } from './apiUtils'
 
 const taskPath = (userId: string) => `users/${userId}/tasks`
