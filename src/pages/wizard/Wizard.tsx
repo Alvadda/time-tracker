@@ -46,8 +46,9 @@ const Wizard = () => {
         {currentPage === 'overview' && <Overview />}
         {currentPage === 'settings' && <SettingsPage />}
       </Grid>
-      <Grid item sx={{ flex: `0 0 ${NAV_BAR_HEIGHT}px` }}>
+      <Grid item sx={{ flex: `0 0 ${NAV_BAR_HEIGHT}px`, display: 'flex', alignItems: 'center' }}>
         <BottomNavigation
+          sx={{ width: '100%' }}
           value={currentPage}
           onChange={(_, newPage: Page) => {
             dispatch(navigateTo(newPage))
