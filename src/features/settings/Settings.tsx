@@ -12,10 +12,12 @@ import {
   selectDefaultBreak,
   selectDefaultBreakRule,
   selectDefaultProjectId,
+  selectDefaultRate,
   setBreak,
   setBreakApplyRule,
   setDarkMode,
   setDefaultProjectId,
+  setRate,
   updateSettings,
 } from './settingsSlice'
 interface SettingsProps {
@@ -30,6 +32,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const defaultProjectId = useSelector(selectDefaultProjectId)
   const defaultBreak = useSelector(selectDefaultBreak)
   const defaultBreakApplyRule = useSelector(selectDefaultBreakRule)
+  const defaultRate = useSelector(selectDefaultRate)
   const projects = useSelector(selectProjects)
 
   useEffect(() => {
@@ -103,6 +106,20 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 onChange={(event) => dispatch(setBreakApplyRule(event.target.value))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">h</InputAdornment>,
+                }}
+              />
+            </Label>
+          </ListItem>
+          <ListItem>
+            <Label label="Default rate">
+              <TextField
+                sx={{ maxWidth: '20%' }}
+                variant="standard"
+                type="number"
+                value={defaultRate}
+                onChange={(event) => dispatch(setRate(event.target.value))}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">€</InputAdornment>,
                 }}
               />
             </Label>

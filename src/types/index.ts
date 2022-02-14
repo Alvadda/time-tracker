@@ -48,6 +48,7 @@ export interface AppSettings {
   defaultProjectId: string
   defaultBreak?: string
   defaultBreakRule?: string
+  defaultRate?: string
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'

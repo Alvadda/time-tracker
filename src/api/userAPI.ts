@@ -10,6 +10,7 @@ const mapSettings = (settings: any): AppSettings => {
       defaultProjectId: '',
       defaultBreak: '0',
       defaultBreakRule: '0',
+      defaultRate: '',
     }
 
   return {
@@ -17,6 +18,7 @@ const mapSettings = (settings: any): AppSettings => {
     defaultProjectId: settings.defaultProjectId || '',
     defaultBreak: settings.defaultBreak || '0',
     defaultBreakRule: settings.defaultBreakRule || '0',
+    defaultRate: settings.defaultRate || '',
   }
 }
 
