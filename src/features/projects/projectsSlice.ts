@@ -1,8 +1,11 @@
 import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Project, ProjectStats } from '../../types'
+import { ProjectStats } from '../../types'
 import { calcEarningFromMin } from '../../utils/timeUtil'
 import { selectInactiveSessionsFromTo } from '../sessions/sessionsSlice'
 import { Extra, RootState } from './../../store/store'
+import { Customer, Project } from './../../types/index'
+import { selectCustomers } from './../customer/customersSlice'
+import { selectDefaultRate } from './../settings/settingsSlice'
 
 export interface ProjectsState {
   projects: Project[]
@@ -79,24 +82,39 @@ export const projectsSlice = createSlice({
   },
 })
 
+// TODO auslagern oder zusammen tun, doppelt mit useRate hook
+const getRate = (project: Project, customers: Customer[], defaultRate?: string) => {
+  if (project?.rate) return Number(project.rate)
+
+  const customerRate = customers.find((customer) => customer.id === project?.customerId)?.rate
+  if (customerRate) return Number(customerRate)
+
+  return Number(defaultRate) || 0
+}
+
 // SELECTOR
 export const selectProjects = (state: RootState) => state.projects.projects
 export const selectSelectedProject = (state: RootState) => state.projects.selectedProject
 export const selectProjectsInRage = (from: number, to: number) => {
-  return createSelector(selectInactiveSessionsFromTo(from, to), selectProjects, (sessions, projects) =>
-    projects.map((project): ProjectStats => {
-      const sessionsToProject = sessions.filter((session) => session.projectId === project.id)
+  return createSelector(
+    selectInactiveSessionsFromTo(from, to),
+    selectProjects,
+    selectCustomers,
+    selectDefaultRate,
+    (sessions, projects, customers, defaultRate) =>
+      projects.map((project): ProjectStats => {
+        const sessionsToProject = sessions.filter((session) => session.projectId === project.id)
 
-      const earning = sessionsToProject.reduce((sum, session) => {
-        return sum + calcEarningFromMin(session.duration, project.rate)
-      }, 0)
+        const earning = sessionsToProject.reduce((sum, session) => {
+          return sum + calcEarningFromMin(session.duration, getRate(project, customers, defaultRate))
+        }, 0)
 
-      const minutes = sessionsToProject.reduce((sum, session) => {
-        return sum + (session.duration || 0)
-      }, 0)
+        const minutes = sessionsToProject.reduce((sum, session) => {
+          return sum + (session.duration || 0)
+        }, 0)
 
-      return { project, totalEarning: earning, totalMinutesWorked: minutes, sessions: sessionsToProject }
-    })
+        return { project, totalEarning: earning, totalMinutesWorked: minutes, sessions: sessionsToProject }
+      })
   )
 }
 

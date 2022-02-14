@@ -4,6 +4,7 @@ import React, { VFC } from 'react'
 import { Project, Session } from '../../types'
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
 import SessionItem from './components/SessionItem'
+import { useRate } from './useRate'
 
 interface SessionListProps {
   projects: Project[]
@@ -12,12 +13,9 @@ interface SessionListProps {
 }
 
 const SessionList: VFC<SessionListProps> = ({ projects, sessions, onSelect }) => {
+  const { getRate } = useRate()
   const getProjectColor = (projectId?: string) => {
     return projects.find((project) => project.id === projectId)?.color || 'none'
-  }
-
-  const getProjectRate = (projectId?: string) => {
-    return projects.find((project) => project.id === projectId)?.rate
   }
 
   const getProjectName = (projectId?: string) => {
@@ -33,7 +31,7 @@ const SessionList: VFC<SessionListProps> = ({ projects, sessions, onSelect }) =>
               project={getProjectName(session.projectId)}
               projectColor={getProjectColor(session.projectId)}
               duration={formatMinToHourMin(session.duration)}
-              erning={calcEarningFromMin(session.duration, getProjectRate(session.projectId))}
+              erning={calcEarningFromMin(session.duration, getRate(session))}
             />
           </ListItemButton>
         </ListItem>
