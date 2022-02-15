@@ -28,6 +28,7 @@ export const useSessionsListener = () => {
           end: setValueFromFb(docData.end),
           projectId: setValueFromFb(docData.projectId),
           duration: setValueFromFb(docData.duration),
+          break: setValueFromFb(docData.break),
           taskIds: docData.taskIds || [],
           note: setValueFromFb(docData.note),
         })

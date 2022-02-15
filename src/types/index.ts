@@ -17,6 +17,7 @@ export interface Session {
   start: number
   end?: number
   duration?: number
+  break?: number
   note?: string
   projectId?: string
   taskIds?: string[]

@@ -8,6 +8,7 @@ import { Project, Session } from '../../types'
 import { calcActiveSessionDuration, calcSessionDuration, nowMiliseconds } from '../../utils/timeUtil'
 import { selectDefaultProjectId } from '../settings/settingsSlice'
 import { createSession, selectActivSession, updateSession } from './sessionsSlice'
+import { useDefaultBreak } from './useDefaultBreak'
 
 const DEFAULT_DURATION = '0:00'
 interface LiveTrackerProps {
@@ -32,6 +33,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
   const [sessionDuration, setSessionDuration] = useState<string>(DEFAULT_DURATION)
   const [clock, setClock] = useState<string>(clockTick())
   const [trackDisabled, setTrackDisabled] = useState<boolean>(false)
+  const { getDefaultBreak } = useDefaultBreak()
 
   const activeSession = useSelector(selectActivSession)
   const defaultProject = useSelector(selectDefaultProjectId)
@@ -80,6 +82,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
     endingSession.end = nowMiliseconds()
     endingSession.activ = false
     endingSession.duration = calcSessionDuration(endingSession.start, endingSession.end)
+    endingSession.break = getDefaultBreak(endingSession.duration)
     endingSession.projectId = projectId
 
     dispatch(updateSession(endingSession))

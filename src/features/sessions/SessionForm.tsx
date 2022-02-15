@@ -1,5 +1,16 @@
 import { DateTimePicker } from '@mui/lab'
-import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from '@mui/material'
+import {
+  Box,
+  Chip,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material'
 import moment, { Moment } from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import FormBox from '../../components/FormBox'
@@ -33,31 +44,35 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
   const [projectId, setProjectId] = useState<string>('')
   const [taskIds, setTaskIds] = useState<string[]>([])
   const [note, setNote] = useState<string>('')
-  const isUpdate = variant === 'update'
+  const [sessionBreak, setSessionBreak] = useState<number | ''>('')
 
+  const isUpdate = variant === 'update'
   const start = timeInMiliseconds(getStartTime(startTime))
   const end = endTime ? timeInMiliseconds(endTime) : undefined
 
-  const sessionFromForm: Partial<Session> = {
-    start,
-    end,
-    duration: getDuration(start, end),
-    note,
-    projectId,
-    taskIds,
-  }
-
   useEffect(() => {
     if (session) {
-      console.log(session)
-
       setStartTime(moment(session.start))
       setEndTime(moment(session.end || moment()))
       setProjectId(session.projectId || '')
       setNote(session.note || '')
       setTaskIds(session.taskIds || [])
+      setSessionBreak(session.break || 0)
     }
   }, [session])
+
+  const sessionFromForm = (): Partial<Session> => {
+    const duration = getDuration(start, end) || 0
+    return {
+      start,
+      end,
+      duration,
+      break: sessionBreak || undefined,
+      note,
+      projectId,
+      taskIds,
+    }
+  }
 
   const getTaskNameToId = (id: string) => {
     return tasks.find((task) => task.id === id)?.name
@@ -70,14 +85,14 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
     if (session) {
       onUpdate({
         ...session,
-        ...sessionFromForm,
+        ...sessionFromForm(),
       })
     }
   }
 
   const create = () => {
     onCreate({
-      ...sessionFromForm,
+      ...sessionFromForm(),
       activ: false,
     })
   }
@@ -118,6 +133,15 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         minTime={startTime}
         onChange={(newValue) => {
           setEndTime(newValue || undefined)
+        }}
+      />
+      <TextField
+        variant="outlined"
+        type="number"
+        value={sessionBreak}
+        onChange={(event) => setSessionBreak(event.target.value === '' ? '' : Number(event.target.value))}
+        InputProps={{
+          endAdornment: <InputAdornment position="end">m</InputAdornment>,
         }}
       />
       <FormControl fullWidth>
