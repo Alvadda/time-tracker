@@ -2,8 +2,9 @@ import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@r
 import { ProjectStats } from '../../types'
 import { calcEarningFromMin } from '../../utils/timeUtil'
 import { selectInactiveSessionsFromTo } from '../sessions/sessionsSlice'
+import { getRateFrom } from '../sessions/useRate'
 import { Extra, RootState } from './../../store/store'
-import { Customer, Project } from './../../types/index'
+import { Project } from './../../types/index'
 import { selectCustomers } from './../customer/customersSlice'
 import { selectDefaultRate } from './../settings/settingsSlice'
 
@@ -82,16 +83,6 @@ export const projectsSlice = createSlice({
   },
 })
 
-// TODO auslagern oder zusammen tun, doppelt mit useRate hook
-const getRate = (project: Project, customers: Customer[], defaultRate?: string) => {
-  if (project?.rate) return Number(project.rate)
-
-  const customerRate = customers.find((customer) => customer.id === project?.customerId)?.rate
-  if (customerRate) return Number(customerRate)
-
-  return Number(defaultRate) || 0
-}
-
 // SELECTOR
 export const selectProjects = (state: RootState) => state.projects.projects
 export const selectSelectedProject = (state: RootState) => state.projects.selectedProject
@@ -106,7 +97,7 @@ export const selectProjectsInRage = (from: number, to: number) => {
         const sessionsToProject = sessions.filter((session) => session.projectId === project.id)
 
         const earning = sessionsToProject.reduce((sum, session) => {
-          return sum + calcEarningFromMin(session.duration, getRate(project, customers, defaultRate))
+          return sum + calcEarningFromMin(session.duration, getRateFrom(project, customers, defaultRate))
         }, 0)
 
         const minutes = sessionsToProject.reduce((sum, session) => {
