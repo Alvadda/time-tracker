@@ -1,6 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import { useEffect, useState, VFC } from 'react'
+import { useEffect, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
+import { useForm } from 'react-hook-form'
 import FormBox from '../../components/FormBox'
 import { Customer, Project } from '../../types'
 
@@ -13,40 +14,63 @@ interface ProjectFormProps {
   onDelete: (project: Project) => void
   onCancle: () => void
 }
-
-const getRateAsNumber = (rate: string) => {
-  return rate ? Number(rate) : undefined
+interface ProjectFormData {
+  name: string
+  customer: string
+  rate: number | ''
+  color: string
 }
 
 const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, customers, onCancle, onCreate, onUpdate, onDelete }) => {
-  const [customerSelect, setCustomerSelect] = useState<string>('')
-  const [color, setColor] = useState<string>('#b32aa9')
-  const [name, setName] = useState<string>('')
-  const [rate, setRate] = useState<string>('')
-
+  const {
+    register,
+    watch,
+    setValue,
+    getValues,
+    trigger,
+    formState: { errors },
+  } = useForm<ProjectFormData>({
+    defaultValues: {
+      color: '#b32aa9',
+      rate: 0,
+      customer: '',
+    },
+  })
   const isUpdate = variant === 'update'
-
-  const projectFromForm: Partial<Project> = {
-    name,
-    rate: getRateAsNumber(rate),
-    color,
-    customerId: customerSelect,
-  }
 
   useEffect(() => {
     if (project) {
-      setName(project.name)
-      setRate(project.rate?.toString() || '')
-      setColor(project.color)
-      setCustomerSelect(project.customerId || '')
+      setValue('name', project.name)
+      setValue('customer', project.customerId || '')
+      setValue('color', project.color)
+      setValue('rate', project.rate)
     }
-  }, [project, customers])
+  }, [project, setValue])
 
-  const updateProject = () => {
-    if (project) {
+  const getFormData = () => {
+    const data = getValues()
+
+    return {
+      name: data.name,
+      customerId: data.customer,
+      color: data.color,
+      rate: data.rate || 0,
+    }
+  }
+
+  const createProject = async () => {
+    const isValid = await trigger()
+
+    if (isValid) onCreate(getFormData())
+  }
+
+  const updateProject = async () => {
+    const isValid = await trigger('name')
+
+    if (project && isValid) {
       onUpdate({
         ...project,
-        ...projectFromForm,
+        ...getFormData(),
       })
     }
   }
@@ -56,25 +80,26 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
       onDelete(project)
     }
   }
-
-  const isProjectValid = () => {
-    return Boolean(color && name && rate)
-  }
   return (
     <FormBox
       header="Project"
-      isValid={isProjectValid()}
+      isValid={true}
       update={isUpdate}
-      onCreate={() => onCreate(projectFromForm)}
+      onCreate={createProject}
       onUpdate={updateProject}
       onDelete={deleteProject}
       onClose={onCancle}
     >
-      <TextField label="Name" variant="standard" value={name} onChange={(event) => setName(event.target.value)} />
-      <TextField label="Rate" variant="standard" type="number" value={rate} onChange={(event) => setRate(event.target.value)} />
+      <TextField label="Name" variant="standard" {...register('name', { required: true })} error={Boolean(errors.name)} />
+      <TextField label="Rate" variant="standard" type="number" {...register('rate')} />
       <FormControl>
         <InputLabel>Customer</InputLabel>
-        <Select label="Customer" variant="standard" value={customerSelect} onChange={(event) => setCustomerSelect(event.target.value)}>
+        <Select
+          label="Customer"
+          variant="standard"
+          value={watch('customer')}
+          onChange={(event) => setValue('customer', event.target.value)}
+        >
           {customers?.map((customer) => (
             <MenuItem key={customer.id} value={customer.id}>
               {customer.name}
@@ -82,7 +107,7 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
           ))}
         </Select>
       </FormControl>
-      <HexColorPicker color={color} onChange={setColor} />
+      <HexColorPicker color={watch('color')} onChange={(color) => setValue('color', color)} />
     </FormBox>
   )
 }

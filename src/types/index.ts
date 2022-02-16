@@ -7,7 +7,7 @@ export interface Form {
 
 export interface Project extends Form {
   color: string
-  rate?: number
+  rate: number
   customerId?: string
 }
 
@@ -34,7 +34,7 @@ export interface Customer extends Form {
   email?: string
   address?: string
   phone?: string
-  rate?: number
+  rate: number
   defaultBreak?: number
   note?: string
 }
@@ -49,7 +49,7 @@ export interface AppSettings {
   defaultProjectId: string
   defaultBreak?: string
   defaultBreakRule?: string
-  defaultRate?: string
+  defaultRate: string
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'
