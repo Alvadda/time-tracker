@@ -35,7 +35,6 @@ export interface Customer extends Form {
   address?: string
   phone?: string
   rate: number
-  defaultBreak?: number
   note?: string
 }
 

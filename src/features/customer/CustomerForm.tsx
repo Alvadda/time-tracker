@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material'
-import { useEffect, useState, VFC } from 'react'
+import { useEffect, VFC } from 'react'
+import { useForm } from 'react-hook-form'
 import FormBox from '../../components/FormBox'
 import { Customer } from '../../types'
 
@@ -11,63 +12,69 @@ interface CustomerFormProps {
   onDelete: (customer: Customer) => void
   onCancle: () => void
 }
-
-interface State {
+interface CustomerFormData {
   name: string
-  contact: string
-  email: string
-  address: string
-  phone: string
-  rate: string
-  defaultBreak: string
-  note: string
+  contact?: string
+  email?: string
+  address?: string
+  phone?: string
+  rate: number | ''
+  note?: string
 }
 
 const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, onUpdate, onCreate, onDelete, onCancle }) => {
-  const [state, setstate] = useState<State>({
-    name: '',
-    contact: '',
-    email: '',
-    address: '',
-    phone: '',
-    rate: '',
-    defaultBreak: '',
-    note: '',
+  const {
+    register,
+    setValue,
+    getValues,
+    trigger,
+    formState: { errors },
+  } = useForm<CustomerFormData>({
+    defaultValues: {
+      rate: 0,
+    },
   })
 
   const isUpdate = variant === 'update'
 
   useEffect(() => {
     if (customer) {
-      setstate({
-        name: customer.name,
-        contact: customer.contact || '',
-        email: customer.email || '',
-        address: customer.address || '',
-        phone: customer.phone || '',
-        rate: customer.rate?.toString() || '',
-        defaultBreak: customer.defaultBreak?.toString() || '',
-        note: customer.note || '',
-      })
+      setValue('name', customer.name)
+      setValue('contact', customer.contact)
+      setValue('email', customer.email)
+      setValue('address', customer.address)
+      setValue('phone', customer.phone)
+      setValue('rate', customer.rate || 0)
+      setValue('note', customer.note)
     }
-  }, [customer])
+  }, [customer, setValue])
 
-  const customerFromState: Partial<Customer> = {
-    name: state.name,
-    contact: state.contact,
-    email: state.email,
-    address: state.address,
-    phone: state.phone,
-    rate: Number(state.rate),
-    defaultBreak: Number(state.defaultBreak),
-    note: state.note,
+  const getFormData = () => {
+    const data = getValues()
+
+    return {
+      name: data.name,
+      contact: data.contact,
+      email: data.email,
+      address: data.address,
+      phone: data.phone,
+      rate: data.rate || 0,
+      note: data.note,
+    }
   }
 
-  const updateCustomer = () => {
-    if (customer) {
+  const createCustomer = async () => {
+    const isValid = await trigger()
+
+    if (isValid) onCreate(getFormData())
+  }
+
+  const updateCustomer = async () => {
+    const isValid = await trigger()
+    if (customer && isValid) {
       onUpdate({
         ...customer,
-        ...customerFromState,
+        ...getFormData(),
       })
     }
   }
@@ -78,80 +85,23 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
     }
   }
 
-  const isCustomerValid = () => {
-    let valid = true
-
-    if (Number.isNaN(Number(state.rate))) valid = false
-    if (Number.isNaN(Number(state.defaultBreak))) valid = false
-    if (!state.name) valid = false
-
-    return valid
-  }
-
   return (
     <FormBox
       header="Customer"
-      isValid={isCustomerValid()}
+      isValid={true}
       update={isUpdate}
-      onCreate={() => onCreate(customerFromState)}
+      onCreate={createCustomer}
       onUpdate={updateCustomer}
       onDelete={deleteCustomer}
       onClose={onCancle}
     >
-      <TextField
-        label="Name"
-        variant="standard"
-        value={state.name}
-        onChange={(event) => setstate((state) => ({ ...state, name: event.target.value }))}
-      />
-      <TextField
-        label="Contact"
-        variant="standard"
-        value={state.contact}
-        onChange={(event) => setstate((state) => ({ ...state, contact: event.target.value }))}
-      />
-      <TextField
-        label="Email"
-        variant="standard"
-        type={'email'}
-        value={state.email}
-        onChange={(event) => setstate((state) => ({ ...state, email: event.target.value }))}
-      />
-      <TextField
-        label="Address"
-        variant="standard"
-        value={state.address}
-        onChange={(event) => setstate((state) => ({ ...state, address: event.target.value }))}
-      />
-      <TextField
-        label="Phone"
-        variant="standard"
-        type={'tel'}
-        value={state.phone}
-        onChange={(event) => setstate((state) => ({ ...state, phone: event.target.value }))}
-      />
-      <TextField
-        label="Rate"
-        variant="standard"
-        type={'number'}
-        value={state.rate}
-        onChange={(event) => setstate((state) => ({ ...state, rate: event.target.value }))}
-      />
-      <TextField
-        label="Default break"
-        variant="standard"
-        type={'number'}
-        value={state.defaultBreak}
-        onChange={(event) => setstate((state) => ({ ...state, defaultBreak: event.target.value }))}
-      />
-      <TextField
-        label="Notes"
-        variant="standard"
-        multiline
-        rows={3}
-        value={state.note}
-        onChange={(event) => setstate((state) => ({ ...state, note: event.target.value }))}
-      />
+      <TextField label="Name" variant="standard" {...register('name', { required: true })} error={Boolean(errors.name)} />
+      <TextField label="Contact" variant="standard" {...register('contact')} />
+      <TextField label="Email" variant="standard" type={'email'} {...register('email')} />
+      <TextField label="Address" variant="standard" {...register('address')} />
+      <TextField label="Phone" variant="standard" type={'tel'} {...register('phone')} />
+      <TextField label="Rate" variant="standard" type={'number'} {...register('rate')} />
+      <TextField label="Notes" variant="standard" multiline rows={3} {...register('note')} />
     </FormBox>
   )
 }
