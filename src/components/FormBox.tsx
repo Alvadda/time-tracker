@@ -45,6 +45,7 @@ const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, 
           padding: 2,
           width: '100%',
           height: '100%',
+          paddingBottom: '24px',
         }}
       >
         <Stack gap={2} width={'100%'}>
