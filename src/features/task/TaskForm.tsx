@@ -1,8 +1,9 @@
 import StarIcon from '@mui/icons-material/Star'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import { Checkbox, TextField } from '@mui/material'
-import { useEffect, useState, VFC } from 'react'
+import { useEffect, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
+import { useForm } from 'react-hook-form'
 import FormBox from '../../components/FormBox'
 import { Task } from '../../types'
 
@@ -15,33 +16,62 @@ interface TaskFormProps {
   onCancle: () => void
 }
 
-const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDelete, onCancle }) => {
-  const [name, setName] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
-  const [color, setColor] = useState<string>('#FFF')
-  const [isFavorite, setIsFavorite] = useState<boolean>(false)
+interface TaskFormData {
+  name: string
+  description?: string
+  color: string
+  isFavorite: boolean
+}
 
-  const taskFromForm: Partial<Task> = {
-    name,
-    description,
-    color,
-    isFavorite,
+const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDelete, onCancle }) => {
+  const {
+    register,
+    watch,
+    setValue,
+    getValues,
+    trigger,
+    formState: { errors },
+  } = useForm<TaskFormData>({
+    defaultValues: {
+      color: '#b32aa9',
+      isFavorite: false,
+    },
+  })
+
+  const isFavorite = watch('isFavorite')
+  console.log(isFavorite)
+
+  const getFormData = () => {
+    const data = getValues()
+
+    return {
+      name: data.name,
+      description: data.description,
+      color: data.color,
+      isFavorite: data.isFavorite,
+    }
   }
 
   useEffect(() => {
     if (task) {
-      setName(task.name)
-      setDescription(task.description || '')
-      setColor(task.color)
-      setIsFavorite(Boolean(task.isFavorite))
+      setValue('name', task.name)
+      setValue('description', task.description)
+      setValue('color', task.color)
+      setValue('isFavorite', Boolean(task.isFavorite))
     }
-  }, [task])
+  }, [task, setValue])
+
+  const createTask = async () => {
+    const isValid = await trigger()
+
+    if (isValid) onCreate(getFormData())
+  }
 
   const updateTask = () => {
     if (task) {
       onUpdate({
         ...task,
-        ...taskFromForm,
+        ...getFormData(),
       })
     }
   }
@@ -52,36 +82,25 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
     }
   }
 
-  const isTaskValid = () => {
-    return Boolean(name)
-  }
-
   return (
     <FormBox
       header="Task"
-      isValid={isTaskValid()}
+      isValid={true}
       update={isUpdate}
-      onCreate={() => onCreate(taskFromForm)}
+      onCreate={createTask}
       onUpdate={updateTask}
       onDelete={deleteTask}
       onClose={onCancle}
     >
-      <TextField label="Name" variant="standard" value={name} onChange={(event) => setName(event.target.value)} />
-      <TextField
-        label="Description"
-        variant="standard"
-        multiline
-        rows={7}
-        value={description}
-        onChange={(event) => setDescription(event.target.value)}
-      />
-      <HexColorPicker color={color} onChange={setColor} />
+      <TextField label="Name" variant="standard" {...register('name', { required: true })} error={Boolean(errors.name)} />
+      <TextField label="Description" variant="standard" multiline rows={7} {...register('description')} />
+      <HexColorPicker color={watch('color')} onChange={(color) => setValue('color', color)} />
       <Checkbox
         icon={<StarBorderIcon />}
         checkedIcon={<StarIcon />}
         value={isFavorite}
         checked={isFavorite}
-        onChange={() => setIsFavorite((current) => !current)}
+        onChange={() => setValue('isFavorite', !isFavorite)}
       />
     </FormBox>
   )
