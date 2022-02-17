@@ -11,11 +11,12 @@ import {
   SelectChangeEvent,
   TextField,
 } from '@mui/material'
-import moment, { Moment } from 'moment'
-import { useEffect, useState, VFC } from 'react'
+import moment from 'moment'
+import { useEffect, VFC } from 'react'
+import { useForm } from 'react-hook-form'
 import FormBox from '../../components/FormBox'
 import { Project, Session, Task } from '../../types'
-import { calcSessionDuration, timeInMiliseconds } from '../../utils/timeUtil'
+import { calcSessionDuration } from '../../utils/timeUtil'
 
 interface SessionFormProps {
   variant?: 'create' | 'update'
@@ -28,8 +29,13 @@ interface SessionFormProps {
   onCancle: () => void
 }
 
-const getStartTime = (time?: Moment) => {
-  return time || moment()
+interface SessionFormData {
+  startTime: number
+  endTime: number
+  sessionBreak: number | ''
+  projectId: string
+  taskIds: string[]
+  note?: string
 }
 
 const getDuration = (start: number, end?: number) => {
@@ -39,38 +45,41 @@ const getDuration = (start: number, end?: number) => {
 }
 
 const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, projects, tasks, onCancle, onCreate, onUpdate, onDelete }) => {
-  const [startTime, setStartTime] = useState<Moment | undefined>(moment())
-  const [endTime, setEndTime] = useState<Moment | undefined>(moment())
-  const [projectId, setProjectId] = useState<string>('')
-  const [taskIds, setTaskIds] = useState<string[]>([])
-  const [note, setNote] = useState<string>('')
-  const [sessionBreak, setSessionBreak] = useState<number | ''>('')
-
+  const { register, watch, setValue, getValues } = useForm<SessionFormData>({
+    defaultValues: {
+      startTime: moment().valueOf(),
+      endTime: moment().valueOf(),
+      projectId: '',
+      sessionBreak: 0,
+      taskIds: [],
+    },
+  })
+  const startTime = moment(watch('startTime'))
+  const endTime = moment(watch('endTime'))
   const isUpdate = variant === 'update'
-  const start = timeInMiliseconds(getStartTime(startTime))
-  const end = endTime ? timeInMiliseconds(endTime) : undefined
 
   useEffect(() => {
     if (session) {
-      setStartTime(moment(session.start))
-      setEndTime(moment(session.end || moment()))
-      setProjectId(session.projectId || '')
-      setNote(session.note || '')
-      setTaskIds(session.taskIds || [])
-      setSessionBreak(session.break || 0)
+      setValue('startTime', session.start || moment().valueOf())
+      setValue('endTime', session.end || moment().valueOf())
+      setValue('sessionBreak', session.break || 0)
+      setValue('projectId', session.projectId || '')
+      setValue('taskIds', session.taskIds || [])
+      setValue('note', session.note)
     }
-  }, [session])
+  }, [session, setValue])
 
-  const sessionFromForm = (): Partial<Session> => {
-    const duration = getDuration(start, end) || 0
+  const getFormData = () => {
+    const data = getValues()
+    const duration = getDuration(data.startTime, data.endTime) || 0
     return {
-      start,
-      end,
+      start: data.startTime,
+      end: data.endTime,
       duration,
-      break: sessionBreak || undefined,
-      note,
-      projectId,
-      taskIds,
+      break: data.sessionBreak || 0,
+      note: data.note,
+      projectId: data.projectId,
+      taskIds: data.taskIds,
     }
   }
 
@@ -85,14 +94,14 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
     if (session) {
       onUpdate({
         ...session,
-        ...sessionFromForm(),
+        ...getFormData(),
       })
     }
   }
 
   const create = () => {
     onCreate({
-      ...sessionFromForm(),
+      ...getFormData(),
       activ: false,
     })
   }
@@ -103,14 +112,12 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
     }
   }
 
-  const handleChange = (event: SelectChangeEvent<typeof taskIds>) => {
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value },
     } = event
-    setTaskIds(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    )
+    // On autofill we get a stringified value.
+    setValue('taskIds', typeof value === 'string' ? value.split(',') : value)
   }
 
   return (
@@ -121,7 +128,9 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         value={startTime}
         inputFormat="DD.MM.YY HH:mm"
         onChange={(newValue) => {
-          setStartTime(newValue || undefined)
+          if (newValue) {
+            setValue('startTime', newValue?.valueOf())
+          }
         }}
       />
       <DateTimePicker
@@ -132,21 +141,22 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         minDate={startTime}
         minTime={startTime}
         onChange={(newValue) => {
-          setEndTime(newValue || undefined)
+          if (newValue) {
+            setValue('endTime', newValue?.valueOf())
+          }
         }}
       />
       <TextField
         variant="outlined"
         type="number"
-        value={sessionBreak}
-        onChange={(event) => setSessionBreak(event.target.value === '' ? '' : Number(event.target.value))}
         InputProps={{
           endAdornment: <InputAdornment position="end">m</InputAdornment>,
         }}
+        {...register('sessionBreak')}
       />
       <FormControl fullWidth>
         <InputLabel>Project</InputLabel>
-        <Select label="Project" value={projectId} onChange={(event) => setProjectId(event.target.value)}>
+        <Select label="Project" value={watch('projectId')} onChange={(event) => setValue('projectId', event.target.value)}>
           {projects.map((project) => (
             <MenuItem key={project.id} value={project.id}>
               {project.name}
@@ -159,7 +169,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         <Select
           labelId="session-tasks"
           multiple
-          value={taskIds}
+          value={watch('taskIds')}
           onChange={handleChange}
           input={<OutlinedInput label="Tasks" />}
           renderValue={(selected) => (
@@ -177,7 +187,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
           ))}
         </Select>
       </FormControl>
-      <TextField label="Note" variant="standard" multiline rows={5} value={note} onChange={(event) => setNote(event.target.value)} />
+      <TextField label="Note" variant="standard" multiline rows={5} {...register('note')} />
     </FormBox>
   )
 }

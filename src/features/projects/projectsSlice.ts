@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ProjectStats } from '../../types'
+import { Project, ProjectStats } from '../../types'
 import { calcEarningFromMin } from '../../utils/timeUtil'
 import { selectInactiveSessionsFromTo } from '../sessions/sessionsSlice'
 import { getRateFrom } from '../sessions/useRate'
 import { Extra, RootState } from './../../store/store'
-import { Project } from './../../types/index'
 import { selectCustomers } from './../customer/customersSlice'
 import { selectDefaultRate } from './../settings/settingsSlice'
 
