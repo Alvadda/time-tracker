@@ -15,7 +15,7 @@ import moment from 'moment'
 import { useEffect, VFC } from 'react'
 import { useForm } from 'react-hook-form'
 import FormBox from '../../components/FormBox'
-import { Project, Session, Task } from '../../types'
+import { NumberOrEmpty, Project, Session, Task } from '../../types'
 import { calcSessionDuration } from '../../utils/timeUtil'
 
 interface SessionFormProps {
@@ -32,7 +32,7 @@ interface SessionFormProps {
 interface SessionFormData {
   startTime: number
   endTime: number
-  sessionBreak: number | ''
+  sessionBreak: NumberOrEmpty
   projectId: string
   taskIds: string[]
   note?: string

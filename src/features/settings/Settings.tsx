@@ -89,7 +89,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultBreak}
-                onChange={(event) => dispatch(setBreak(event.target.value))}
+                onChange={(event) => dispatch(setBreak(Number(event.target.value) || ''))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">m</InputAdornment>,
                 }}
@@ -103,7 +103,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultBreakApplyRule}
-                onChange={(event) => dispatch(setBreakApplyRule(event.target.value))}
+                onChange={(event) => dispatch(setBreakApplyRule(Number(event.target.value) || ''))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">h</InputAdornment>,
                 }}
@@ -117,7 +117,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultRate}
-                onChange={(event) => dispatch(setRate(event.target.value))}
+                onChange={(event) => dispatch(setRate(Number(event.target.value) || ''))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">€</InputAdornment>,
                 }}

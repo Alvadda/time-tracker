@@ -2,7 +2,7 @@ import { TextField } from '@mui/material'
 import { useEffect, VFC } from 'react'
 import { useForm } from 'react-hook-form'
 import FormBox from '../../components/FormBox'
-import { Customer } from '../../types'
+import { Customer, NumberOrEmpty } from '../../types'
 
 interface CustomerFormProps {
   variant?: 'create' | 'update'
@@ -18,7 +18,7 @@ interface CustomerFormData {
   email?: string
   address?: string
   phone?: string
-  rate: number | ''
+  rate: NumberOrEmpty
   note?: string
 }
 

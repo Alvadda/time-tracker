@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Extra, RootState } from '../../store/store'
-import { AppSettings, SettingPage } from '../../types'
+import { AppSettings, NumberOrEmpty, SettingPage } from '../../types'
 
 export interface SettingsState {
   page: SettingPage
@@ -9,7 +9,7 @@ export interface SettingsState {
 
 const initialState: SettingsState = {
   page: 'settings',
-  appSettings: { darkMode: true, defaultProjectId: '', defaultBreak: '0', defaultBreakRule: '0' },
+  appSettings: { darkMode: true, defaultProjectId: '', defaultBreak: 0, defaultBreakRule: 0, defaultRate: 0 },
 }
 
 const getSettings = createAsyncThunk<AppSettings | undefined, undefined, { state: RootState; extra: Extra }>(
@@ -42,13 +42,13 @@ export const settingsSlice = createSlice({
     setDefaultProjectId: (state, action: PayloadAction<string>) => {
       state.appSettings.defaultProjectId = action.payload
     },
-    setBreak: (state, action: PayloadAction<string>) => {
+    setBreak: (state, action: PayloadAction<NumberOrEmpty>) => {
       state.appSettings.defaultBreak = action.payload
     },
-    setBreakApplyRule: (state, action: PayloadAction<string>) => {
+    setBreakApplyRule: (state, action: PayloadAction<NumberOrEmpty>) => {
       state.appSettings.defaultBreakRule = action.payload
     },
-    setRate: (state, action: PayloadAction<string>) => {
+    setRate: (state, action: PayloadAction<NumberOrEmpty>) => {
       state.appSettings.defaultRate = action.payload
     },
     navigateTo: (state, action: PayloadAction<SettingPage>) => {

@@ -5,6 +5,8 @@ export interface Form {
   isFavorite?: boolean
 }
 
+export type NumberOrEmpty = number | ''
+
 export interface Project extends Form {
   color: string
   rate: number
@@ -46,9 +48,9 @@ export interface Task extends Form {
 export interface AppSettings {
   darkMode: boolean
   defaultProjectId: string
-  defaultBreak?: string
-  defaultBreakRule?: string
-  defaultRate: string
+  defaultBreak: NumberOrEmpty
+  defaultBreakRule: NumberOrEmpty
+  defaultRate: NumberOrEmpty
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'

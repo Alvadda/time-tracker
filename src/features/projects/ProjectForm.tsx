@@ -3,7 +3,7 @@ import { useEffect, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { useForm } from 'react-hook-form'
 import FormBox from '../../components/FormBox'
-import { Customer, Project } from '../../types'
+import { Customer, NumberOrEmpty, Project } from '../../types'
 
 interface ProjectFormProps {
   variant?: 'create' | 'update'
@@ -17,7 +17,7 @@ interface ProjectFormProps {
 interface ProjectFormData {
   name: string
   customer: string
-  rate: number | ''
+  rate: NumberOrEmpty
   color: string
 }
 
