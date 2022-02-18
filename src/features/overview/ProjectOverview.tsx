@@ -32,7 +32,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
         </Button>
         {projectStats.project.name}
       </Box>
-      <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+      <List sx={{ overflow: 'auto', width: '100%', bgcolor: 'background.paper' }}>
         {projectStats.sessions.map((session) => {
           const duration = getDurationWithBreak(session)
           return (
