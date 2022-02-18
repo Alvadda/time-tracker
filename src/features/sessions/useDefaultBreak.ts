@@ -6,9 +6,11 @@ export const useDefaultBreak = () => {
   const defaultBreakRule = useSelector(selectDefaultBreakRule)
 
   const getDefaultBreak = (duration?: number) => {
-    if (!duration || !defaultBreakRule) return 0
+    if (!duration) return 0
+    if (defaultBreakRule === '' || defaultBreakRule <= 0) return 0
+    if (defaultBreak === '' || defaultBreak <= 0) return 0
 
-    return duration >= Number(defaultBreakRule) / 60 ? Number(defaultBreak) : undefined
+    return Number(defaultBreak)
   }
 
   return { getDefaultBreak }

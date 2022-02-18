@@ -147,6 +147,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         }}
       />
       <TextField
+        label="Break"
         variant="outlined"
         type="number"
         InputProps={{
