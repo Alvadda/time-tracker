@@ -2,6 +2,7 @@ import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@r
 import { Project, ProjectStats } from '../../types'
 import { calcEarningFromMin } from '../../utils/timeUtil'
 import { selectInactiveSessionsFromTo } from '../sessions/sessionsSlice'
+import { getDurationWithBreak } from '../sessions/sessionUtils'
 import { getRateFrom } from '../sessions/useRate'
 import { Extra, RootState } from './../../store/store'
 import { selectCustomers } from './../customer/customersSlice'
@@ -95,14 +96,16 @@ export const selectProjectsInRage = (from: number, to: number) => {
       projects.map((project): ProjectStats => {
         const sessionsToProject = sessions.filter((session) => session.projectId === project.id)
 
-        const earning = sessionsToProject.reduce((sum, session) => {
-          return sum + calcEarningFromMin(session.duration, getRateFrom(project, customers, defaultRate))
-        }, 0)
-
-        const minutes = sessionsToProject.reduce((sum, session) => {
-          return sum + (session.duration || 0)
-        }, 0)
-
+        const { earning, minutes } = sessionsToProject.reduce(
+          (sum, session) => {
+            const duration = getDurationWithBreak(session)
+            return {
+              earning: sum.earning + calcEarningFromMin(duration, getRateFrom(project, customers, defaultRate)),
+              minutes: sum.minutes + duration,
+            }
+          },
+          { earning: 0, minutes: 0 }
+        )
         return { project, totalEarning: earning, totalMinutesWorked: minutes, sessions: sessionsToProject }
       })
   )

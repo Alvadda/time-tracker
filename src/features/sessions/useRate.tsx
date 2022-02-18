@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux'
-import { Customer, Project, Session } from '../../types'
+import { Customer, NumberOrEmpty, Project, Session } from '../../types'
 import { selectCustomers } from '../customer/customersSlice'
 import { selectProjects } from '../projects/projectsSlice'
 import { selectDefaultRate } from '../settings/settingsSlice'
 
-export const getRateFrom = (project?: Project, customers?: Customer[], defaultRate?: string) => {
+export const getRateFrom = (project?: Project, customers?: Customer[], defaultRate?: NumberOrEmpty) => {
   if (project?.rate) return Number(project.rate)
 
   const customerRate = customers?.find((customer) => customer.id === project?.customerId)?.rate

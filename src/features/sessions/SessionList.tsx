@@ -25,7 +25,7 @@ const SessionList: VFC<SessionListProps> = ({ projects, sessions, onSelect }) =>
   return (
     <List>
       {sessions.map((session) => {
-        const duration = getDurationWithBreak(session.duration, session.break)
+        const duration = getDurationWithBreak(session)
 
         return (
           <ListItem disablePadding key={session.id}>

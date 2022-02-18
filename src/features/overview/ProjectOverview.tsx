@@ -4,6 +4,7 @@ import moment from 'moment'
 import React, { VFC } from 'react'
 import { ProjectStats } from '../../types'
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
+import { getDurationWithBreak } from '../sessions/sessionUtils'
 
 interface ProjectOverviewProps {
   projectStats: ProjectStats
@@ -32,21 +33,24 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
         {projectStats.project.name}
       </Box>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-        {projectStats.sessions.map((session) => (
-          <React.Fragment key={session.id}>
-            <ListItem>
-              <ListItemText
-                primary={moment(session.start).format('DD MMM YYYY')}
-                secondary={`${moment(session.start).format('hh:mm')} - ${moment(session.end).format('hh:mm')}`}
-              />
-              <ListItemText
-                primary={`${calcEarningFromMin(session.duration, projectStats.project.rate).toFixed(2)} €`}
-                secondary={formatMinToHourMin(session.duration)}
-              />
-            </ListItem>
-            <Divider />
-          </React.Fragment>
-        ))}
+        {projectStats.sessions.map((session) => {
+          const duration = getDurationWithBreak(session)
+          return (
+            <React.Fragment key={session.id}>
+              <ListItem>
+                <ListItemText
+                  primary={moment(session.start).format('DD MMM YYYY')}
+                  secondary={`${moment(session.start).format('hh:mm')} - ${moment(session.end).format('hh:mm')}`}
+                />
+                <ListItemText
+                  primary={`${calcEarningFromMin(duration, projectStats.project.rate).toFixed(2)} €`}
+                  secondary={formatMinToHourMin(duration)}
+                />
+              </ListItem>
+              <Divider />
+            </React.Fragment>
+          )
+        })}
       </List>
     </Box>
   )

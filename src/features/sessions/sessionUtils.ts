@@ -1,1 +1,8 @@
-export const getDurationWithBreak = (duration?: number, sessionBreak?: number) => (duration || 0) - (sessionBreak || 0)
+import { Session } from '../../types'
+
+export const getDurationWithBreak = (session: Session) => {
+  if (!session.duration) return 0
+  if (!session.break) return session.duration
+
+  return session.duration - session.break
+}
