@@ -37,7 +37,7 @@ const Overview: VFC = ({}) => {
   return (
     <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
       <Grid item container sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
-        overview
+        Overview
       </Grid>
       <Grid item container flexDirection={'column'} overflow={'hidden'}>
         <Box padding={2} display={'flex'} gap={2}>

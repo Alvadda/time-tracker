@@ -37,6 +37,7 @@ export const useFirebaseAuth = () => {
           login({
             uid: user.uid,
             name: user.displayName || undefined,
+            email: user.email || '',
           })
         )
       } else {

@@ -5,6 +5,7 @@ import { useEffect, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
 import { SettingPage } from '../../types'
+import { selectUserEmail } from '../auth/authSlice'
 import { selectProjects } from '../projects/projectsSlice'
 import Label from './components/Label'
 import {
@@ -28,6 +29,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const dispatch = useDispatch()
   const { logout } = useFirebaseLogin()
 
+  const userEmail = useSelector(selectUserEmail)
   const darkMode = useSelector(selectDarkMode)
   const defaultProjectId = useSelector(selectDefaultProjectId)
   const defaultBreak = useSelector(selectDefaultBreak)
@@ -140,6 +142,9 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem>
+            <Label label="E-Mail">{userEmail}</Label>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton onClick={logout}>
               <Label label="Logout">
                 <LogoutIcon />
@@ -151,7 +156,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
 
       <Paper>
         <List>
-          <ListItem>
+          <ListItem disablePadding>
             <ListItemButton onClick={logout}>
               <Label label="Version">{process.env.VERSION}</Label>
             </ListItemButton>

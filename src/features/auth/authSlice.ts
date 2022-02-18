@@ -4,6 +4,7 @@ import { RootState } from '../../store/store'
 export interface AuthState {
   uid?: string
   name?: string
+  email?: string
   errorMessage?: string
 }
 
@@ -14,10 +15,10 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: PayloadAction<AuthState>) => {
-      ;(state.uid = action.payload.uid), (state.name = action.payload.name)
+      ;(state.uid = action.payload.uid), (state.name = action.payload.name), (state.email = action.payload.email)
     },
     logout: (state) => {
-      ;(state.name = undefined), (state.uid = undefined)
+      ;(state.name = undefined), (state.uid = undefined), (state.email = undefined)
     },
     setError: (state, action: PayloadAction<string>) => {
       state.errorMessage = action.payload
@@ -31,6 +32,7 @@ export const authSlice = createSlice({
 //SELECTOR
 export const selectAuth = (state: RootState) => state.auth
 export const selectUserId = (state: RootState) => state.auth.uid
+export const selectUserEmail = (state: RootState) => state.auth.email
 export const selectErrorMessage = (state: RootState) => state.auth.errorMessage
 
 //ACTIONS
