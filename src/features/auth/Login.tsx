@@ -1,15 +1,35 @@
 import { Box, Button, Paper, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
+import { selectErrorMessage, setError } from './authSlice'
+
+interface LoginData {
+  email: string
+  password: string
+}
 
 const Login = () => {
+  const {
+    register,
+    trigger,
+    getValues,
+    formState: { errors },
+  } = useForm<LoginData>()
   const { loginWithEmail } = useFirebaseLogin()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
 
-  const onSubmit = () => {
-    if (email && password) {
-      loginWithEmail(email, password)
+  const loginError = useSelector(selectErrorMessage)
+
+  const onSubmit = async () => {
+    const isValid = await trigger()
+    if (isValid) {
+      const data = getValues()
+      try {
+        await loginWithEmail(data.email, data.password)
+      } catch (error: any) {
+        dispatch(setError(error.message))
+      }
     }
   }
 
@@ -36,17 +56,17 @@ const Login = () => {
             inputProps={{ 'aria-label': 'Email' }}
             label="Email"
             variant="standard"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
             type="email"
+            {...register('email', { required: true })}
+            error={Boolean(errors.email) || Boolean(loginError)}
           />
           <TextField
             inputProps={{ 'aria-label': 'Password' }}
             label="Password"
             variant="standard"
             type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            {...register('password', { required: true })}
+            error={Boolean(errors.password) || Boolean(loginError)}
           />
           <Button aria-label="Login" variant="contained" onClick={onSubmit}>
             Login

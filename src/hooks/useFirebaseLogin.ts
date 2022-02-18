@@ -11,7 +11,11 @@ export const useFirebaseLogin = () => {
   }
 
   const loginWithEmail = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password)
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+    } catch (error) {
+      throw new Error('login faild')
+    }
   }
 
   const logout = () => auth.signOut()
