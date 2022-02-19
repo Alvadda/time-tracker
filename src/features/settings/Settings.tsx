@@ -25,6 +25,10 @@ interface SettingsProps {
   onNavigation: (to: SettingPage) => void
 }
 
+const getNumberOrEmpty = (value: string) => {
+  return value === '' ? '' : Number(value)
+}
+
 const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const dispatch = useDispatch()
   const { logout } = useFirebaseLogin()
@@ -91,7 +95,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultBreak}
-                onChange={(event) => dispatch(setBreak(Number(event.target.value) || ''))}
+                onChange={(event) => dispatch(setBreak(getNumberOrEmpty(event.target.value)))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">m</InputAdornment>,
                 }}
@@ -105,7 +109,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultBreakApplyRule}
-                onChange={(event) => dispatch(setBreakApplyRule(Number(event.target.value) || ''))}
+                onChange={(event) => dispatch(setBreakApplyRule(getNumberOrEmpty(event.target.value)))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">h</InputAdornment>,
                 }}
@@ -119,7 +123,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultRate}
-                onChange={(event) => dispatch(setRate(Number(event.target.value) || ''))}
+                onChange={(event) => dispatch(setRate(getNumberOrEmpty(event.target.value)))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">€</InputAdornment>,
                 }}

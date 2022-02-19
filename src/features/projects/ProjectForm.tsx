@@ -32,7 +32,6 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
   } = useForm<ProjectFormData>({
     defaultValues: {
       color: '#b32aa9',
-      rate: 0,
       customer: '',
     },
   })
@@ -54,7 +53,7 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
       name: data.name,
       customerId: data.customer,
       color: data.color,
-      rate: data.rate || 0,
+      rate: data.rate,
     }
   }
 

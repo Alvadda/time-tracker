@@ -29,11 +29,7 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
     getValues,
     trigger,
     formState: { errors },
-  } = useForm<CustomerFormData>({
-    defaultValues: {
-      rate: 0,
-    },
-  })
+  } = useForm<CustomerFormData>()
 
   const isUpdate = variant === 'update'
 
@@ -44,7 +40,7 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
       setValue('email', customer.email)
       setValue('address', customer.address)
       setValue('phone', customer.phone)
-      setValue('rate', customer.rate || 0)
+      setValue('rate', customer.rate)
       setValue('note', customer.note)
     }
   }, [customer, setValue])
@@ -58,7 +54,7 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
       email: data.email,
       address: data.address,
       phone: data.phone,
-      rate: data.rate || 0,
+      rate: data.rate,
       note: data.note,
     }
   }

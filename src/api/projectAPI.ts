@@ -17,7 +17,7 @@ const projectAPI = (db: Firestore) => {
         id: doc.id,
         name: setValueFromFb(docData.name),
         color: setValueFromFb(docData.color),
-        rate: setValueFromFb(docData.rate),
+        rate: docData.rate ?? '',
         customerId: setValueFromFb(docData.customerId),
       })
     })
@@ -36,7 +36,7 @@ const projectAPI = (db: Firestore) => {
       const newProject: Project = {
         id: docRef.id,
         name: project.name!,
-        rate: setValueFromFb(project.rate),
+        rate: project.rate ?? '',
         color: setValueFromFb(project.color),
         customerId: setValueFromFb(project.customerId),
       }

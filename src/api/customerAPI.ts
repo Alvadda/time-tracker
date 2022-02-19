@@ -20,8 +20,7 @@ const customerAPI = (db: Firestore) => {
         email: setValueFromFb(docData.email),
         address: setValueFromFb(docData.address),
         phone: setValueFromFb(docData.phone),
-        rate: setValueFromFb(docData.rate),
-        defaultBreak: setValueFromFb(docData.defaultBreak),
+        rate: docData.rate ?? '',
         note: setValueFromFb(docData.note),
       })
     })
@@ -37,7 +36,6 @@ const customerAPI = (db: Firestore) => {
         address: setValueToFb(customer.address),
         phone: setValueToFb(customer.phone),
         rate: setValueToFb(customer.rate),
-        defaultBreak: setValueToFb(customer.defaultBreak),
         note: setValueToFb(customer.note),
       })
 
@@ -48,8 +46,7 @@ const customerAPI = (db: Firestore) => {
         email: setValueFromFb(customer.email),
         address: setValueFromFb(customer.address),
         phone: setValueFromFb(customer.phone),
-        rate: setValueFromFb(customer.rate),
-        defaultBreak: setValueFromFb(customer.defaultBreak),
+        rate: customer.rate ?? '',
         note: setValueFromFb(customer.note),
       }
 
@@ -70,7 +67,6 @@ const customerAPI = (db: Firestore) => {
         address: setValueToFb(customer.address),
         phone: setValueToFb(customer.phone),
         rate: setValueToFb(customer.rate),
-        defaultBreak: setValueToFb(customer.defaultBreak),
         note: setValueToFb(customer.note),
       })
 

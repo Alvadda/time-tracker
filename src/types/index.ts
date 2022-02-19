@@ -9,7 +9,7 @@ export type NumberOrEmpty = number | ''
 
 export interface Project extends Form {
   color: string
-  rate: number
+  rate: NumberOrEmpty
   customerId?: string
 }
 
@@ -36,7 +36,7 @@ export interface Customer extends Form {
   email?: string
   address?: string
   phone?: string
-  rate: number
+  rate: NumberOrEmpty
   note?: string
 }
 

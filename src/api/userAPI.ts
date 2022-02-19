@@ -8,17 +8,17 @@ const mapSettings = (settings: any): AppSettings => {
     return {
       darkMode: true,
       defaultProjectId: '',
-      defaultBreak: '0',
-      defaultBreakRule: '0',
-      defaultRate: '',
+      defaultBreak: 0,
+      defaultBreakRule: 0,
+      defaultRate: 0,
     }
 
   return {
     darkMode: settings.darkMode ?? true,
     defaultProjectId: settings.defaultProjectId || '',
-    defaultBreak: settings.defaultBreak || '0',
-    defaultBreakRule: settings.defaultBreakRule || '0',
-    defaultRate: settings.defaultRate || '',
+    defaultBreak: settings.defaultBreak || 0,
+    defaultBreakRule: settings.defaultBreakRule || 0,
+    defaultRate: settings.defaultRate || 0,
   }
 }
 
@@ -30,6 +30,8 @@ const userAPI = (db: Firestore) => {
     const docSnap = await getDoc(userRef)
 
     if (docSnap.exists()) {
+      console.log(mapSettings(docSnap.data().settings))
+
       return mapSettings(docSnap.data().settings)
     }
   }

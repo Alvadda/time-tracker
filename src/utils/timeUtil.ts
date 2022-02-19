@@ -1,4 +1,5 @@
 import moment, { Moment } from 'moment'
+import { NumberOrEmpty } from './../types/index'
 
 const formatNumberToTwoDigits = (number: number) => ('0' + number).slice(-2)
 
@@ -27,7 +28,7 @@ const calcSessionDuration = (startTimeMS: number, endTimeMS: number) => {
   return minute
 }
 
-const calcEarningFromMin = (minutes?: number, hourRate?: number) => {
+const calcEarningFromMin = (minutes?: number, hourRate?: NumberOrEmpty) => {
   const time = minutes || 0
   const rate = hourRate || 0
 
