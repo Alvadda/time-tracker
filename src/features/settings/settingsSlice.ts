@@ -42,13 +42,13 @@ export const settingsSlice = createSlice({
     setDefaultProjectId: (state, action: PayloadAction<string>) => {
       state.appSettings.defaultProjectId = action.payload
     },
-    setBreak: (state, action: PayloadAction<NumberOrEmpty>) => {
+    setDefaultBreak: (state, action: PayloadAction<NumberOrEmpty>) => {
       state.appSettings.defaultBreak = action.payload
     },
-    setBreakApplyRule: (state, action: PayloadAction<NumberOrEmpty>) => {
+    setDefaultBreakRule: (state, action: PayloadAction<NumberOrEmpty>) => {
       state.appSettings.defaultBreakRule = action.payload
     },
-    setRate: (state, action: PayloadAction<NumberOrEmpty>) => {
+    setDefaultRate: (state, action: PayloadAction<NumberOrEmpty>) => {
       state.appSettings.defaultRate = action.payload
     },
     navigateTo: (state, action: PayloadAction<SettingPage>) => {
@@ -79,7 +79,8 @@ export const selectDefaultBreakRule = (state: RootState) => state.settings.appSe
 export const selectDefaultRate = (state: RootState) => state.settings.appSettings.defaultRate
 
 //ACTIONS
-export const { setDarkMode, navigateBack, navigateTo, setBreak, setBreakApplyRule, setDefaultProjectId, setRate } = settingsSlice.actions
+export const { setDarkMode, navigateBack, navigateTo, setDefaultBreak, setDefaultBreakRule, setDefaultProjectId, setDefaultRate } =
+  settingsSlice.actions
 export { getSettings, updateSettings }
 
 export default settingsSlice.reducer

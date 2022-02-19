@@ -14,11 +14,11 @@ import {
   selectDefaultBreakRule,
   selectDefaultProjectId,
   selectDefaultRate,
-  setBreak,
-  setBreakApplyRule,
   setDarkMode,
+  setDefaultBreak,
+  setDefaultBreakRule,
   setDefaultProjectId,
-  setRate,
+  setDefaultRate,
   updateSettings,
 } from './settingsSlice'
 interface SettingsProps {
@@ -95,7 +95,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultBreak}
-                onChange={(event) => dispatch(setBreak(getNumberOrEmpty(event.target.value)))}
+                onChange={(event) => dispatch(setDefaultBreak(getNumberOrEmpty(event.target.value)))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">m</InputAdornment>,
                 }}
@@ -109,7 +109,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultBreakApplyRule}
-                onChange={(event) => dispatch(setBreakApplyRule(getNumberOrEmpty(event.target.value)))}
+                onChange={(event) => dispatch(setDefaultBreakRule(getNumberOrEmpty(event.target.value)))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">h</InputAdornment>,
                 }}
@@ -123,7 +123,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 variant="standard"
                 type="number"
                 value={defaultRate}
-                onChange={(event) => dispatch(setRate(getNumberOrEmpty(event.target.value)))}
+                onChange={(event) => dispatch(setDefaultRate(getNumberOrEmpty(event.target.value)))}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">€</InputAdornment>,
                 }}

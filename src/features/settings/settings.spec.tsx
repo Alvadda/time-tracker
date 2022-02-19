@@ -1,13 +1,58 @@
-import settingReducer, { navigateBack, navigateTo, setDarkMode } from './settingsSlice'
+/* eslint-disable @typescript-eslint/no-empty-function */
+import settingReducer, {
+  navigateBack,
+  navigateTo,
+  setDarkMode,
+  setDefaultBreak,
+  setDefaultBreakRule,
+  setDefaultProjectId,
+  setDefaultRate,
+} from './settingsSlice'
 
 describe('feature/settings', () => {
   describe('reducer', () => {
-    test('darkMode', () => {
-      let reducer = settingReducer(undefined, setDarkMode(true))
-      expect(reducer.darkMode).toEqual(true)
+    test('appSettings default', () => {
+      const appSettings = { darkMode: true, defaultProjectId: '', defaultBreak: 0, defaultBreakRule: 0, defaultRate: 0 }
 
-      reducer = settingReducer(reducer, setDarkMode(false))
-      expect(reducer.darkMode).toEqual(false)
+      const reducer = settingReducer(undefined, setDarkMode(true))
+      expect(reducer.appSettings).toEqual(appSettings)
+    })
+
+    test('appSettings darkMode', () => {
+      let reducer = settingReducer(undefined, setDarkMode(false))
+      expect(reducer.appSettings.darkMode).toEqual(false)
+
+      reducer = settingReducer(reducer, setDarkMode(true))
+      expect(reducer.appSettings.darkMode).toEqual(true)
+    })
+
+    test('appSettings defaultProjectId', () => {
+      const reducer = settingReducer(undefined, setDefaultProjectId('1234'))
+      expect(reducer.appSettings.defaultProjectId).toEqual('1234')
+    })
+
+    test('appSettings defaultBreak', () => {
+      let reducer = settingReducer(undefined, setDefaultBreak(30))
+      expect(reducer.appSettings.defaultBreak).toEqual(30)
+
+      reducer = settingReducer(undefined, setDefaultBreak(''))
+      expect(reducer.appSettings.defaultBreak).toEqual('')
+    })
+
+    test('appSettings defaultBreakRule', () => {
+      let reducer = settingReducer(undefined, setDefaultBreakRule(6))
+      expect(reducer.appSettings.defaultBreakRule).toEqual(6)
+
+      reducer = settingReducer(reducer, setDefaultBreakRule(''))
+      expect(reducer.appSettings.defaultBreakRule).toEqual('')
+    })
+
+    test('appSettings defaultRate', () => {
+      let reducer = settingReducer(undefined, setDefaultRate(30))
+      expect(reducer.appSettings.defaultRate).toEqual(30)
+
+      reducer = settingReducer(reducer, setDefaultRate(''))
+      expect(reducer.appSettings.defaultRate).toEqual('')
     })
 
     test('navigation', () => {
@@ -25,8 +70,10 @@ describe('feature/settings', () => {
     })
 
     test('unknown action', () => {
+      const appSettings = { darkMode: true, defaultProjectId: '', defaultBreak: 0, defaultBreakRule: 0, defaultRate: 0 }
+
       const reducer = settingReducer(undefined, { type: 'UNKNOWN' })
-      expect(reducer).toEqual({ darkMode: true, page: 'settings' })
+      expect(reducer).toEqual({ page: 'settings', appSettings })
     })
   })
 })

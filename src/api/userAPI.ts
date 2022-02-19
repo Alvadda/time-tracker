@@ -30,8 +30,6 @@ const userAPI = (db: Firestore) => {
     const docSnap = await getDoc(userRef)
 
     if (docSnap.exists()) {
-      console.log(mapSettings(docSnap.data().settings))
-
       return mapSettings(docSnap.data().settings)
     }
   }
