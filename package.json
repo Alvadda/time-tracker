@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "build": "webpack --mode=production --env=prod",
+    "build": "npm run clean && webpack --mode=production --env=prod",
     "emu": "firebase emulators:start --import=./saved-data --export-on-exit",
     "start:emu": "concurrently --kill-others \"firebase emulators:start\" \"npm run dev\"",
     "start": "npm run dev",
@@ -15,7 +15,8 @@
     "test:unit": "jest",
     "test:unit:w": "jest --watchAll",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
-    "serve": "webpack --mode=production --env=prod && npx serve -s dist"
+    "serve": "webpack --mode=production --env=prod && npx serve -s dist",
+    "clean": "rimraf dist"
   },
   "keywords": [],
   "author": "",
