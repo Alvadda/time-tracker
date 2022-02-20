@@ -5,6 +5,7 @@ import React, { VFC } from 'react'
 import { ProjectStats } from '../../types'
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
 import { getDurationWithBreak } from '../sessions/sessionUtils'
+import { useRate } from '../sessions/useRate'
 
 interface ProjectOverviewProps {
   projectStats: ProjectStats
@@ -12,6 +13,8 @@ interface ProjectOverviewProps {
 }
 
 const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) => {
+  const { getRate } = useRate()
+
   return (
     <Box
       sx={{
@@ -43,7 +46,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
                   secondary={`${moment(session.start).format('hh:mm')} - ${moment(session.end).format('hh:mm')}`}
                 />
                 <ListItemText
-                  primary={`${calcEarningFromMin(duration, projectStats.project.rate).toFixed(2)} €`}
+                  primary={`${calcEarningFromMin(duration, getRate(session)).toFixed(2)} €`}
                   secondary={formatMinToHourMin(duration)}
                 />
               </ListItem>
