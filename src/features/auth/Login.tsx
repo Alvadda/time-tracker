@@ -53,7 +53,7 @@ const Login = () => {
       <Paper sx={{ padding: 2 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, justifyContent: 'center', alignContent: 'center' }}>
           <TextField
-            inputProps={{ 'aria-label': 'Email' }}
+            inputProps={{ 'aria-label': 'Email', 'data-testid': 'login_email' }}
             label="Email"
             variant="standard"
             type="email"
@@ -61,14 +61,14 @@ const Login = () => {
             error={Boolean(errors.email) || Boolean(loginError)}
           />
           <TextField
-            inputProps={{ 'aria-label': 'Password' }}
+            inputProps={{ 'aria-label': 'Password', 'data-testid': 'login_password' }}
             label="Password"
             variant="standard"
             type="password"
             {...register('password', { required: true })}
             error={Boolean(errors.password) || Boolean(loginError)}
           />
-          <Button aria-label="Login" variant="contained" onClick={onSubmit}>
+          <Button aria-label="Login" data-testid="login_button" variant="contained" onClick={onSubmit}>
             Login
           </Button>
         </Box>

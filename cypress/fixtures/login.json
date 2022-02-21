@@ -1,4 +1,6 @@
 {
+  "email_wrong": "wrong@test.de",
+  "password_wrong": "wrong",
   "email": "ui@test.de",
   "password": "123123"
 }

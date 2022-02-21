@@ -54,9 +54,9 @@ const Wizard = () => {
             dispatch(navigateTo(newPage))
           }}
         >
-          <BottomNavigationAction label="Start" value="time-tracker" icon={<TimelapseIcon />} />
-          <BottomNavigationAction label="Date" value="overview" icon={<CalendarTodayIcon />} />
-          <BottomNavigationAction label="Input" value="settings" icon={<SettingsIcon />} />
+          <BottomNavigationAction data-testid="nav_start" label="Start" value="time-tracker" icon={<TimelapseIcon />} />
+          <BottomNavigationAction data-testid="nav_overview" label="Date" value="overview" icon={<CalendarTodayIcon />} />
+          <BottomNavigationAction data-testid="nav_settings" label="Input" value="settings" icon={<SettingsIcon />} />
         </BottomNavigation>
       </Grid>
     </Grid>

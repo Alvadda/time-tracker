@@ -149,7 +149,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
             <Label label="E-Mail">{userEmail}</Label>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={logout}>
+            <ListItemButton data-testid="settings_logout" onClick={logout}>
               <Label label="Logout">
                 <LogoutIcon />
               </Label>
