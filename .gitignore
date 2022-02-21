@@ -1,9 +1,9 @@
 node_modules
 dist
 coverage
-cypress\videos 
+cypress/videos 
 .env
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
-saved-data
+mock/dev
