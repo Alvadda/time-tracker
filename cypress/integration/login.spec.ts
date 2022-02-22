@@ -1,4 +1,4 @@
-import { loginButton, loginEmailInput, loginPasswordInput, logoutButton, navSettingsButton } from '../../support/fields.js'
+import { loginButton, loginEmailInput, loginPasswordInput, logoutButton, navSettingsButton } from '../support/fields.js'
 
 describe('login', () => {
   it('login with no data', () => {
@@ -52,5 +52,3 @@ describe('login', () => {
     })
   })
 })
-
-export {}
