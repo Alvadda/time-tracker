@@ -1,5 +1,8 @@
 describe('Some Test', () => {
-  xit('Adds document to test_hello_world collection of Firestore', () => {
-    cy.callFirestore('add', 'cypress', { some: 'value' })
+  it('Fire Store Test', () => {
+    // cy.callFirestore('add', 'cypress', { some: 'value' })
+    cy.callFirestore('get', 'users').then((user) => {
+      console.log(user)
+    })
   })
 })

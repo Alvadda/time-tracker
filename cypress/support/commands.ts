@@ -18,12 +18,12 @@ const fbConfig = {
 firebase.initializeApp(fbConfig)
 
 firebase.firestore().settings({
-  host: 'localhost:5051',
+  host: 'http://localhost:5051/',
   ssl: false,
 })
 
+// firebase.firestore().useEmulator('localhost', 5051)
 firebase.auth().useEmulator(`http://localhost:9099/`)
-console.log(`Using Auth emulator: http://localhost:9099/`)
 
 attachCustomCommands({ Cypress, cy, firebase })
 
