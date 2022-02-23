@@ -9,5 +9,3 @@ describe('customer', () => {
     cy.get(logoutButton).should('exist')
   })
 })
-
-export {}
