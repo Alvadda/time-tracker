@@ -8,8 +8,5 @@ const cypressFirebasePlugin = require('cypress-firebase').plugin
 // eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
   const extendedConfig = cypressFirebasePlugin(on, config, admin)
-
-  // Add other plugins/tasks such as code coverage here
-
   return extendedConfig
 }

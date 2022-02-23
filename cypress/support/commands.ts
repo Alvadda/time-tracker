@@ -3,15 +3,16 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
 import 'firebase/compat/firestore'
-import { loginButton, loginEmailInput, loginPasswordInput } from './fields.js'
+import { loginButton, loginEmailInput, loginPasswordInput } from './fields'
+require('dotenv').config({ path: './.env' })
 
 const fbConfig = {
-  apiKey: 'AIzaSyA4A5TF-urVeS-vaDY88pnGXKQdWdsyqfQ',
-  authDomain: 'time-tracker-4d8a7.firebaseapp.com',
-  projectId: 'time-tracker-4d8a7',
-  storageBucket: 'time-tracker-4d8a7.appspot.com',
-  messagingSenderId: '706198867361',
-  appId: '1:706198867361:web:5fd8a93234b59fbf2b4fe0',
+  apiKey: Cypress.env('apiKey'),
+  authDomain: Cypress.env('authDomain'),
+  projectId: Cypress.env('projectId'),
+  storageBucket: Cypress.env('storageBucket'),
+  messagingSenderId: Cypress.env('messagingSenderId'),
+  appId: Cypress.env('appId'),
 }
 
 firebase.initializeApp(fbConfig)

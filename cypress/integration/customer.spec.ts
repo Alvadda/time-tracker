@@ -1,4 +1,4 @@
-import { logoutButton, navSettingsButton } from '../support/fields.js'
+import { logoutButton, navSettingsButton } from '../support/fields'
 
 describe('customer', () => {
   beforeEach(() => {
