@@ -52,21 +52,21 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => onNavigation('projects')}>
+            <ListItemButton data-testid="settings_projects" onClick={() => onNavigation('projects')}>
               <Label label="Projects">
                 <KeyboardArrowRightOutlined />
               </Label>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => onNavigation('customer')}>
-              <Label label="Customer">
+            <ListItemButton data-testid="settings_customers" onClick={() => onNavigation('customer')}>
+              <Label label="Customers">
                 <KeyboardArrowRightOutlined />
               </Label>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => onNavigation('tasks')}>
+            <ListItemButton data-testid="settings_tasks" onClick={() => onNavigation('tasks')}>
               <Label label="Tasks">
                 <KeyboardArrowRightOutlined />
               </Label>
@@ -77,7 +77,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
 
       <Paper>
         <List>
-          <ListItem>
+          <ListItem data-testid="settings_default_project">
             <Label label="Default Project">
               <Select value={defaultProjectId} onChange={(event) => dispatch(setDefaultProjectId(event.target.value))}>
                 {projects.map((project) => (
@@ -88,10 +88,11 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
               </Select>
             </Label>
           </ListItem>
-          <ListItem>
+          <ListItem data-testid="settings_break">
             <Label label="Default break">
               <TextField
                 sx={{ maxWidth: '20%' }}
+                inputProps={{ 'aria-label': 'default break', 'data-testid': 'settings_breakInput' }}
                 variant="standard"
                 type="number"
                 value={defaultBreak}
@@ -102,10 +103,11 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
               />
             </Label>
           </ListItem>
-          <ListItem>
+          <ListItem data-testid="settings_break_rule">
             <Label label="Default break apply rule">
               <TextField
                 sx={{ maxWidth: '20%' }}
+                inputProps={{ 'aria-label': 'default break rule', 'data-testid': 'settings_break_ruleInput' }}
                 variant="standard"
                 type="number"
                 value={defaultBreakApplyRule}
@@ -116,10 +118,11 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
               />
             </Label>
           </ListItem>
-          <ListItem>
+          <ListItem data-testid="settings_rate">
             <Label label="Default rate">
               <TextField
                 sx={{ maxWidth: '20%' }}
+                inputProps={{ 'aria-label': 'default rate', 'data-testid': 'settings_rateInput' }}
                 variant="standard"
                 type="number"
                 value={defaultRate}
@@ -135,7 +138,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
 
       <Paper>
         <List>
-          <ListItem>
+          <ListItem data-testid="settings_darkmode">
             <Label label="Darkmode">
               <Switch checked={darkMode} onChange={() => dispatch(setDarkMode(!darkMode))} />
             </Label>
@@ -145,7 +148,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
 
       <Paper>
         <List>
-          <ListItem>
+          <ListItem data-testid="settings_email">
             <Label label="E-Mail">{userEmail}</Label>
           </ListItem>
           <ListItem disablePadding>
@@ -161,7 +164,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem disablePadding>
-            <ListItemButton onClick={logout}>
+            <ListItemButton data-testid="settings_version">
               <Label label="Version">{process.env.VERSION}</Label>
             </ListItemButton>
           </ListItem>
