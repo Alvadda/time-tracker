@@ -1,54 +1,54 @@
-import { loginButton, loginEmailInput, loginPasswordInput, logoutButton, navSettingsButton } from '../support/fields'
+import { login, nav } from '../support/fields'
 
 describe('login', () => {
   it('login with no data', () => {
     cy.fixture('login.json').then(() => {
-      cy.get(loginEmailInput).should('have.attr', 'aria-invalid', 'false')
-      cy.get(loginPasswordInput).should('have.attr', 'aria-invalid', 'false')
+      cy.get(login.emailInput).should('have.attr', 'aria-invalid', 'false')
+      cy.get(login.passwordInput).should('have.attr', 'aria-invalid', 'false')
 
-      cy.get(loginButton).click()
-      cy.get(loginEmailInput).should('have.attr', 'aria-invalid', 'true')
-      cy.get(loginPasswordInput).should('have.attr', 'aria-invalid', 'true')
-      cy.get(loginButton).should('exist')
+      cy.get(login.loginButton).click()
+      cy.get(login.emailInput).should('have.attr', 'aria-invalid', 'true')
+      cy.get(login.passwordInput).should('have.attr', 'aria-invalid', 'true')
+      cy.get(login.loginButton).should('exist')
     })
   })
 
   it('login with with wrong data', () => {
-    cy.fixture('login.json').then((login) => {
-      cy.get(loginEmailInput).should('have.attr', 'aria-invalid', 'false')
-      cy.get(loginPasswordInput).should('have.attr', 'aria-invalid', 'false')
+    cy.fixture('login.json').then((loginFix) => {
+      cy.get(login.emailInput).should('have.attr', 'aria-invalid', 'false')
+      cy.get(login.passwordInput).should('have.attr', 'aria-invalid', 'false')
 
-      cy.get(loginEmailInput).type(login.email_wrong)
-      cy.get(loginPasswordInput).type(login.password_wrong)
+      cy.get(login.emailInput).type(loginFix.email_wrong)
+      cy.get(login.passwordInput).type(loginFix.password_wrong)
 
-      cy.get(loginButton).click()
-      cy.get(loginEmailInput).should('have.attr', 'aria-invalid', 'true')
-      cy.get(loginPasswordInput).should('have.attr', 'aria-invalid', 'true')
-      cy.get(loginButton).should('exist')
+      cy.get(login.loginButton).click()
+      cy.get(login.emailInput).should('have.attr', 'aria-invalid', 'true')
+      cy.get(login.passwordInput).should('have.attr', 'aria-invalid', 'true')
+      cy.get(login.loginButton).should('exist')
     })
   })
 
   it('login with right data', () => {
-    cy.fixture('login.json').then((login) => {
-      cy.get(loginEmailInput).type(login.email)
-      cy.get(loginPasswordInput).type(login.password)
+    cy.fixture('login.json').then((loginFix) => {
+      cy.get(login.emailInput).type(loginFix.email)
+      cy.get(login.passwordInput).type(loginFix.password)
 
-      cy.get(loginButton).click()
-      cy.get(loginButton).should('not.exist')
+      cy.get(login.loginButton).click()
+      cy.get(login.loginButton).should('not.exist')
     })
   })
 
   it('logout', () => {
-    cy.fixture('login.json').then((login) => {
-      cy.get(loginEmailInput).type(login.email)
-      cy.get(loginPasswordInput).type(login.password)
+    cy.fixture('login.json').then((loginFix) => {
+      cy.get(login.emailInput).type(loginFix.email)
+      cy.get(login.passwordInput).type(loginFix.password)
 
-      cy.get(loginButton).click()
-      cy.get(loginButton).should('not.exist')
+      cy.get(login.loginButton).click()
+      cy.get(login.loginButton).should('not.exist')
 
-      cy.get(navSettingsButton).click()
-      cy.get(logoutButton).click()
-      cy.get(loginButton).should('exist')
+      cy.get(nav.settingsButton).click()
+      cy.get(login.logoutButton).click()
+      cy.get(login.loginButton).should('exist')
     })
   })
 })

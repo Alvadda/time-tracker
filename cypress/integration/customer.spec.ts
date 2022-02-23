@@ -1,11 +1,11 @@
-import { logoutButton, navSettingsButton } from '../support/fields'
+import { login, nav } from '../support/fields'
 
 describe('customer', () => {
   beforeEach(() => {
     cy.login()
   })
   it('test', () => {
-    cy.get(navSettingsButton).click()
-    cy.get(logoutButton).should('exist')
+    cy.get(nav.settingsButton).click()
+    cy.get(login.logoutButton).should('exist')
   })
 })

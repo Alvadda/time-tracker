@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
 import 'firebase/compat/firestore'
-import { loginButton, loginEmailInput, loginPasswordInput } from './fields'
+import { login } from './fields'
 require('dotenv').config({ path: './.env' })
 
 const fbConfig = {
@@ -28,11 +28,11 @@ console.log(`Using Auth emulator: http://localhost:9099/`)
 attachCustomCommands({ Cypress, cy, firebase })
 
 Cypress.Commands.add('login', () => {
-  cy.fixture('login.json').then((login) => {
-    cy.get(loginEmailInput).type(login.email)
-    cy.get(loginPasswordInput).type(login.password)
+  cy.fixture('login.json').then((loginFix) => {
+    cy.get(login.emailInput).type(loginFix.email)
+    cy.get(login.passwordInput).type(loginFix.password)
 
-    cy.get(loginButton).click()
-    cy.get(loginButton).should('not.exist')
+    cy.get(login.loginButton).click()
+    cy.get(login.loginButton).should('not.exist')
   })
 })
