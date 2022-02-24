@@ -6,10 +6,12 @@ export const nav = {
 export const settings = {
   settingsButton: nav.settingsButton,
   overviewButton: nav.overviewButton,
+  header: '[data-testid="page_header"]',
   projects: '[data-testid="settings_projects"]',
   customers: '[data-testid="settings_customers"]',
   tasks: '[data-testid="settings_tasks"]',
   defaultProject: '[data-testid="settings_default_project"]',
+  defaultProjectSelect: '[data-testid="settings_default_project_select" ]',
   breakInput: '[data-testid="settings_breakInput"]',
   break: '[data-testid="settings_break"]',
   breakRuleInput: '[data-testid="settings_break_ruleInput"]',
@@ -17,7 +19,10 @@ export const settings = {
   rateInput: '[data-testid="settings_rateInput"]',
   rate: '[data-testid="settings_rate"]',
   darkmode: '[data-testid="settings_darkmode"]',
+  darkmodeSwitch: '[data-testid="settings_darkmode_switch"]',
+  darkmodeSwitchCheck: '[aria-label="settings_darkmode_switch_check"]',
   email: '[data-testid="settings_email"]',
+  userEmail: '[data-testid="settings_userEmail"]',
   logout: '[data-testid="settings_logout"]',
   version: '[data-testid="settings_version"]',
 }

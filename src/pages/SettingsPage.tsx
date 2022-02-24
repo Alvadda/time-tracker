@@ -1,5 +1,5 @@
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import { Button, Grid } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import { VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomerManager from '../features/customer/CustomerManager'
@@ -29,6 +29,7 @@ const SettingsPage: VFC = () => {
         container
         sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center', textTransform: 'capitalize' }}
         position={'relative'}
+        data-testid="page_header"
       >
         {page !== 'settings' && (
           <Button
@@ -39,7 +40,9 @@ const SettingsPage: VFC = () => {
             <KeyboardArrowLeftIcon fontSize="medium" />
           </Button>
         )}
-        {page}
+        <Typography variant="h6" data-testid="page_header">
+          {page}
+        </Typography>
       </Grid>
       <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto', position: 'relative' }}>
         {page === 'settings' && <Settings onNavigation={onNavigation} />}

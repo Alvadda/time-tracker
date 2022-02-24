@@ -1,6 +1,18 @@
 import { KeyboardArrowRightOutlined } from '@mui/icons-material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { InputAdornment, List, ListItem, ListItemButton, MenuItem, Paper, Select, Stack, Switch, TextField } from '@mui/material'
+import {
+  InputAdornment,
+  List,
+  ListItem,
+  ListItemButton,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  Switch,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { useEffect, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
@@ -79,7 +91,11 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
         <List>
           <ListItem data-testid="settings_default_project">
             <Label label="Default Project">
-              <Select value={defaultProjectId} onChange={(event) => dispatch(setDefaultProjectId(event.target.value))}>
+              <Select
+                data-testid="settings_default_project_select"
+                value={defaultProjectId}
+                onChange={(event) => dispatch(setDefaultProjectId(event.target.value))}
+              >
                 {projects.map((project) => (
                   <MenuItem key={project.id} value={project.id}>
                     {project.name}
@@ -140,7 +156,12 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
         <List>
           <ListItem data-testid="settings_darkmode">
             <Label label="Darkmode">
-              <Switch checked={darkMode} onChange={() => dispatch(setDarkMode(!darkMode))} />
+              <Switch
+                inputProps={{ 'aria-label': 'settings_darkmode_switch_check' }}
+                data-testid="settings_darkmode_switch"
+                checked={darkMode}
+                onChange={() => dispatch(setDarkMode(!darkMode))}
+              />
             </Label>
           </ListItem>
         </List>
@@ -149,7 +170,11 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem data-testid="settings_email">
-            <Label label="E-Mail">{userEmail}</Label>
+            <Label label="E-Mail">
+              <Typography variant="body1" data-testid="settings_userEmail">
+                {userEmail}
+              </Typography>
+            </Label>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton data-testid="settings_logout" onClick={logout}>
@@ -163,10 +188,8 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
 
       <Paper>
         <List>
-          <ListItem disablePadding>
-            <ListItemButton data-testid="settings_version">
-              <Label label="Version">{process.env.VERSION}</Label>
-            </ListItemButton>
+          <ListItem data-testid="settings_version">
+            <Label label="Version">{process.env.VERSION}</Label>
           </ListItem>
         </List>
       </Paper>

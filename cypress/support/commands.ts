@@ -21,7 +21,7 @@ firebase.firestore().settings({
   host: 'http://localhost:5051/',
   ssl: false,
 })
-
+//connectFirestoreEmulator(firebase.firestore(), 'localhost', 5051)
 // firebase.firestore().useEmulator('localhost', 5051)
 firebase.auth().useEmulator(`http://localhost:9099/`)
 
