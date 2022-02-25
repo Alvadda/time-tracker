@@ -7,6 +7,8 @@ describe('settings', () => {
   })
   it('check Page', () => {
     cy.fixture('settings.json').then((settingsFix) => {
+      cy.contains(settingsFix.headerText)
+      cy.get(settings.header).should('exist')
       cy.get(settings.projects).should('exist')
       cy.get(settings.customers).should('exist')
       cy.get(settings.tasks).should('exist')
@@ -21,10 +23,9 @@ describe('settings', () => {
       cy.get(settings.darkmode).should('exist')
       cy.get(settings.darkmodeSwitch).should('exist')
       cy.get(settings.email).should('exist')
+      cy.get(settings.userEmail).contains(settingsFix.email)
       cy.get(settings.logout).should('exist')
       cy.get(settings.version).should('exist')
-      cy.get(settings.userEmail).contains(settingsFix.email)
-      cy.get(settings.header).contains(settingsFix.headerText)
     })
   })
 

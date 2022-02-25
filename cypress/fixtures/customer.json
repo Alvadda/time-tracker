@@ -1,0 +1,11 @@
+{
+  "name": "Create Customer",
+  "contact": "Meier Mustermann",
+  "email": "Meier@Mustermann.com",
+  "adress": "Musterstraße 9b 21217 Hamburg",
+  "phone": "+49 1231239",
+  "rate": "70",
+  "rateInvalid": "asd",
+  "note": "This is a Customer created with cypress",
+  "header": "customer"
+}

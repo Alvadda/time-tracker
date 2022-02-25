@@ -91,13 +91,26 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
       onDelete={deleteCustomer}
       onClose={onCancle}
     >
-      <TextField label="Name" variant="standard" {...register('name', { required: true })} error={Boolean(errors.name)} />
-      <TextField label="Contact" variant="standard" {...register('contact')} />
-      <TextField label="Email" variant="standard" type={'email'} {...register('email')} />
-      <TextField label="Address" variant="standard" {...register('address')} />
-      <TextField label="Phone" variant="standard" type={'tel'} {...register('phone')} />
-      <TextField label="Rate" variant="standard" type={'number'} {...register('rate')} />
-      <TextField label="Notes" variant="standard" multiline rows={3} {...register('note')} />
+      <TextField
+        inputProps={{ 'data-testid': 'customer_name' }}
+        label="Name"
+        variant="standard"
+        {...register('name', { required: true })}
+        error={Boolean(errors.name)}
+      />
+      <TextField inputProps={{ 'data-testid': 'customer_contact' }} label="Contact" variant="standard" {...register('contact')} />
+      <TextField inputProps={{ 'data-testid': 'customer_email' }} label="Email" variant="standard" type={'email'} {...register('email')} />
+      <TextField inputProps={{ 'data-testid': 'customer_adress' }} label="Address" variant="standard" {...register('address')} />
+      <TextField inputProps={{ 'data-testid': 'customer_phone' }} label="Phone" variant="standard" type={'tel'} {...register('phone')} />
+      <TextField inputProps={{ 'data-testid': 'customer_rate' }} label="Rate" variant="standard" type={'number'} {...register('rate')} />
+      <TextField
+        inputProps={{ 'data-testid': 'customer_note' }}
+        label="Notes"
+        variant="standard"
+        multiline
+        rows={3}
+        {...register('note')}
+      />
     </FormBox>
   )
 }

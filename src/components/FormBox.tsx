@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close'
-import { Box, Button, Stack } from '@mui/material'
+import { Box, Button, Stack, Typography } from '@mui/material'
 import { FC } from 'react'
 import DeleteButton from './DeleteButton'
 
@@ -31,10 +31,17 @@ const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, 
       autoComplete="off"
     >
       <Box sx={{ flex: '0 0 40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
-        <Button variant="text" sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }} onClick={() => onClose()}>
+        <Button
+          data-testid="form_close"
+          variant="text"
+          sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}
+          onClick={() => onClose()}
+        >
           <CloseIcon fontSize="medium" />
         </Button>
-        {header}
+        <Typography variant="h6" data-testid="form_header">
+          {header}
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -53,6 +60,7 @@ const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, 
         </Stack>
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'}>
           <Button
+            data-testid="form_submit"
             variant="contained"
             disabled={!isValid}
             onClick={() => {
@@ -61,8 +69,8 @@ const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, 
           >
             {update ? 'Update' : 'Create'}
           </Button>
-          {update && <DeleteButton onClick={onDelete} />}
-          <Button variant="outlined" onClick={() => onClose()}>
+          {update && <DeleteButton data-testid="form_delete" onClick={onDelete} />}
+          <Button data-testid="form_cancle" variant="outlined" onClick={() => onClose()}>
             cancle
           </Button>
         </Box>

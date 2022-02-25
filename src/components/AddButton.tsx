@@ -10,6 +10,7 @@ interface AddButtonProps {
 const AddButton: VFC<AddButtonProps> = ({ onClick }) => {
   return (
     <Fab
+      data-testid="add_button"
       size="medium"
       aria-label="add"
       sx={{ position: 'fixed', bottom: `${NAV_BAR_HEIGHT + 10}px`, right: '10px' }}
