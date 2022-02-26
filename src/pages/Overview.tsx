@@ -1,5 +1,5 @@
 import { DatePicker } from '@mui/lab'
-import { Box, Divider, Grid, List, ListItem, ListItemButton, TextField } from '@mui/material'
+import { Box, Divider, Grid, List, ListItem, ListItemButton, TextField, Typography } from '@mui/material'
 import moment, { Moment } from 'moment'
 import { useState, VFC } from 'react'
 import { useSelector } from 'react-redux'
@@ -37,12 +37,14 @@ const Overview: VFC = ({}) => {
   return (
     <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
       <Grid item container sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
-        Overview
+        <Typography variant="h6" data-testid="page_header">
+          Overview
+        </Typography>
       </Grid>
       <Grid item container flexDirection={'column'} overflow={'hidden'}>
         <Box padding={2} display={'flex'} gap={2}>
           <DatePicker
-            renderInput={(props) => <TextField {...props} />}
+            renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} />}
             label="From"
             value={fromDate}
             inputFormat="DD.MM.YYYY"
@@ -52,7 +54,7 @@ const Overview: VFC = ({}) => {
             }}
           />
           <DatePicker
-            renderInput={(props) => <TextField {...props} />}
+            renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} />}
             label="To"
             value={toDate}
             inputFormat="DD.MM.YYYY"
