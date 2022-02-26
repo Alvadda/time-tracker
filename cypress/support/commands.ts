@@ -21,6 +21,7 @@ firebase.firestore().settings({
   host: 'http://localhost:5051/',
   ssl: false,
 })
+
 //connectFirestoreEmulator(firebase.firestore(), 'localhost', 5051)
 // firebase.firestore().useEmulator('localhost', 5051)
 firebase.auth().useEmulator(`http://localhost:9099/`)
@@ -28,9 +29,9 @@ firebase.auth().useEmulator(`http://localhost:9099/`)
 attachCustomCommands({ Cypress, cy, firebase })
 
 Cypress.Commands.add('login', () => {
-  cy.fixture('login.json').then((loginFix) => {
-    cy.get(login.emailInput).type(loginFix.email)
-    cy.get(login.passwordInput).type(loginFix.password)
+  cy.fixture('login.json').then((data) => {
+    cy.get(login.emailInput).type(data.email)
+    cy.get(login.passwordInput).type(data.password)
 
     cy.get(login.loginButton).click()
     cy.get(login.loginButton).should('not.exist')

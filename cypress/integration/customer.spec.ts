@@ -56,4 +56,45 @@ describe('customer', () => {
       cy.get(customer.formNote).should('have.value', data.note)
     })
   })
+
+  it('check update customer', () => {
+    cy.fixture('customer.json').then((data) => {
+      cy.contains(data.name).should('exist')
+      cy.contains(data.name).click()
+
+      cy.get(customer.formName).clear().type(data.nameUpdate)
+      cy.get(customer.formContact).clear().type(data.contactUpdate)
+      cy.get(customer.formEmail).clear().type(data.emailUpdate)
+      cy.get(customer.formAdress).clear().type(data.adressUpdate)
+      cy.get(customer.formPhone).clear().type(data.phoneUpdate)
+      cy.get(customer.formRate).clear().type(data.rateUpdate)
+      cy.get(customer.formNote).clear().type(data.noteUpdate)
+
+      cy.get(customer.formSubmitButton).click()
+      cy.get(customer.settingsHeader).should('exist')
+      cy.contains(data.name).should('not.exist')
+      cy.contains(data.nameUpdate).should('exist')
+      cy.contains(data.nameUpdate).click()
+
+      cy.get(customer.formName).should('have.value', data.nameUpdate)
+      cy.get(customer.formContact).should('have.value', data.contactUpdate)
+      cy.get(customer.formEmail).should('have.value', data.emailUpdate)
+      cy.get(customer.formAdress).should('have.value', data.adressUpdate)
+      cy.get(customer.formPhone).should('have.value', data.phoneUpdate)
+      cy.get(customer.formRate).should('have.value', data.rateUpdate)
+      cy.get(customer.formNote).should('have.value', data.noteUpdate)
+    })
+  })
+
+  it('check delete customer', () => {
+    cy.fixture('customer.json').then((data) => {
+      cy.contains(data.nameUpdate).should('exist')
+      cy.contains(data.nameUpdate).click()
+
+      cy.get(customer.formDeleteButton).click()
+      cy.get(customer.settingsHeader).should('exist')
+      cy.contains(data.name).should('not.exist')
+      cy.contains(data.nameUpdate).should('not.exist')
+    })
+  })
 })

@@ -7,5 +7,12 @@
   "rate": "70",
   "rateInvalid": "asd",
   "note": "This is a Customer created with cypress",
-  "header": "customer"
+  "header": "customer",
+  "nameUpdate": "Update Customer",
+  "contactUpdate": "Reine Sache",
+  "emailUpdate": "Reine@sache.com",
+  "adressUpdate": "Twitch tv 420420 Poggers",
+  "phoneUpdate": "+49 13371337",
+  "rateUpdate": "13.37",
+  "noteUpdate": "This is a Customer updated with cypress"
 }
