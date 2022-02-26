@@ -44,7 +44,7 @@ const SettingsPage: VFC = () => {
           {page}
         </Typography>
       </Grid>
-      <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto', position: 'relative' }}>
+      <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto' }}>
         {page === 'settings' && <Settings onNavigation={onNavigation} />}
         {page === 'projects' && <ProjectManager />}
         {page === 'customer' && <CustomerManager />}

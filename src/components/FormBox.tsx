@@ -18,7 +18,7 @@ const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, 
     <Box
       component="form"
       sx={{
-        width: '100vw',
+        width: '100%',
         height: '100vh',
         position: 'fixed',
         inset: '0',

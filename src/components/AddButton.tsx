@@ -13,7 +13,7 @@ const AddButton: VFC<AddButtonProps> = ({ onClick }) => {
       data-testid="add_button"
       size="medium"
       aria-label="add"
-      sx={{ position: 'fixed', bottom: `${NAV_BAR_HEIGHT + 10}px`, right: '10px' }}
+      sx={{ position: 'absolute', bottom: `${NAV_BAR_HEIGHT + 10}px`, right: '10px' }}
       onClick={() => onClick()}
     >
       <AddIcon />

@@ -71,7 +71,7 @@ const TimeTracker = () => {
         <LiveTracker projects={projects} />
         <Divider />
       </Grid>
-      <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto', position: 'relative' }}>
+      <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto' }}>
         {!showForm && <SessionList sessions={sessions} projects={projects} onSelect={onSelect} />}
         {showForm && (
           <SessionForm

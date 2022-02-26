@@ -40,7 +40,7 @@ const Wizard = () => {
   })
 
   return (
-    <Grid container direction={'column'} sx={{ height: '100vh', width: '100vw' }} justifyContent={'center'}>
+    <Grid container direction={'column'} sx={{ height: '100vh', width: '100%' }} justifyContent={'center'}>
       <Grid item sx={{ flex: '1 0', height: `calc(100vh - ${NAV_BAR_HEIGHT}px)` }}>
         {currentPage === 'time-tracker' && <TimeTracker />}
         {currentPage === 'overview' && <Overview />}
