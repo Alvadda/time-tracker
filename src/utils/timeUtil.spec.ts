@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { calcActiveSessionDuration, calcSessionDuration, formatMinToHourMin, nowMiliseconds } from './timeUtil'
+import { calcActiveSessionDuration, calcSessionDuration, formatMinToHourMin } from './timeUtil'
 
 describe('utils/time', () => {
   test('formatMinToHourMin', () => {
@@ -21,9 +21,5 @@ describe('utils/time', () => {
 
     const duration = calcSessionDuration(start, end)
     expect(duration).toEqual(60)
-  })
-
-  test('nowMiliseconds', () => {
-    expect(nowMiliseconds()).toEqual(moment().valueOf())
   })
 })
