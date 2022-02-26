@@ -35,28 +35,30 @@ export const App = () => {
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <FirebaseProvider>
           <CssBaseline />
-          <Box maxWidth={'1200px'} height={'100vh'} margin={'0 auto'}>
-            {auth.uid ? <Wizard /> : <Login />}
-            {update && (
-              <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                open={update}
-                autoHideDuration={15000}
-                onClose={() => setUpdate(false)}
-              >
-                <Alert
-                  severity="info"
-                  sx={{ width: '100%' }}
-                  action={
-                    <Button color="inherit" size="small" onClick={() => window.location.reload()}>
-                      Update now
-                    </Button>
-                  }
+          <Box width="100vw" height="100vh" display="flex" justifyContent="center">
+            <Box width="min(600px, 100vw)" height="100vh" position="relative">
+              {auth.uid ? <Wizard /> : <Login />}
+              {update && (
+                <Snackbar
+                  anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                  open={update}
+                  autoHideDuration={15000}
+                  onClose={() => setUpdate(false)}
                 >
-                  New update available!
-                </Alert>
-              </Snackbar>
-            )}
+                  <Alert
+                    severity="info"
+                    sx={{ width: '100%' }}
+                    action={
+                      <Button color="inherit" size="small" onClick={() => window.location.reload()}>
+                        Update now
+                      </Button>
+                    }
+                  >
+                    New update available!
+                  </Alert>
+                </Snackbar>
+              )}
+            </Box>
           </Box>
         </FirebaseProvider>
       </LocalizationProvider>
