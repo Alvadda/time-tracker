@@ -10,6 +10,7 @@ import { selectDarkMode } from './features/settings/settingsSlice'
 import FirebaseProvider from './firebase/FirebaseContext'
 import { useFirebaseAuth } from './hooks/useFirebaseAuth'
 import Wizard from './pages/wizard/Wizard'
+import { APP_WIDTH } from './utils/constants '
 
 export const App = () => {
   const [update, setUpdate] = useState(false)
@@ -36,7 +37,7 @@ export const App = () => {
         <FirebaseProvider>
           <CssBaseline />
           <Box width="100vw" height="100vh" display="flex" justifyContent="center">
-            <Box width="min(600px, 100vw)" height="100vh" position="relative">
+            <Box width={APP_WIDTH} height="100vh" position="relative">
               {auth.uid ? <Wizard /> : <Login />}
               {update && (
                 <Snackbar

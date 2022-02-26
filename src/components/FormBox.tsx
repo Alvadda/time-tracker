@@ -1,6 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Stack, Typography } from '@mui/material'
 import { FC } from 'react'
+import { APP_WIDTH } from '../utils/constants '
 import DeleteButton from './DeleteButton'
 
 interface FormBoxProps {
@@ -18,9 +19,9 @@ const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, 
     <Box
       component="form"
       sx={{
-        width: '100%',
+        width: APP_WIDTH,
         height: '100vh',
-        position: 'fixed',
+        position: 'absolute',
         inset: '0',
         zIndex: 100,
         backgroundColor: 'background.default',
