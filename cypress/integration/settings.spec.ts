@@ -6,8 +6,8 @@ describe('settings', () => {
     cy.get(settings.settingsButton).click()
   })
   it('check Page', () => {
-    cy.fixture('settings.json').then((settingsFix) => {
-      cy.contains(settingsFix.headerText)
+    cy.fixture('settings.json').then((data) => {
+      cy.contains(data.headerText)
       cy.get(settings.header).should('exist')
       cy.get(settings.projects).should('exist')
       cy.get(settings.customers).should('exist')
@@ -23,7 +23,7 @@ describe('settings', () => {
       cy.get(settings.darkmode).should('exist')
       cy.get(settings.darkmodeSwitch).should('exist')
       cy.get(settings.email).should('exist')
-      cy.get(settings.userEmail).contains(settingsFix.email)
+      cy.get(settings.userEmail).contains(data.email)
       cy.get(settings.logout).should('exist')
       cy.get(settings.version).should('exist')
     })
@@ -36,14 +36,9 @@ describe('settings', () => {
     cy.get(settings.darkmodeSwitchCheck).should('be.checked')
     cy.wait(500)
 
-    cy.get(settings.breakInput).clear().type('30')
-    cy.get(settings.breakInput).invoke('val').should('eq', '30')
-
-    cy.get(settings.breakRuleInput).clear().type('6')
-    cy.get(settings.breakRuleInput).invoke('val').should('eq', '6')
-
-    cy.get(settings.rateInput).clear().type('25.4')
-    cy.get(settings.rateInput).invoke('val').should('eq', '25.4')
+    cy.get(settings.breakInput).clear().type('30').should('have.value', '30')
+    cy.get(settings.breakRuleInput).clear().type('6').should('have.value', '6')
+    cy.get(settings.rateInput).clear().type('25.4').should('have.value', '25.4')
 
     cy.get(settings.darkmodeSwitch).click()
     cy.get(settings.darkmodeSwitchCheck).should('not.checked')
