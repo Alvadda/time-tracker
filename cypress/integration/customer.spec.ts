@@ -28,7 +28,7 @@ describe('customer', () => {
       cy.get(customer.addCustomerButton).click()
 
       cy.get(customer.formName).should('have.attr', 'aria-invalid', 'false')
-      cy.get(customer.formSubmitButton).click()
+      cy.get(customer.formSubmitButton).click({ force: true })
       cy.get(customer.formName).should('have.attr', 'aria-invalid', 'true')
 
       cy.get(customer.formName).type(data.name)
@@ -41,7 +41,7 @@ describe('customer', () => {
 
       cy.get(customer.formRate).type(data.rateInvalid).should('have.value', data.rate)
 
-      cy.get(customer.formSubmitButton).click()
+      cy.get(customer.formSubmitButton).click({ force: true })
       cy.get(customer.settingsHeader).should('exist')
       cy.contains(data.name).should('exist')
       cy.contains(data.name).click()
@@ -70,7 +70,7 @@ describe('customer', () => {
       cy.get(customer.formRate).clear().type(data.rateUpdate)
       cy.get(customer.formNote).clear().type(data.noteUpdate)
 
-      cy.get(customer.formSubmitButton).click()
+      cy.get(customer.formSubmitButton).click({ force: true })
       cy.get(customer.settingsHeader).should('exist')
       cy.contains(data.name).should('not.exist')
       cy.contains(data.nameUpdate).should('exist')
@@ -91,7 +91,7 @@ describe('customer', () => {
       cy.contains(data.nameUpdate).should('exist')
       cy.contains(data.nameUpdate).click()
 
-      cy.get(customer.formDeleteButton).click()
+      cy.get(customer.formDeleteButton).click({ force: true })
       cy.get(customer.settingsHeader).should('exist')
       cy.contains(data.name).should('not.exist')
       cy.contains(data.nameUpdate).should('not.exist')

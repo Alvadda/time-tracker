@@ -8,7 +8,7 @@ interface DeleteButtonProps {
 
 const DeleteButton: VFC<DeleteButtonProps> = ({ onClick }) => {
   return (
-    <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => onClick()}>
+    <Button variant="contained" data-testid="form_delete" color="error" startIcon={<DeleteIcon />} onClick={() => onClick()}>
       Delete
     </Button>
   )

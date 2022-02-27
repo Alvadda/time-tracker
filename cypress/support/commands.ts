@@ -37,3 +37,7 @@ Cypress.Commands.add('login', () => {
     cy.get(login.loginButton).should('not.exist')
   })
 })
+
+Cypress.Commands.add('resetFirestore', () => {
+  cy.request('DELETE', `'http://localhost:5051/emulator/v1/projects/${Cypress.env('projectId')}/databases/(default)/documents'`)
+})

@@ -70,7 +70,7 @@ const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, 
           >
             {update ? 'Update' : 'Create'}
           </Button>
-          {update && <DeleteButton data-testid="form_delete" onClick={onDelete} />}
+          {update && <DeleteButton onClick={onDelete} />}
           <Button data-testid="form_cancle" variant="outlined" onClick={() => onClose()}>
             cancle
           </Button>
