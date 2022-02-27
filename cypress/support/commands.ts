@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
 import 'firebase/compat/firestore'
-import { login } from './fields'
+import { customer, login, settings } from './fields'
 require('dotenv').config({ path: './.env' })
 
 const fbConfig = {
@@ -36,6 +36,36 @@ Cypress.Commands.add('login', () => {
     cy.get(login.loginButton).click()
     cy.get(login.loginButton).should('not.exist')
   })
+})
+
+interface CreateUserFromSettingsProps {
+  name?: string
+  contact?: string
+  email?: string
+  adress?: string
+  phone?: string
+  rate?: string
+  note?: string
+}
+
+Cypress.Commands.add('createUserFromSettings', (user: CreateUserFromSettingsProps) => {
+  cy.get(customer.customersSettings).click()
+  cy.get(customer.addCustomerButton).click()
+  cy.get(customer.formName).type(user.name)
+  cy.get(customer.formContact).type(user.contact)
+  cy.get(customer.formEmail).type(user.email)
+  cy.get(customer.formAdress).type(user.adress)
+  cy.get(customer.formPhone).type(user.phone)
+  cy.get(customer.formRate).type(user.rate)
+  cy.get(customer.formNote).type(user.note)
+  cy.get(customer.formSubmitButton).click({ force: true })
+  cy.get(customer.settingsHeader).should('exist')
+  cy.get(settings.back).click({ force: true })
+})
+
+Cypress.Commands.add('selectMui', (select: string, option: string) => {
+  cy.get(select).parent().click()
+  cy.get('[role="option"]').should('exist').contains(option).click()
 })
 
 Cypress.Commands.add('resetFirestore', () => {

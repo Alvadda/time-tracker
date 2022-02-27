@@ -1,4 +1,4 @@
 {
   "baseUrl": "http://localhost:8080",
-  "testFiles": ["login.spec.ts", "settings.spec.ts", "customer.spec.ts"]
+  "testFiles": ["login.spec.ts", "settings.spec.ts", "customer.spec.ts", "project.spec.ts"]
 }

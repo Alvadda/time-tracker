@@ -1,1 +1,25 @@
-{}
+{
+  "customer1": {
+    "name": "Customer One",
+    "contact": "Meier Mustermann",
+    "email": "Meier@Mustermann.com",
+    "adress": "Musterstraße 9b 21217 Hamburg",
+    "phone": "+49 1231239",
+    "rate": "70",
+    "note": "This is a Customer created with cypress"
+  },
+  "customer2": {
+    "name": "Customer Two",
+    "contact": "Meier Mustermann",
+    "email": "Meier@Mustermann.com",
+    "adress": "Musterstraße 9b 21217 Hamburg",
+    "phone": "+49 1231239",
+    "rate": "70",
+    "note": "This is a Customer created with cypress"
+  },
+  "name": "Create Project",
+  "rate": "40",
+  "nameUpdate": "Update Project",
+  "rateUpdate": "90",
+  "rateInvalid": "abc"
+}

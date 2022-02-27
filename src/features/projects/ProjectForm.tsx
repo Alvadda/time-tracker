@@ -89,11 +89,18 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
       onDelete={deleteProject}
       onClose={onCancle}
     >
-      <TextField label="Name" variant="standard" {...register('name', { required: true })} error={Boolean(errors.name)} />
-      <TextField label="Rate" variant="standard" type="number" {...register('rate')} />
+      <TextField
+        inputProps={{ 'data-testid': 'project_name' }}
+        label="Name"
+        variant="standard"
+        {...register('name', { required: true })}
+        error={Boolean(errors.name)}
+      />
+      <TextField inputProps={{ 'data-testid': 'project_rate' }} label="Rate" variant="standard" type="number" {...register('rate')} />
       <FormControl>
         <InputLabel>Customer</InputLabel>
         <Select
+          inputProps={{ 'data-testid': 'project_customer' }}
           label="Customer"
           variant="standard"
           value={watch('customer')}
@@ -106,7 +113,7 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
           ))}
         </Select>
       </FormControl>
-      <HexColorPicker color={watch('color')} onChange={(color) => setValue('color', color)} />
+      <HexColorPicker data-testid="project_color" color={watch('color')} onChange={(color) => setValue('color', color)} />
     </FormBox>
   )
 }

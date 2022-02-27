@@ -16,6 +16,7 @@ export const settings = {
   settingsButton: nav.settingsButton,
   overviewButton: nav.overviewButton,
   header: '[data-testid="page_header"]',
+  back: '[data-testid="settings_back"]',
   projects: '[data-testid="settings_projects"]',
   customers: '[data-testid="settings_customers"]',
   tasks: '[data-testid="settings_tasks"]',
@@ -53,6 +54,23 @@ export const customer = {
   formPhone: '[data-testid="customer_phone"]',
   formRate: '[data-testid="customer_rate"]',
   formNote: '[data-testid="customer_note"]',
+}
+
+export const project = {
+  projectSettings: settings.projects,
+  settingsHeader: settings.header,
+  settingsBack: settings.back,
+  settingsButton: nav.settingsButton,
+  addProjectButton: utils.addButton,
+  formHeader: utils.formHeader,
+  formClose: utils.formClose,
+  formSubmitButton: utils.formSubmitButton,
+  formDeleteButton: utils.formDeleteButton,
+  formCancleButton: utils.formCancleButton,
+  formName: '[data-testid="project_name"]',
+  formRate: '[data-testid="project_rate"]',
+  formCustomer: '[data-testid="project_customer"]',
+  formColor: '[data-testid="project_color"]',
 }
 
 export const login = {

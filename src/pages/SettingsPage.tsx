@@ -34,6 +34,7 @@ const SettingsPage: VFC = () => {
         {page !== 'settings' && (
           <Button
             variant="text"
+            data-testid="settings_back"
             sx={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)' }}
             onClick={() => dispatch(navigateBack())}
           >
