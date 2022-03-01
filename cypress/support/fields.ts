@@ -73,6 +73,23 @@ export const project = {
   formColor: '[data-testid="project_color"]',
 }
 
+export const task = {
+  taskSettings: settings.tasks,
+  settingsButton: nav.settingsButton,
+  settingsHeader: settings.header,
+  addTaskButton: utils.addButton,
+  formHeader: utils.formHeader,
+  formClose: utils.formClose,
+  formSubmitButton: utils.formSubmitButton,
+  formDeleteButton: utils.formDeleteButton,
+  formCancleButton: utils.formCancleButton,
+  taskName: '[data-testid="task_name"]',
+  taskDescription: '[data-testid="task_description"]',
+  taskColor: '[data-testid="task_color"]',
+  taskFavorite: '[data-testid="task_favorite"]',
+  taskFavoriteicon: '[data-testid="StarIcon"]',
+}
+
 export const login = {
   emailInput: '[data-testid="login_email"]',
   passwordInput: '[data-testid="login_password"]',

@@ -92,12 +92,26 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
       onDelete={deleteTask}
       onClose={onCancle}
     >
-      <TextField label="Name" variant="standard" {...register('name', { required: true })} error={Boolean(errors.name)} />
-      <TextField label="Description" variant="standard" multiline rows={7} {...register('description')} />
-      <HexColorPicker color={watch('color')} onChange={(color) => setValue('color', color)} />
+      <TextField
+        inputProps={{ 'data-testid': 'task_name' }}
+        label="Name"
+        variant="standard"
+        {...register('name', { required: true })}
+        error={Boolean(errors.name)}
+      />
+      <TextField
+        inputProps={{ 'data-testid': 'task_description' }}
+        label="Description"
+        variant="standard"
+        multiline
+        rows={7}
+        {...register('description')}
+      />
+      <HexColorPicker data-testid="task_color" color={watch('color')} onChange={(color) => setValue('color', color)} />
       <Checkbox
         icon={<StarBorderIcon />}
         checkedIcon={<StarIcon />}
+        inputProps={{ 'data-testid': 'task_favorite' }}
         value={isFavorite}
         checked={isFavorite}
         onChange={() => setValue('isFavorite', !isFavorite)}
