@@ -18,7 +18,7 @@
     "test": "npm run test:unit && npm run test:ui",
     "test:unit": "jest",
     "test:unit:w": "jest --watchAll",
-    "cy:ui": "cypress run",
+    "cy:ui": "cypress run --browser chrome",
     "cy:open": "cypress open"
   },
   "keywords": [],
