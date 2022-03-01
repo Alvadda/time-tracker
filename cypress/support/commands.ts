@@ -6,6 +6,33 @@ import 'firebase/compat/firestore'
 import { customer, login, settings } from './fields'
 require('dotenv').config({ path: './.env' })
 
+interface CreateUserFromSettingsProps {
+  name?: string
+  contact?: string
+  email?: string
+  adress?: string
+  phone?: string
+  rate?: string
+  note?: string
+}
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      loginToTT(): Chainable<Element>
+    }
+    interface Chainable {
+      createUserFromSettings(user: CreateUserFromSettingsProps): Chainable<Element>
+    }
+    interface Chainable {
+      selectMui(select: string, option: string): Chainable<Element>
+    }
+    interface Chainable {
+      resetFirestore(): Chainable<Element>
+    }
+  }
+}
+
 const fbConfig = {
   apiKey: Cypress.env('apiKey'),
   authDomain: Cypress.env('authDomain'),
@@ -28,7 +55,8 @@ firebase.auth().useEmulator(`http://localhost:9099/`)
 
 attachCustomCommands({ Cypress, cy, firebase })
 
-Cypress.Commands.add('login', () => {
+Cypress.Commands.add('loginToTT', () => {
+  // is Overwriting cypress-firebase login
   cy.fixture('login.json').then((data) => {
     cy.get(login.emailInput).type(data.email)
     cy.get(login.passwordInput).type(data.password)
@@ -37,16 +65,6 @@ Cypress.Commands.add('login', () => {
     cy.get(login.loginButton).should('not.exist')
   })
 })
-
-interface CreateUserFromSettingsProps {
-  name?: string
-  contact?: string
-  email?: string
-  adress?: string
-  phone?: string
-  rate?: string
-  note?: string
-}
 
 Cypress.Commands.add('createUserFromSettings', (user: CreateUserFromSettingsProps) => {
   cy.get(customer.customersSettings).click()
@@ -69,5 +87,5 @@ Cypress.Commands.add('selectMui', (select: string, option: string) => {
 })
 
 Cypress.Commands.add('resetFirestore', () => {
-  cy.request('DELETE', `'http://localhost:5051/emulator/v1/projects/${Cypress.env('projectId')}/databases/(default)/documents'`)
+  cy.request('DELETE', `http://localhost:5051/emulator/v1/projects/${Cypress.env('projectId')}/databases/(default)/documents`)
 })

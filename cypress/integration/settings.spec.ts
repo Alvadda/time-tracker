@@ -2,7 +2,7 @@ import { settings } from '../support/fields'
 
 describe('settings', () => {
   beforeEach(() => {
-    cy.login()
+    cy.loginToTT()
     cy.get(settings.settingsButton).click()
   })
   it('check Page', () => {

@@ -2,7 +2,7 @@ import { project } from '../support/fields'
 
 describe('project', () => {
   beforeEach(() => {
-    cy.login()
+    cy.loginToTT()
     cy.get(project.settingsButton).click()
     cy.get(project.projectSettings).click()
   })

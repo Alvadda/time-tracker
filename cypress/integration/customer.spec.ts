@@ -2,7 +2,7 @@ import { customer } from '../support/fields'
 
 describe('customer', () => {
   beforeEach(() => {
-    cy.login()
+    cy.loginToTT()
     cy.get(customer.settingsButton).click()
     cy.get(customer.customersSettings).click()
   })
