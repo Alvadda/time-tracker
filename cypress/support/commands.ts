@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
 import 'firebase/compat/firestore'
-import { customer, login, settings } from './fields'
+import { customer, login, project, settings, task } from './fields'
 require('dotenv').config({ path: './.env' })
 
 interface CreateUserFromSettingsProps {
@@ -15,6 +15,18 @@ interface CreateUserFromSettingsProps {
   rate?: string
   note?: string
 }
+
+interface CreateProjectFromSettingsProps {
+  name?: string
+  rate?: string
+  customer?: string
+}
+
+interface CreateTaskFromSettingsProps {
+  name?: string
+  description?: string
+  isFavorite?: boolean
+}
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
@@ -23,6 +35,12 @@ declare global {
     }
     interface Chainable {
       createUserFromSettings(user: CreateUserFromSettingsProps): Chainable<Element>
+    }
+    interface Chainable {
+      createProjectFromSettings(user: CreateProjectFromSettingsProps): Chainable<Element>
+    }
+    interface Chainable {
+      createTaskFromSettings(user: CreateTaskFromSettingsProps): Chainable<Element>
     }
     interface Chainable {
       selectMui(select: string, option: string): Chainable<Element>
@@ -64,6 +82,49 @@ Cypress.Commands.add('loginToTT', () => {
     cy.get(login.loginButton).click()
     cy.get(login.loginButton).should('not.exist')
   })
+})
+
+Cypress.Commands.add('createUserFromSettings', (user: CreateUserFromSettingsProps) => {
+  cy.get(customer.customersSettings).click()
+  cy.get(customer.addCustomerButton).click()
+  cy.get(customer.formName).type(user.name)
+  cy.get(customer.formContact).type(user.contact)
+  cy.get(customer.formEmail).type(user.email)
+  cy.get(customer.formAdress).type(user.adress)
+  cy.get(customer.formPhone).type(user.phone)
+  cy.get(customer.formRate).type(user.rate)
+  cy.get(customer.formNote).type(user.note)
+  cy.get(customer.formSubmitButton).click({ force: true })
+  cy.get(customer.settingsHeader).should('exist')
+  cy.get(settings.back).click({ force: true })
+})
+
+Cypress.Commands.add('createProjectFromSettings', (projectData: CreateProjectFromSettingsProps) => {
+  cy.get(project.projectSettings).click()
+  cy.get(project.addProjectButton).click()
+  cy.get(project.formName).type(projectData.name)
+  cy.get(project.formRate).type(projectData.rate)
+  if (projectData.customer) {
+    cy.selectMui(project.formCustomer, projectData.customer)
+  }
+
+  cy.get(project.formSubmitButton).click({ force: true })
+  cy.get(project.settingsHeader).should('exist')
+  cy.get(settings.back).click({ force: true })
+})
+
+Cypress.Commands.add('createTaskFromSettings', (taskData: CreateTaskFromSettingsProps) => {
+  cy.get(task.taskSettings).click()
+  cy.get(task.addTaskButton).click()
+
+  cy.get(task.taskName).type(taskData.name)
+  cy.get(task.taskDescription).type(taskData.description)
+  if (taskData) {
+    cy.get(task.taskFavorite).check()
+  }
+  cy.get(task.formSubmitButton).click({ force: true })
+  cy.get(task.settingsHeader).should('exist')
+  cy.get(settings.back).click({ force: true })
 })
 
 Cypress.Commands.add('createUserFromSettings', (user: CreateUserFromSettingsProps) => {
