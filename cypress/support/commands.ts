@@ -37,13 +37,16 @@ declare global {
       createUserFromSettings(user: CreateUserFromSettingsProps): Chainable<Element>
     }
     interface Chainable {
-      createProjectFromSettings(user: CreateProjectFromSettingsProps): Chainable<Element>
+      createProjectFromSettings(projectData: CreateProjectFromSettingsProps): Chainable<Element>
     }
     interface Chainable {
-      createTaskFromSettings(user: CreateTaskFromSettingsProps): Chainable<Element>
+      createTaskFromSettings(taskData: CreateTaskFromSettingsProps): Chainable<Element>
     }
     interface Chainable {
       selectMui(select: string, option: string): Chainable<Element>
+    }
+    interface Chainable {
+      enterDateTimeMui(id: string, dateTime: string, clear?: boolean): Chainable<Element>
     }
     interface Chainable {
       resetFirestore(): Chainable<Element>
@@ -119,7 +122,7 @@ Cypress.Commands.add('createTaskFromSettings', (taskData: CreateTaskFromSettings
 
   cy.get(task.taskName).type(taskData.name)
   cy.get(task.taskDescription).type(taskData.description)
-  if (taskData) {
+  if (taskData.isFavorite) {
     cy.get(task.taskFavorite).check()
   }
   cy.get(task.formSubmitButton).click({ force: true })
@@ -145,6 +148,14 @@ Cypress.Commands.add('createUserFromSettings', (user: CreateUserFromSettingsProp
 Cypress.Commands.add('selectMui', (select: string, option: string) => {
   cy.get(select).parent().click()
   cy.get('[role="option"]').should('exist').contains(option).click()
+})
+
+Cypress.Commands.add('enterDateTimeMui', (id: string, dateTime: string, clear = true) => {
+  if (clear) {
+    cy.get(id).find('input').first().clear({ force: true }).type(dateTime, { force: true })
+  } else {
+    cy.get(id).find('input').first().type(dateTime, { force: true })
+  }
 })
 
 Cypress.Commands.add('resetFirestore', () => {

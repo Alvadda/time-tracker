@@ -103,23 +103,33 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
     <Grid item container direction={'column'} sx={{ height: '100%' }} justifyContent={'center'} alignItems={'center'}>
       <Grid item sx={{ flex: '0 0 20%', width: '100%' }} justifyContent={'center'} alignItems={'center'} position={'relative'}>
         {activeSession && (
-          <Chip label="Working" color="success" sx={{ position: 'absolute', top: '50%', left: '10%', transform: 'translateY(-50%)' }} />
+          <Chip
+            data-testid="live_working"
+            label="Working"
+            color="success"
+            sx={{ position: 'absolute', top: '50%', left: '10%', transform: 'translateY(-50%)' }}
+          />
         )}
-        <Typography variant="h3" component="h3" align="center">
+        <Typography data-testid="live_clock" variant="h3" component="h3" align="center">
           {clock}
         </Typography>
       </Grid>
       <Grid item container sx={{ flex: '1 0', width: '100%' }} justifyContent={'center'} alignItems={'center'}>
         <Grid item container justifyContent={'center'} alignItems={'center'}>
           <Grid item container display={'flex'} justifyContent={'center'} alignItems={'center'} xs={6}>
-            <Typography variant="h4" component="h4" align="center">
+            <Typography data-testid="live_duration" variant="h4" component="h4" align="center">
               {sessionDuration}
             </Typography>
           </Grid>
           <Grid item container direction={'column'} gap={2} justifyContent={'center'} alignItems={'center'} xs={6} padding={2}>
             <FormControl fullWidth>
               <InputLabel>Project</InputLabel>
-              <Select label="Project" value={projectId} onChange={(event) => setProjectId(event.target.value)}>
+              <Select
+                inputProps={{ 'data-testid': 'live_project' }}
+                label="Project"
+                value={projectId}
+                onChange={(event) => setProjectId(event.target.value)}
+              >
                 {projects.map((project) => (
                   <MenuItem key={project.id} value={project.id}>
                     {project.name}
@@ -128,6 +138,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
               </Select>
             </FormControl>
             <Button
+              data-testid="live_track"
               fullWidth
               variant="contained"
               disabled={trackDisabled}

@@ -1,0 +1,30 @@
+{
+  "projectLive": {
+    "name": "Live Tracker",
+    "rate": "100"
+  },
+  "projectWebsite": {
+    "name": "Website",
+    "rate": "30"
+  },
+  "projectApp": {
+    "name": "App",
+    "rate": "50"
+  },
+  "TaskTest": {
+    "name": "Testing",
+    "description": "Ui & Unit testing"
+  },
+  "TaskRef": {
+    "name": "Refectoring",
+    "description": "Refectore some code"
+  },
+  "TaskPipe": {
+    "name": "CI/CD",
+    "description": "Build the CI/CD Pipeline"
+  },
+  "TaskFeat": {
+    "name": "Features",
+    "description": "add new features"
+  }
+}

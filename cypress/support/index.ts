@@ -5,6 +5,6 @@ beforeEach(() => {
   cy.visit('http://localhost:8080')
 })
 
-after(() => {
+before(() => {
   cy.resetFirestore()
 })

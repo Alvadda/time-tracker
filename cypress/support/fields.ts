@@ -90,6 +90,27 @@ export const task = {
   taskFavoriteicon: '[data-testid="StarIcon"]',
 }
 
+export const session = {
+  settingsButton: nav.settingsButton,
+  addSessionButton: utils.addButton,
+  formHeader: utils.formHeader,
+  formClose: utils.formClose,
+  formSubmitButton: utils.formSubmitButton,
+  formDeleteButton: utils.formDeleteButton,
+  formCancleButton: utils.formCancleButton,
+  sessionStart: '[data-testid="session_start"]',
+  sessionEnd: '[data-testid="session_end"]',
+  sessionBreak: '[data-testid="session_break"]',
+  sessionProject: '[data-testid="session_project"]',
+  sessionTask: '[data-testid="session_task"]',
+  sessionNote: '[data-testid="session_note"]',
+  sessionLiveWorking: '[data-testid="live_working"]',
+  sessionLiveClock: '[data-testid="live_clock"]',
+  sessionLiveDuration: '[data-testid="live_duration"]',
+  sessionLiveProject: '[data-testid="live_project"]',
+  sessionLiveTrack: '[data-testid="live_track"]',
+}
+
 export const login = {
   emailInput: '[data-testid="login_email"]',
   passwordInput: '[data-testid="login_password"]',

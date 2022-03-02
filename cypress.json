@@ -1,3 +1,3 @@
 {
-  "testFiles": ["login.spec.ts", "settings.spec.ts", "customer.spec.ts", "project.spec.ts", "task.spec.ts"]
+  "testFiles": ["login.spec.ts", "settings.spec.ts", "customer.spec.ts", "project.spec.ts", "task.spec.ts", "session.spec.ts"]
 }

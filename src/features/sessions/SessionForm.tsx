@@ -123,7 +123,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
   return (
     <FormBox header="Session" isValid={true} update={isUpdate} onCreate={create} onUpdate={update} onDelete={remove} onClose={onCancle}>
       <DateTimePicker
-        renderInput={(props) => <TextField {...props} />}
+        renderInput={(props) => <TextField {...props} data-testid="session_start" />}
         label="Start Time"
         value={startTime}
         inputFormat="DD.MM.YY HH:mm"
@@ -134,7 +134,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         }}
       />
       <DateTimePicker
-        renderInput={(props) => <TextField {...props} />}
+        renderInput={(props) => <TextField {...props} data-testid="session_end" />}
         label="End Time"
         value={endTime}
         inputFormat="DD.MM.YY HH:mm"
@@ -153,11 +153,17 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         InputProps={{
           endAdornment: <InputAdornment position="end">m</InputAdornment>,
         }}
+        inputProps={{ 'data-testid': 'session_break' }}
         {...register('sessionBreak')}
       />
       <FormControl fullWidth>
         <InputLabel>Project</InputLabel>
-        <Select label="Project" value={watch('projectId')} onChange={(event) => setValue('projectId', event.target.value)}>
+        <Select
+          inputProps={{ 'data-testid': 'session_project' }}
+          label="Project"
+          value={watch('projectId')}
+          onChange={(event) => setValue('projectId', event.target.value)}
+        >
           {projects.map((project) => (
             <MenuItem key={project.id} value={project.id}>
               {project.name}
@@ -172,7 +178,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
           multiple
           value={watch('taskIds')}
           onChange={handleChange}
-          input={<OutlinedInput label="Tasks" />}
+          input={<OutlinedInput inputProps={{ 'data-testid': 'session_task' }} label="Tasks" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((id) => (
@@ -188,7 +194,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
           ))}
         </Select>
       </FormControl>
-      <TextField label="Note" variant="standard" multiline rows={5} {...register('note')} />
+      <TextField inputProps={{ 'data-testid': 'session_note' }} label="Note" variant="standard" multiline rows={5} {...register('note')} />
     </FormBox>
   )
 }
