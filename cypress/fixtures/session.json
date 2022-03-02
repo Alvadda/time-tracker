@@ -11,19 +11,19 @@
     "name": "App",
     "rate": "50"
   },
-  "TaskTest": {
+  "taskTest": {
     "name": "Testing",
     "description": "Ui & Unit testing"
   },
-  "TaskRef": {
+  "taskRef": {
     "name": "Refectoring",
     "description": "Refectore some code"
   },
-  "TaskPipe": {
+  "taskPipe": {
     "name": "CI/CD",
     "description": "Build the CI/CD Pipeline"
   },
-  "TaskFeat": {
+  "taskFeat": {
     "name": "Features",
     "description": "add new features"
   }

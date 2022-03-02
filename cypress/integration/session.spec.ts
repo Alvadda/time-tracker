@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { session } from '../support/fields'
 
 describe('session', () => {
@@ -7,19 +8,16 @@ describe('session', () => {
 
   it('setup', () => {
     cy.fixture('session.json').then((data) => {
-      cy.get(session.sessionLiveTrack).click()
-      cy.get(session.sessionLiveWorking).should('exist')
-
       cy.get(session.settingsButton).click()
 
       cy.createProjectFromSettings(data.projectLive)
       cy.createProjectFromSettings(data.projectWebsite)
       cy.createProjectFromSettings(data.projectApp)
 
-      cy.createTaskFromSettings(data.TaskTest)
-      cy.createTaskFromSettings(data.TaskRef)
-      cy.createTaskFromSettings(data.TaskPipe)
-      cy.createTaskFromSettings(data.TaskFeat)
+      cy.createTaskFromSettings(data.taskTest)
+      cy.createTaskFromSettings(data.taskRef)
+      cy.createTaskFromSettings(data.taskPipe)
+      cy.createTaskFromSettings(data.taskFeat)
     })
   })
 
@@ -58,7 +56,7 @@ describe('session', () => {
       cy.enterDateTimeMui(session.sessionEnd, '02.03.22 11:30')
       cy.get(session.sessionBreak).clear().type('30')
       cy.selectMui(session.sessionProject, data.projectWebsite.name)
-      cy.selectMui(session.sessionTask, data.TaskPipe.name)
+      cy.multiSelectMui(session.sessionTask, [data.taskFeat.name])
 
       cy.get(session.formSubmitButton).click({ force: true })
       cy.get(session.sessionLiveClock).should('exist')
@@ -68,37 +66,78 @@ describe('session', () => {
     })
   })
 
-  // it('check update project', () => {
-  //   cy.fixture('project.json').then((data) => {
-  //     cy.contains(data.name).should('exist')
-  //     cy.contains(data.name).click()
+  it('update project', () => {
+    cy.fixture('session.json').then((data) => {
+      cy.contains(data.projectWebsite.name).click()
+      cy.get(session.formHeader).should('exist')
 
-  //     cy.get(project.formName).clear().type(data.nameUpdate)
-  //     cy.get(project.formRate).clear().type(data.rateUpdate)
-  //     cy.selectMui(project.formCustomer, data.customer2.name)
+      cy.enterDateTimeMui(session.sessionStart, '02.03.22 09:00')
+      cy.enterDateTimeMui(session.sessionEnd, '02.03.22 13:00')
+      cy.get(session.sessionBreak).clear().type('60')
+      cy.selectMui(session.sessionProject, data.projectApp.name)
+      cy.multiSelectMui(session.sessionTask, [data.taskTest.name, data.taskPipe.name])
 
-  //     cy.get(project.formSubmitButton).click({ force: true })
-  //     cy.get(project.settingsHeader).should('exist')
+      cy.get(session.formSubmitButton).click({ force: true })
+      cy.get(session.sessionLiveClock).should('exist')
+      cy.contains(data.projectApp.name)
+      cy.contains('3:00H')
+      cy.contains('150.00€')
+    })
+  })
 
-  //     cy.contains(data.name).should('not.exist')
-  //     cy.contains(data.nameUpdate).should('exist')
-  //     cy.contains(data.nameUpdate).click()
+  it('delete project', () => {
+    cy.fixture('session.json').then((data) => {
+      cy.contains(data.projectApp.name).click()
 
-  //     cy.get(project.formName).should('have.value', data.nameUpdate)
-  //     cy.get(project.formRate).should('have.value', data.rateUpdate)
-  //     cy.contains(data.customer2.name)
-  //   })
-  // })
+      cy.get(session.formDeleteButton).click({ force: true })
+      cy.get(session.sessionLiveClock).should('exist')
+      cy.contains(data.projectApp.name).should('not.exist')
+    })
+  })
 
-  // it('check delete project', () => {
-  //   cy.fixture('project.json').then((data) => {
-  //     cy.contains(data.nameUpdate).should('exist')
-  //     cy.contains(data.nameUpdate).click()
+  it('start session', () => {
+    cy.get(session.sessionLiveTrack).click()
+    cy.get(session.sessionLiveWorking).should('exist')
+    cy.wait(2000)
+    cy.get(session.sessionLiveTrack).click()
+    cy.get(session.sessionLiveWorking).should('not.exist')
+    cy.contains('0:00H').click()
+    cy.get(session.formDeleteButton).click({ force: true })
+  })
 
-  //     cy.get(project.formDeleteButton).click({ force: true })
-  //     cy.get(project.settingsHeader).should('exist')
-  //     cy.contains(data.name).should('not.exist')
-  //     cy.contains(data.nameUpdate).should('not.exist')
-  //   })
-  // })
+  it('start session with project', () => {
+    cy.fixture('session.json').then((data) => {
+      cy.get(session.sessionLiveTrack).click()
+      cy.get(session.sessionLiveWorking).should('exist')
+      cy.selectMui(session.sessionLiveProject, data.projectWebsite.name)
+      cy.wait(2000)
+      cy.get(session.sessionLiveTrack).click()
+      cy.get(session.sessionLiveWorking).should('not.exist')
+      cy.contains(data.projectWebsite.name).click()
+      cy.get(session.formDeleteButton).click({ force: true })
+    })
+  })
+
+  it('end session session with project', () => {
+    cy.fixture('session.json').then((data) => {
+      cy.callFirestore('get', 'users').then((user) => {
+        const userId = user[0].id
+        const twoHoursParst = moment().subtract({ hours: 2 }).valueOf()
+
+        cy.callFirestore('add', `users/${userId}/session`, {
+          activ: true,
+          start: twoHoursParst,
+        })
+        cy.wait(500)
+        cy.get(session.sessionLiveWorking).should('exist')
+        cy.contains('2:00')
+        cy.selectMui(session.sessionLiveProject, data.projectWebsite.name)
+
+        cy.get(session.sessionLiveTrack).click()
+        cy.get(session.sessionLiveWorking).should('not.exist')
+        cy.contains('2:00H')
+        cy.contains('60.00€')
+      })
+    })
+  })
 })

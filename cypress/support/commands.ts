@@ -46,6 +46,9 @@ declare global {
       selectMui(select: string, option: string): Chainable<Element>
     }
     interface Chainable {
+      multiSelectMui(select: string, options: string[]): Chainable<Element>
+    }
+    interface Chainable {
       enterDateTimeMui(id: string, dateTime: string, clear?: boolean): Chainable<Element>
     }
     interface Chainable {
@@ -70,8 +73,6 @@ firebase.firestore().settings({
   ssl: false,
 })
 
-//connectFirestoreEmulator(firebase.firestore(), 'localhost', 5051)
-// firebase.firestore().useEmulator('localhost', 5051)
 firebase.auth().useEmulator(`http://localhost:9099/`)
 
 attachCustomCommands({ Cypress, cy, firebase })
@@ -148,6 +149,13 @@ Cypress.Commands.add('createUserFromSettings', (user: CreateUserFromSettingsProp
 Cypress.Commands.add('selectMui', (select: string, option: string) => {
   cy.get(select).parent().click()
   cy.get('[role="option"]').should('exist').contains(option).click()
+})
+
+Cypress.Commands.add('multiSelectMui', (select: string, options: string[]) => {
+  cy.get(select).parent().click()
+  options.forEach((option) => {
+    cy.get('[role="option"]').should('exist').contains(option).click()
+  })
 })
 
 Cypress.Commands.add('enterDateTimeMui', (id: string, dateTime: string, clear = true) => {
