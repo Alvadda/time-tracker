@@ -5,7 +5,7 @@ describe('settings', () => {
     cy.loginToTT()
     cy.get(settings.settingsButton).click()
   })
-  it('check Page', () => {
+  it('check page', () => {
     cy.fixture('settings.json').then((data) => {
       cy.contains(data.headerText)
       cy.get(settings.header).should('exist')
@@ -29,7 +29,7 @@ describe('settings', () => {
     })
   })
 
-  it('inputs', () => {
+  it('check inputs', () => {
     cy.get(settings.breakInput).clear()
     cy.get(settings.breakRuleInput).clear()
     cy.get(settings.rateInput).clear()

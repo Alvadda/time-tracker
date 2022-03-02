@@ -19,7 +19,7 @@ describe('project', () => {
     cy.get(project.formCancleButton).should('exist')
   })
 
-  it('check create project', () => {
+  it('create project', () => {
     cy.fixture('project.json').then((data) => {
       cy.get(project.settingsBack).click({ force: true })
       cy.createUserFromSettings(data.customer1)
@@ -48,7 +48,7 @@ describe('project', () => {
     })
   })
 
-  it('check update project', () => {
+  it('update project', () => {
     cy.fixture('project.json').then((data) => {
       cy.contains(data.name).should('exist')
       cy.contains(data.name).click()
@@ -70,7 +70,7 @@ describe('project', () => {
     })
   })
 
-  it('check delete project', () => {
+  it('delete project', () => {
     cy.fixture('project.json').then((data) => {
       cy.contains(data.nameUpdate).should('exist')
       cy.contains(data.nameUpdate).click()

@@ -23,7 +23,7 @@ describe('customer', () => {
     cy.get(customer.formCancleButton).should('exist')
   })
 
-  it('check create customer', () => {
+  it('create customer', () => {
     cy.fixture('customer.json').then((data) => {
       cy.get(customer.addCustomerButton).click()
 
@@ -57,7 +57,7 @@ describe('customer', () => {
     })
   })
 
-  it('check update customer', () => {
+  it('update customer', () => {
     cy.fixture('customer.json').then((data) => {
       cy.contains(data.name).should('exist')
       cy.contains(data.name).click()
@@ -86,7 +86,7 @@ describe('customer', () => {
     })
   })
 
-  it('check delete customer', () => {
+  it('delete customer', () => {
     cy.fixture('customer.json').then((data) => {
       cy.contains(data.nameUpdate).should('exist')
       cy.contains(data.nameUpdate).click()

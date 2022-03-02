@@ -19,7 +19,7 @@ describe('task', () => {
     cy.get(task.formCancleButton).should('exist')
   })
 
-  it('check create task', () => {
+  it('create task', () => {
     cy.fixture('task.json').then((data) => {
       cy.get(task.addTaskButton).click()
 
@@ -43,7 +43,7 @@ describe('task', () => {
     })
   })
 
-  it('check update task', () => {
+  it('update task', () => {
     cy.fixture('task.json').then((data) => {
       cy.contains(data.refector.name).should('exist').click()
 
@@ -64,7 +64,7 @@ describe('task', () => {
     })
   })
 
-  it('check delete task', () => {
+  it('delete task', () => {
     cy.fixture('task.json').then((data) => {
       cy.contains(data.test.name).should('exist')
       cy.contains(data.test.name).click()
@@ -76,7 +76,7 @@ describe('task', () => {
     })
   })
 
-  it('check task favorite', () => {
+  it('task favorite', () => {
     cy.fixture('task.json').then((data) => {
       cy.get(task.addTaskButton).click()
       cy.get(task.taskName).type(data.design.name)
