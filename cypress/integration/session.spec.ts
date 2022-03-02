@@ -8,16 +8,53 @@ describe('session', () => {
 
   it('setup', () => {
     cy.fixture('session.json').then((data) => {
-      cy.get(session.settingsButton).click()
+      cy.callFirestore('get', 'users').then((users) => {
+        const userId = users.find((user) => user.name === 'UI Test').id
+        if (!userId) throw new Error('no test user found')
 
-      cy.createProjectFromSettings(data.projectLive)
-      cy.createProjectFromSettings(data.projectWebsite)
-      cy.createProjectFromSettings(data.projectApp)
+        cy.callFirestore('add', `users/${userId}/projects`, {
+          name: data.projectLive.name,
+          rate: data.projectLive.rate,
+          color: data.projectLive.color,
+        })
 
-      cy.createTaskFromSettings(data.taskTest)
-      cy.createTaskFromSettings(data.taskRef)
-      cy.createTaskFromSettings(data.taskPipe)
-      cy.createTaskFromSettings(data.taskFeat)
+        cy.callFirestore('add', `users/${userId}/projects`, {
+          name: data.projectWebsite.name,
+          rate: data.projectWebsite.rate,
+          color: data.projectWebsite.color,
+        })
+
+        cy.callFirestore('add', `users/${userId}/projects`, {
+          name: data.projectApp.name,
+          rate: data.projectApp.rate,
+          color: data.projectApp.color,
+        })
+
+        cy.callFirestore('add', `users/${userId}/tasks`, {
+          name: data.taskTest.name,
+          description: data.taskTest.description,
+          color: data.taskTest.color,
+          isFavorite: false,
+        })
+        cy.callFirestore('add', `users/${userId}/tasks`, {
+          name: data.taskRef.name,
+          description: data.taskRef.description,
+          color: data.taskRef.color,
+          isFavorite: false,
+        })
+        cy.callFirestore('add', `users/${userId}/tasks`, {
+          name: data.taskPipe.name,
+          description: data.taskPipe.description,
+          color: data.taskPipe.color,
+          isFavorite: false,
+        })
+        cy.callFirestore('add', `users/${userId}/tasks`, {
+          name: data.taskFeat.name,
+          description: data.taskFeat.description,
+          color: data.taskFeat.color,
+          isFavorite: false,
+        })
+      })
     })
   })
 
@@ -120,9 +157,11 @@ describe('session', () => {
 
   it('end session session with project', () => {
     cy.fixture('session.json').then((data) => {
-      cy.callFirestore('get', 'users').then((user) => {
-        const userId = user[0].id
+      cy.callFirestore('get', 'users').then((users) => {
+        const userId = users.find((user) => user.name === 'UI Test').id
         const twoHoursParst = moment().subtract({ hours: 2 }).valueOf()
+
+        if (!userId) throw new Error('no test user found')
 
         cy.callFirestore('add', `users/${userId}/session`, {
           activ: true,

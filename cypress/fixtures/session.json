@@ -1,30 +1,37 @@
 {
   "projectLive": {
     "name": "Live Tracker",
-    "rate": "100"
+    "rate": "100",
+    "color": "#aaaee3"
   },
   "projectWebsite": {
     "name": "Website",
-    "rate": "30"
+    "rate": "30",
+    "color": "#bbbee3"
   },
   "projectApp": {
     "name": "App",
-    "rate": "50"
+    "rate": "50",
+    "color": "#ee3"
   },
   "taskTest": {
     "name": "Testing",
-    "description": "Ui & Unit testing"
+    "description": "Ui & Unit testing",
+    "color": "#88eee3"
   },
   "taskRef": {
     "name": "Refectoring",
-    "description": "Refectore some code"
+    "description": "Refectore some code",
+    "color": "#ae5e41"
   },
   "taskPipe": {
     "name": "CI/CD",
-    "description": "Build the CI/CD Pipeline"
+    "description": "Build the CI/CD Pipeline",
+    "color": "#345343"
   },
   "taskFeat": {
     "name": "Features",
-    "description": "add new features"
+    "description": "add new features",
+    "color": "#3f5dd3"
   }
 }
