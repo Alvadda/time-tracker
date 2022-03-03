@@ -100,7 +100,7 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
       />
       <TextField inputProps={{ 'data-testid': 'customer_contact' }} label="Contact" variant="standard" {...register('contact')} />
       <TextField inputProps={{ 'data-testid': 'customer_email' }} label="Email" variant="standard" type={'email'} {...register('email')} />
-      <TextField inputProps={{ 'data-testid': 'customer_adress' }} label="Address" variant="standard" {...register('address')} />
+      <TextField inputProps={{ 'data-testid': 'customer_address' }} label="Address" variant="standard" {...register('address')} />
       <TextField inputProps={{ 'data-testid': 'customer_phone' }} label="Phone" variant="standard" type={'tel'} {...register('phone')} />
       <TextField inputProps={{ 'data-testid': 'customer_rate' }} label="Rate" variant="standard" type={'number'} {...register('rate')} />
       <TextField

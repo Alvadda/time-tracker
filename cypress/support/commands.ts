@@ -3,30 +3,27 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
 import 'firebase/compat/firestore'
+import { setValueToFb } from './../../src/api/apiUtils'
+import { Customer, Project, Session, Task } from './../../src/types/index'
 import { customer, login, project, settings, task } from './fields'
 require('dotenv').config({ path: './.env' })
 
-interface CreateUserFromSettingsProps {
-  name?: string
-  contact?: string
-  email?: string
-  adress?: string
-  phone?: string
-  rate?: string
-  note?: string
-}
-
-interface CreateProjectFromSettingsProps {
-  name?: string
-  rate?: string
+interface AddProjectProps extends Partial<Project> {
   customer?: string
 }
-
-interface CreateTaskFromSettingsProps {
-  name?: string
-  description?: string
-  isFavorite?: boolean
+interface AddSessionProps extends Partial<Session> {
+  rate?: string
+  project?: string
+  tasks: string[]
 }
+
+interface AddTaskpProps extends Partial<Task> {
+  task?: string
+  project?: string
+}
+
+type AddCustomerProps = Partial<Customer>
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
@@ -34,13 +31,13 @@ declare global {
       loginToTT(): Chainable<Element>
     }
     interface Chainable {
-      createUserFromSettings(user: CreateUserFromSettingsProps): Chainable<Element>
+      createUserFromSettings(customerData: AddCustomerProps): Chainable<Element>
     }
     interface Chainable {
-      createProjectFromSettings(projectData: CreateProjectFromSettingsProps): Chainable<Element>
+      createProjectFromSettings(projectData: AddProjectProps): Chainable<Element>
     }
     interface Chainable {
-      createTaskFromSettings(taskData: CreateTaskFromSettingsProps): Chainable<Element>
+      createTaskFromSettings(taskData: AddTaskpProps): Chainable<Element>
     }
     interface Chainable {
       selectMui(select: string, option: string): Chainable<Element>
@@ -50,6 +47,18 @@ declare global {
     }
     interface Chainable {
       enterDateTimeMui(id: string, dateTime: string, clear?: boolean): Chainable<Element>
+    }
+    interface Chainable {
+      addTasksToFirestore(tasks: AddTaskpProps[]): Chainable<Element>
+    }
+    interface Chainable {
+      addProjectsToFirestore(projects: AddProjectProps[]): Chainable<Element>
+    }
+    interface Chainable {
+      addCustomersToFirestore(customers: AddCustomerProps[]): Chainable<Element>
+    }
+    interface Chainable {
+      addSessionsToFirestore(sessions: AddSessionProps[]): Chainable<Element>
     }
     interface Chainable {
       resetFirestore(): Chainable<Element>
@@ -88,26 +97,26 @@ Cypress.Commands.add('loginToTT', () => {
   })
 })
 
-Cypress.Commands.add('createUserFromSettings', (user: CreateUserFromSettingsProps) => {
+Cypress.Commands.add('createUserFromSettings', (customerData: AddCustomerProps) => {
   cy.get(customer.customersSettings).click()
   cy.get(customer.addCustomerButton).click()
-  cy.get(customer.formName).type(user.name)
-  cy.get(customer.formContact).type(user.contact)
-  cy.get(customer.formEmail).type(user.email)
-  cy.get(customer.formAdress).type(user.adress)
-  cy.get(customer.formPhone).type(user.phone)
-  cy.get(customer.formRate).type(user.rate)
-  cy.get(customer.formNote).type(user.note)
+  cy.get(customer.formName).type(customerData.name)
+  cy.get(customer.formContact).type(customerData.contact)
+  cy.get(customer.formEmail).type(customerData.email)
+  cy.get(customer.formAddress).type(customerData.address)
+  cy.get(customer.formPhone).type(customerData.phone)
+  cy.get(customer.formRate).type(customerData.rate.toString())
+  cy.get(customer.formNote).type(customerData.note)
   cy.get(customer.formSubmitButton).click({ force: true })
   cy.get(customer.settingsHeader).should('exist')
   cy.get(settings.back).click({ force: true })
 })
 
-Cypress.Commands.add('createProjectFromSettings', (projectData: CreateProjectFromSettingsProps) => {
+Cypress.Commands.add('createProjectFromSettings', (projectData: AddProjectProps) => {
   cy.get(project.projectSettings).click()
   cy.get(project.addProjectButton).click()
   cy.get(project.formName).type(projectData.name)
-  cy.get(project.formRate).type(projectData.rate)
+  cy.get(project.formRate).type(projectData.rate.toString())
   if (projectData.customer) {
     cy.selectMui(project.formCustomer, projectData.customer)
   }
@@ -117,7 +126,7 @@ Cypress.Commands.add('createProjectFromSettings', (projectData: CreateProjectFro
   cy.get(settings.back).click({ force: true })
 })
 
-Cypress.Commands.add('createTaskFromSettings', (taskData: CreateTaskFromSettingsProps) => {
+Cypress.Commands.add('createTaskFromSettings', (taskData: AddTaskpProps) => {
   cy.get(task.taskSettings).click()
   cy.get(task.addTaskButton).click()
 
@@ -131,19 +140,83 @@ Cypress.Commands.add('createTaskFromSettings', (taskData: CreateTaskFromSettings
   cy.get(settings.back).click({ force: true })
 })
 
-Cypress.Commands.add('createUserFromSettings', (user: CreateUserFromSettingsProps) => {
-  cy.get(customer.customersSettings).click()
-  cy.get(customer.addCustomerButton).click()
-  cy.get(customer.formName).type(user.name)
-  cy.get(customer.formContact).type(user.contact)
-  cy.get(customer.formEmail).type(user.email)
-  cy.get(customer.formAdress).type(user.adress)
-  cy.get(customer.formPhone).type(user.phone)
-  cy.get(customer.formRate).type(user.rate)
-  cy.get(customer.formNote).type(user.note)
-  cy.get(customer.formSubmitButton).click({ force: true })
-  cy.get(customer.settingsHeader).should('exist')
-  cy.get(settings.back).click({ force: true })
+Cypress.Commands.add('addProjectsToFirestore', (projects: AddProjectProps[]) => {
+  cy.callFirestore('get', 'users').then((users) => {
+    const userId = users.find((user) => user.name === 'UI Test').id
+    if (!userId) throw new Error('no test user found')
+
+    projects.forEach((project) => {
+      cy.callFirestore('get', `users/${userId}/customers`).then((customers) => {
+        const customerId = customers?.find((customer) => customer.name === project.customer).id
+
+        cy.callFirestore('add', `users/${userId}/projects`, {
+          name: project.name,
+          rate: setValueToFb(project.rate),
+          color: setValueToFb(project.color),
+          customerId: setValueToFb(customerId),
+        })
+      })
+    })
+  })
+})
+
+Cypress.Commands.add('addCustomersToFirestore', (customers: AddCustomerProps[]) => {
+  cy.callFirestore('get', 'users').then((users) => {
+    const userId = users.find((user) => user.name === 'UI Test').id
+    if (!userId) throw new Error('no test user found')
+
+    customers.forEach((customer) => {
+      cy.callFirestore('add', `users/${userId}/customers`, {
+        name: customer.name,
+        contact: setValueToFb(customer.contact),
+        email: setValueToFb(customer.email),
+        address: setValueToFb(customer.address),
+        phone: setValueToFb(customer.phone),
+        rate: setValueToFb(customer.rate),
+        note: setValueToFb(customer.note),
+      })
+    })
+  })
+})
+
+Cypress.Commands.add('addTasksToFirestore', (tasks: AddTaskpProps[]) => {
+  cy.callFirestore('get', 'users').then((users) => {
+    const userId = users.find((user) => user.name === 'UI Test').id
+    if (!userId) throw new Error('no test user found')
+
+    tasks.forEach((task) => {
+      cy.callFirestore('add', `users/${userId}/tasks`, {
+        name: task.name,
+        description: setValueToFb(task.description),
+        color: setValueToFb(task.color),
+        isFavorite: setValueToFb(task.isFavorite),
+      })
+    })
+  })
+})
+
+Cypress.Commands.add('addSessionsToFirestore', (sessions: AddSessionProps[]) => {
+  cy.callFirestore('get', 'users').then((users) => {
+    const userId = users.find((user) => user.name === 'UI Test').id
+    if (!userId) throw new Error('no test user found')
+
+    sessions.forEach((session) => {
+      cy.callFirestore('get', `users/${userId}/projects`).then((projects) => {
+        const projectId = projects?.find((project) => project.name === session.project).id
+
+        cy.callFirestore('add', `users/${userId}/session`, {
+          activ: session.activ,
+          start: session.start,
+          end: setValueToFb(session.end),
+          duration: setValueToFb(session.duration),
+          break: setValueToFb(session.break),
+          note: setValueToFb(session.note),
+          projectId: setValueToFb(projectId),
+          taskIds: session.taskIds || [],
+        })
+      })
+    })
+  })
 })
 
 Cypress.Commands.add('selectMui', (select: string, option: string) => {

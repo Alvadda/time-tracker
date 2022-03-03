@@ -2,7 +2,7 @@
   "name": "Create Customer",
   "contact": "Meier Mustermann",
   "email": "Meier@Mustermann.com",
-  "adress": "Musterstraße 9b 21217 Hamburg",
+  "address": "Musterstraße 9b 21217 Hamburg",
   "phone": "+49 1231239",
   "rate": "70",
   "rateInvalid": "asd",
@@ -11,7 +11,7 @@
   "nameUpdate": "Update Customer",
   "contactUpdate": "Reine Sache",
   "emailUpdate": "Reine@sache.com",
-  "adressUpdate": "Twitch tv 420420 Poggers",
+  "addressUpdate": "Twitch tv 420420 Poggers",
   "phoneUpdate": "+49 13371337",
   "rateUpdate": "13.37",
   "noteUpdate": "This is a Customer updated with cypress"

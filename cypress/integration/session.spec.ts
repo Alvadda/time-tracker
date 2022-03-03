@@ -8,53 +8,8 @@ describe('session', () => {
 
   it('setup', () => {
     cy.fixture('session.json').then((data) => {
-      cy.callFirestore('get', 'users').then((users) => {
-        const userId = users.find((user) => user.name === 'UI Test').id
-        if (!userId) throw new Error('no test user found')
-
-        cy.callFirestore('add', `users/${userId}/projects`, {
-          name: data.projectLive.name,
-          rate: data.projectLive.rate,
-          color: data.projectLive.color,
-        })
-
-        cy.callFirestore('add', `users/${userId}/projects`, {
-          name: data.projectWebsite.name,
-          rate: data.projectWebsite.rate,
-          color: data.projectWebsite.color,
-        })
-
-        cy.callFirestore('add', `users/${userId}/projects`, {
-          name: data.projectApp.name,
-          rate: data.projectApp.rate,
-          color: data.projectApp.color,
-        })
-
-        cy.callFirestore('add', `users/${userId}/tasks`, {
-          name: data.taskTest.name,
-          description: data.taskTest.description,
-          color: data.taskTest.color,
-          isFavorite: false,
-        })
-        cy.callFirestore('add', `users/${userId}/tasks`, {
-          name: data.taskRef.name,
-          description: data.taskRef.description,
-          color: data.taskRef.color,
-          isFavorite: false,
-        })
-        cy.callFirestore('add', `users/${userId}/tasks`, {
-          name: data.taskPipe.name,
-          description: data.taskPipe.description,
-          color: data.taskPipe.color,
-          isFavorite: false,
-        })
-        cy.callFirestore('add', `users/${userId}/tasks`, {
-          name: data.taskFeat.name,
-          description: data.taskFeat.description,
-          color: data.taskFeat.color,
-          isFavorite: false,
-        })
-      })
+      cy.addProjectsToFirestore([data.projectLive, data.projectWebsite, data.projectApp])
+      cy.addTasksToFirestore([data.taskTest, data.taskRef, data.taskPipe, data.taskFeat])
     })
   })
 

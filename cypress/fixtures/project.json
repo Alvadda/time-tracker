@@ -3,7 +3,7 @@
     "name": "Customer One",
     "contact": "Meier Mustermann",
     "email": "Meier@Mustermann.com",
-    "adress": "Musterstraße 9b 21217 Hamburg",
+    "address": "Musterstraße 9b 21217 Hamburg",
     "phone": "+49 1231239",
     "rate": "70",
     "note": "This is a Customer created with cypress"
@@ -12,7 +12,7 @@
     "name": "Customer Two",
     "contact": "Meier Mustermann",
     "email": "Meier@Mustermann.com",
-    "adress": "Musterstraße 9b 21217 Hamburg",
+    "address": "Musterstraße 9b 21217 Hamburg",
     "phone": "+49 1231239",
     "rate": "70",
     "note": "This is a Customer created with cypress"
