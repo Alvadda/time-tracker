@@ -147,7 +147,10 @@ Cypress.Commands.add('addProjectsToFirestore', (projects: AddProjectProps[]) => 
 
     projects.forEach((project) => {
       cy.callFirestore('get', `users/${userId}/customers`).then((customers) => {
-        const customerId = customers?.find((customer) => customer.name === project.customer).id
+        let customerId
+        if (project.customer) {
+          customerId = customers?.find((customer) => customer.name === project.customer).id
+        }
 
         cy.callFirestore('add', `users/${userId}/projects`, {
           name: project.name,
@@ -202,10 +205,17 @@ Cypress.Commands.add('addSessionsToFirestore', (sessions: AddSessionProps[]) => 
 
     sessions.forEach((session) => {
       cy.callFirestore('get', `users/${userId}/projects`).then((projects) => {
-        const projectId = projects?.find((project) => project.name === session.project).id
+        let projectId
+
+        if (session.project) {
+          projectId = projects?.find((project) => project.name === session.project).id
+          console.log('session.project', session.project, projectId)
+        }
+
+        //Todo add task
 
         cy.callFirestore('add', `users/${userId}/session`, {
-          activ: session.activ,
+          activ: session.activ ?? false,
           start: session.start,
           end: setValueToFb(session.end),
           duration: setValueToFb(session.duration),

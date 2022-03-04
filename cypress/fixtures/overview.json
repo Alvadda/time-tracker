@@ -1,0 +1,29 @@
+{
+  "projects": [
+    {
+      "name": "Project",
+      "rate": 20,
+      "color": "#555ee3"
+    },
+    {
+      "name": "Customer",
+      "color": "#111ee3",
+      "customer": "Customer"
+    },
+    {
+      "name": "No Sessions",
+      "color": "#ee3"
+    },
+    {
+      "name": "No Rate",
+      "color": "#2f2f"
+    }
+  ],
+
+  "customers": [
+    {
+      "name": "Customer",
+      "rate": 10
+    }
+  ]
+}
