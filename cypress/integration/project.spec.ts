@@ -1,6 +1,10 @@
 import { project } from '../support/fields'
 
 describe('project', () => {
+  before(() => {
+    cy.resetFirestore()
+  })
+
   beforeEach(() => {
     cy.loginToTT()
     cy.get(project.settingsButton).click()

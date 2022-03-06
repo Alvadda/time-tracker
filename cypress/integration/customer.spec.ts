@@ -1,6 +1,10 @@
 import { customer } from '../support/fields'
 
 describe('customer', () => {
+  before(() => {
+    cy.resetFirestore()
+  })
+
   beforeEach(() => {
     cy.loginToTT()
     cy.get(customer.settingsButton).click()

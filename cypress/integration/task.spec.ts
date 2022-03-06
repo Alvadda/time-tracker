@@ -1,6 +1,10 @@
 import { task } from '../support/fields'
 
 describe('task', () => {
+  before(() => {
+    cy.resetFirestore()
+  })
+
   beforeEach(() => {
     cy.loginToTT()
     cy.get(task.settingsButton).click()

@@ -1,6 +1,9 @@
 import { login, nav } from '../support/fields'
 
 describe('login', () => {
+  before(() => {
+    cy.resetFirestore()
+  })
   it('login with no data', () => {
     cy.fixture('login.json').then(() => {
       cy.get(login.emailInput).should('have.attr', 'aria-invalid', 'false')

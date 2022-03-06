@@ -2,6 +2,10 @@ import moment from 'moment'
 import { session } from '../support/fields'
 
 describe('session', () => {
+  before(() => {
+    cy.resetFirestore()
+  })
+
   beforeEach(() => {
     cy.loginToTT()
   })

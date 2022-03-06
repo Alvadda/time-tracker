@@ -3,6 +3,10 @@ import { calcSessionDuration } from '../../src/utils/timeUtil'
 import { overview } from '../support/fields'
 
 describe('overview', () => {
+  before(() => {
+    cy.resetFirestore()
+  })
+
   beforeEach(() => {
     cy.loginToTT()
     cy.wait(500)

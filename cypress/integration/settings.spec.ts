@@ -1,6 +1,10 @@
 import { settings } from '../support/fields'
 
 describe('settings', () => {
+  before(() => {
+    cy.resetFirestore()
+  })
+
   beforeEach(() => {
     cy.loginToTT()
     cy.get(settings.settingsButton).click()
