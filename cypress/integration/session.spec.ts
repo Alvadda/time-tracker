@@ -62,7 +62,7 @@ describe('session', () => {
     })
   })
 
-  it('update project', () => {
+  it('update session', () => {
     cy.fixture('session.json').then((data) => {
       cy.contains(data.projectWebsite.name).click()
       cy.get(session.formHeader).should('exist')
@@ -81,7 +81,7 @@ describe('session', () => {
     })
   })
 
-  it('delete project', () => {
+  it('delete session', () => {
     cy.fixture('session.json').then((data) => {
       cy.contains(data.projectApp.name).click()
 
@@ -114,7 +114,7 @@ describe('session', () => {
     })
   })
 
-  it('end session session with project', () => {
+  it('end session with project', () => {
     cy.fixture('session.json').then((data) => {
       cy.callFirestore('get', 'users').then((users) => {
         const userId = users.find((user) => user.name === 'UI Test').id
