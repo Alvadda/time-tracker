@@ -5,12 +5,12 @@ import moment from 'moment'
 import { useEffect, useState, VFC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Project, Session } from '../../types'
+import { DEFAULT_DURATION } from '../../utils/constants '
 import { calcActiveSessionDuration, calcSessionDuration, nowMiliseconds } from '../../utils/timeUtil'
 import { selectDefaultProjectId } from '../settings/settingsSlice'
 import { createSession, selectActivSession, updateSession } from './sessionsSlice'
 import { useDefaultBreak } from './useDefaultBreak'
 
-const DEFAULT_DURATION = '0:00'
 interface LiveTrackerProps {
   projects: Project[]
 }

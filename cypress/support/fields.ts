@@ -8,6 +8,7 @@ const utils = {
 }
 
 export const nav = {
+  startButton: '[data-testid="nav_start"]',
   settingsButton: '[data-testid="nav_settings"]',
   overviewButton: '[data-testid="CalendarTodayIcon"]',
 }
@@ -109,6 +110,22 @@ export const session = {
   sessionLiveDuration: '[data-testid="live_duration"]',
   sessionLiveProject: '[data-testid="live_project"]',
   sessionLiveTrack: '[data-testid="live_track"]',
+}
+
+export const overview = {
+  startButton: nav.startButton,
+  overviewButton: nav.overviewButton,
+  header: '[data-testid="page_header"]',
+  from: '[data-testid="overview_from"]',
+  to: '[data-testid="overview_to"]',
+  card: '[data-testid="project_stats_card"]',
+  cardHeader: '[data-testid="project_stats_header"]',
+  time: '[data-testid="project_stats_time"]',
+  earing: '[data-testid="project_stats_earning"]',
+  hours: '[data-testid="project_stats_hours"]',
+  earingAmount: '[data-testid="project_stats_earning_amount"]',
+  session: '[data-testId="overview_session"]',
+  sessionBack: '[data-testId="overview_stats_back"]',
 }
 
 export const login = {

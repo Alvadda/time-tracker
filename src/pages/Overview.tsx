@@ -44,7 +44,7 @@ const Overview: VFC = ({}) => {
       <Grid item container flexDirection={'column'} overflow={'hidden'}>
         <Box padding={2} display={'flex'} gap={2}>
           <DatePicker
-            renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} />}
+            renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} data-testid="overview_from" />}
             label="From"
             value={fromDate}
             inputFormat="DD.MM.YYYY"
@@ -54,7 +54,7 @@ const Overview: VFC = ({}) => {
             }}
           />
           <DatePicker
-            renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} />}
+            renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} data-testid="overview_to" />}
             label="To"
             value={toDate}
             inputFormat="DD.MM.YYYY"

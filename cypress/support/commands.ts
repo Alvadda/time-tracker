@@ -16,7 +16,6 @@ interface AddSessionProps extends Partial<Session> {
   project?: string
   tasks: string[]
 }
-
 interface AddTaskpProps extends Partial<Task> {
   task?: string
   project?: string
@@ -49,6 +48,9 @@ declare global {
       enterDateTimeMui(id: string, dateTime: string, clear?: boolean): Chainable<Element>
     }
     interface Chainable {
+      checkDateTimeMui(id: string, value: string): Chainable<Element>
+    }
+    interface Chainable {
       addTasksToFirestore(tasks: AddTaskpProps[]): Chainable<Element>
     }
     interface Chainable {
@@ -76,7 +78,6 @@ const fbConfig = {
 }
 
 firebase.initializeApp(fbConfig)
-
 firebase.firestore().settings({
   host: 'http://localhost:5051/',
   ssl: false,
@@ -247,6 +248,10 @@ Cypress.Commands.add('enterDateTimeMui', (id: string, dateTime: string, clear = 
   } else {
     cy.get(id).find('input').first().type(dateTime, { force: true })
   }
+})
+
+Cypress.Commands.add('checkDateTimeMui', (id: string, value: string) => {
+  cy.get(id).find('input').first().should('have.value', value)
 })
 
 Cypress.Commands.add('resetFirestore', () => {

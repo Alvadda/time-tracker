@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close'
-import { Box, Button, Divider, List, ListItem, ListItemText } from '@mui/material'
+import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material'
 import moment from 'moment'
 import React, { VFC } from 'react'
 import { ProjectStats } from '../../types'
@@ -30,17 +30,24 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
       }}
     >
       <Box sx={{ flex: '0 0 40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
-        <Button variant="text" sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }} onClick={() => onClose()}>
+        <Button
+          variant="text"
+          data-testId="overview_stats_back"
+          sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}
+          onClick={() => onClose()}
+        >
           <CloseIcon fontSize="medium" />
         </Button>
-        {projectStats.project.name}
+        <Typography variant="h6" data-testid="overwiev_project_header">
+          {projectStats.project.name}
+        </Typography>
       </Box>
       <List sx={{ overflow: 'auto', width: '100%', bgcolor: 'background.paper' }}>
         {projectStats.sessions.map((session) => {
           const duration = getDurationWithBreak(session)
           return (
             <React.Fragment key={session.id}>
-              <ListItem>
+              <ListItem data-testId="overview_session">
                 <ListItemText
                   primary={moment(session.start).format('DD MMM YYYY')}
                   secondary={`${moment(session.start).format('hh:mm')} - ${moment(session.end).format('hh:mm')}`}
