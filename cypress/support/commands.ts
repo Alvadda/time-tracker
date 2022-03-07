@@ -12,9 +12,8 @@ interface AddProjectProps extends Partial<Project> {
   customer?: string
 }
 interface AddSessionProps extends Partial<Session> {
-  rate?: string
   project?: string
-  tasks: string[]
+  tasks?: string[]
 }
 interface AddTaskpProps extends Partial<Task> {
   task?: string

@@ -92,6 +92,7 @@ export const task = {
 }
 
 export const session = {
+  startButton: nav.startButton,
   settingsButton: nav.settingsButton,
   addSessionButton: utils.addButton,
   formHeader: utils.formHeader,
@@ -110,6 +111,7 @@ export const session = {
   sessionLiveDuration: '[data-testid="live_duration"]',
   sessionLiveProject: '[data-testid="live_project"]',
   sessionLiveTrack: '[data-testid="live_track"]',
+  sessionCard: '[data-testid="session_card"]',
 }
 
 export const overview = {

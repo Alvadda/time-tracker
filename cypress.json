@@ -6,6 +6,7 @@
     "project.spec.ts",
     "task.spec.ts",
     "session.spec.ts",
-    "overview.spec.ts"
+    "overview.spec.ts",
+    "defaultBreak.spec.ts"
   ]
 }

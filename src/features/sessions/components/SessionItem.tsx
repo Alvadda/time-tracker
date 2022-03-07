@@ -12,7 +12,7 @@ interface SessionItemProps {
 
 const SessionItem: VFC<SessionItemProps> = ({ displayDate, project, projectColor, duration, erning }) => {
   return (
-    <Card sx={{ width: '100%', padding: 1 }}>
+    <Card sx={{ width: '100%', padding: 1 }} data-testid="session_card">
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {displayDate}
