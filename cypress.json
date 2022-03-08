@@ -7,6 +7,7 @@
     "task.spec.ts",
     "session.spec.ts",
     "overview.spec.ts",
-    "defaultBreak.spec.ts"
+    "defaultBreak.spec.ts",
+    "rate.spec.ts"
   ]
 }

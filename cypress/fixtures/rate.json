@@ -1,0 +1,17 @@
+{
+  "projects": [
+    {
+      "name": "Rate",
+      "rate": "",
+      "color": "#ee3",
+      "customer": "RateCus"
+    }
+  ],
+
+  "customers": [
+    {
+      "name": "RateCus",
+      "rate": ""
+    }
+  ]
+}
