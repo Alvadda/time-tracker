@@ -3,7 +3,7 @@ name: CI
 on: push
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,7 +15,9 @@ jobs:
           node-version: '14'
 
       - name: Install modules
-        run: npm install
+        run: |
+          npm ci
+          npm install -g firebase-tools
 
       - name: Run ESLint
         run: npm run lint
