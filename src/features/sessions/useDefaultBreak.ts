@@ -4,8 +4,14 @@ import { NumberOrEmpty } from './../../types/index'
 
 const isBreakToAplly = (duration: number, defaultBreakRule: NumberOrEmpty) => {
   if (defaultBreakRule === '' || defaultBreakRule <= 0) return false
+  return duration > defaultBreakRule * 60
+}
 
-  return duration > defaultBreakRule / 60
+const isDurationLongerThenBreak = (duration: number, defaultBreak: NumberOrEmpty) => {
+  if (defaultBreak === '' || defaultBreak <= 0) return false
+  if (duration <= defaultBreak) false
+
+  return true
 }
 
 export const useDefaultBreak = () => {
@@ -13,11 +19,11 @@ export const useDefaultBreak = () => {
   const defaultBreakRule = useSelector(selectDefaultBreakRule)
 
   const getDefaultBreak = (duration?: number) => {
-    if (!duration) return 0
-    if (isBreakToAplly(duration, defaultBreakRule)) return 0
-    if (defaultBreak === '' || defaultBreak <= 0) return 0
+    if (duration && isBreakToAplly(duration, defaultBreakRule) && isDurationLongerThenBreak(duration, defaultBreak)) {
+      return Number(defaultBreak)
+    }
 
-    return Number(defaultBreak)
+    return 0
   }
 
   return { getDefaultBreak }
