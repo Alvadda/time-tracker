@@ -26,7 +26,9 @@ jobs:
         run: npm run test:unit
 
       - name: Run UI-Tests
-        run: npm run test:ui
+        run: |
+          npm run serviceAccount
+          npm run test:ui
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
