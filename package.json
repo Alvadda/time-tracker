@@ -14,7 +14,7 @@
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "serve": "webpack --mode=production --env=prod && npx serve -s dist",
     "emu": "firebase emulators:start --import=./mock/dev/firebase --export-on-exit",
-    "emu:test": "firebase emulators:start --import=./mock/test/firebase",
+    "emu:test": "firebase emulators:start --import=./mock/test/firebase --only auth,firestore",
     "test:ui": "start-server-and-test dev:test http://localhost:8080 cy:ui",
     "test": "npm run test:unit && npm run test:ui",
     "test:unit": "jest",

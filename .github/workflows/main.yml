@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install modules
+      - name: Install Dependencies
         run: |
           npm ci
           npm install -g firebase-tools
