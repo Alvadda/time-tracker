@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Use Node.js 14
         uses: actions/setup-node@v2
@@ -41,7 +42,8 @@ jobs:
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload Cypress Resulst
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-results
