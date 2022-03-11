@@ -254,5 +254,5 @@ Cypress.Commands.add('checkDateTimeMui', (id: string, value: string) => {
 })
 
 Cypress.Commands.add('resetFirestore', () => {
-  cy.request('DELETE', `http://localhost:5051/emulator/v1/projects/${Cypress.env('projectId')}/databases/(default)/documents`)
+  cy.request('DELETE', `http://localhost:5051/emulator/v1/projects/${Cypress.env('FIREBASE_PROJECT_ID')}/databases/(default)/documents`)
 })
