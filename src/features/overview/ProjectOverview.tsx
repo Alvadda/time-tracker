@@ -32,7 +32,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
       <Box sx={{ flex: '0 0 40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
         <Button
           variant="text"
-          data-testId="overview_stats_back"
+          data-testid="overview_stats_back"
           sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}
           onClick={() => onClose()}
         >

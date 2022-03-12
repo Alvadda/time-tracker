@@ -88,6 +88,7 @@ const Overview: VFC = ({}) => {
         </List>
       </Grid>
       {selectedProjectStats && <ProjectOverview onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />}
+      {/* {selectedProjectStats && <Timesheet onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />} */}
     </Grid>
   )
 }
