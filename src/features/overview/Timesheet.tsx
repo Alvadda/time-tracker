@@ -3,6 +3,7 @@ import { Box, Button, Typography } from '@mui/material'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { VFC } from 'react'
 import { ProjectStats } from '../../types'
+import { APP_WIDTH } from '../../utils/constants '
 import { TimesheetPdf } from './TimesheetPdf'
 
 interface TimesheetProps {
@@ -14,15 +15,14 @@ export const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats }) => {
   return (
     <Box
       sx={{
-        width: '100vw',
+        width: APP_WIDTH,
         height: '100vh',
-        position: 'fixed',
+        position: 'absolute',
         inset: '0',
         zIndex: 100,
         backgroundColor: 'background.default',
         display: 'flex',
         flexDirection: 'column',
-        padding: 2,
       }}
     >
       <Box sx={{ flex: '0 0 40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
@@ -38,12 +38,14 @@ export const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats }) => {
           Test
         </Typography>
       </Box>
-      <PDFViewer>
-        <TimesheetPdf projectStats={projectStats} />
-      </PDFViewer>
-      <PDFDownloadLink document={<TimesheetPdf projectStats={projectStats} />} fileName="etest.pdf">
-        {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
-      </PDFDownloadLink>
+      <Box sx={{ flex: '1' }}>
+        <PDFViewer height={'90%'} width={'100%'}>
+          <TimesheetPdf projectStats={projectStats} />
+        </PDFViewer>
+        <PDFDownloadLink document={<TimesheetPdf projectStats={projectStats} />} fileName="etest.pdf">
+          {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
+        </PDFDownloadLink>
+      </Box>
     </Box>
   )
 }

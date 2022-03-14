@@ -3,6 +3,7 @@ import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '
 import moment from 'moment'
 import React, { VFC } from 'react'
 import { ProjectStats } from '../../types'
+import { APP_WIDTH } from '../../utils/constants '
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
 import { getDurationWithBreak } from '../sessions/sessionUtils'
 import { useRate } from '../sessions/useRate'
@@ -18,15 +19,14 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
   return (
     <Box
       sx={{
-        width: '100vw',
+        width: APP_WIDTH,
         height: '100vh',
-        position: 'fixed',
+        position: 'absolute',
         inset: '0',
         zIndex: 100,
         backgroundColor: 'background.default',
         display: 'flex',
         flexDirection: 'column',
-        padding: 2,
       }}
     >
       <Box sx={{ flex: '0 0 40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
