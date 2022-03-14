@@ -42,7 +42,7 @@ jobs:
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-      - name: Upload Cypress Resulst
+      - name: Upload Cypress Results
         uses: actions/upload-artifact@v3
         if: failure()
         with:
