@@ -126,8 +126,8 @@ export const overview = {
   earing: '[data-testid="project_stats_earning"]',
   hours: '[data-testid="project_stats_hours"]',
   earingAmount: '[data-testid="project_stats_earning_amount"]',
-  session: '[data-testId="overview_session"]',
-  sessionBack: '[data-testId="overview_stats_back"]',
+  session: '[data-testid="overview_session"]',
+  sessionBack: '[data-testid="overview_stats_back"]',
 }
 
 export const login = {

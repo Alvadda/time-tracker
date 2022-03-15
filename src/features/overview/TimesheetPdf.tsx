@@ -1,11 +1,12 @@
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
 import moment from 'moment'
-import React, { VFC } from 'react'
+import React, { useMemo, VFC } from 'react'
 import { ProjectStats } from '../../types'
-import { getDurationWithBreak } from '../sessions/sessionUtils'
+import { mergeDaysTogether } from '../sessions/sessionUtils'
 
 interface TimesheetPdfProps {
   projectStats: ProjectStats
+  period: string
 }
 
 // Create styles
@@ -84,64 +85,75 @@ const styles = StyleSheet.create({
   },
 })
 
-// Create Document Component
-export const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats }) => (
-  <Document>
-    <Page size="A4" style={styles.body}>
-      {/* Header area */}
-      <View style={styles.header}>
-        <View style={styles.column}>
-          <Text style={styles.fontSizeBig}>Zeitnachweis</Text>
-          <Text style={styles.fontSizeBigMedium}>November 2021</Text>
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.fontSizeMedium}>Christian Pansch</Text>
-          <Text style={styles.fontSizeMedium}>Mustermann str. 9b</Text>
-          <Text style={styles.fontSizeMedium}>21217 Hamburg</Text>
-        </View>
-      </View>
+export const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) => {
+  const margedDays = useMemo(() => mergeDaysTogether(projectStats.sessions), [projectStats.sessions])
 
-      <View style={styles.row}>
-        <View style={[styles.column, styles.marginRight]}>
-          <Text style={styles.fontSizeBoldMedium}>Kunde:</Text>
-          <Text style={styles.fontSizeBoldMedium}>Zeitraum:</Text>
-          <Text style={styles.fontSizeBoldMedium}>Ort:</Text>
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.fontSizeMedium}>Fielmann AG</Text>
-          <Text style={styles.fontSizeMedium}>01.11.21 - 31.11.21</Text>
-          <Text style={styles.fontSizeMedium}>Hamburg</Text>
-        </View>
-      </View>
+  const getPariod = () => {
+    const firstDay = moment(margedDays[0].start)
+    const lastDay = moment(margedDays.at(-1)?.start)
 
-      {/* Time table area */}
-      <View style={styles.table}>
-        <View style={styles.tableHeader}>
-          <Text style={styles.fontSizeMedium}>Datum</Text>
-          <Text style={styles.fontSizeMedium}>Beschreibung</Text>
-          <Text style={styles.fontSizeMedium}>Stunden</Text>
+    return firstDay.isSame(lastDay, 'month') ? firstDay.format('MMMM') : `${firstDay.format('MMMM')} - ${lastDay.format('MMMM')}`
+  }
+
+  return (
+    <Document>
+      <Page size="A4" style={styles.body}>
+        {/* Header area */}
+        <View style={styles.header}>
+          <View style={styles.column}>
+            <Text style={styles.fontSizeBig}>Zeitnachweis</Text>
+            <Text style={styles.fontSizeBigMedium}>{getPariod()}</Text>
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.fontSizeMedium}>Christian Pansch</Text>
+            <Text style={styles.fontSizeMedium}>Mustermann str. 9b</Text>
+            <Text style={styles.fontSizeMedium}>21217 Hamburg</Text>
+          </View>
         </View>
-        {projectStats.sessions.map((session) => {
-          const duration = getDurationWithBreak(session)
-          return (
-            <View style={styles.tableContent} key={session.id}>
-              <View style={styles.tableCell}>
-                <Text style={styles.fontSizeSmall}>{moment(session.start).format('DD MMM YYYY')}</Text>
-              </View>
-              <View style={styles.tableCenterCell}>
-                <Text style={[styles.fontSizeSmall, { textAlign: 'left' }]}>{session.note}</Text>
-              </View>
-              <View style={styles.tableCell}>
-                <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{(duration / 60).toFixed(0)}</Text>
-              </View>
-            </View>
-          )
-        })}
-        <View style={styles.tablefooter}>
-          <Text style={styles.fontSizeMedium}>Stunden Gesamt</Text>
-          <Text style={styles.fontSizeMedium}>{(projectStats.totalMinutesWorked / 60).toFixed(0)}</Text>
+
+        <View style={styles.row}>
+          <View style={[styles.column, styles.marginRight]}>
+            <Text style={styles.fontSizeBoldMedium}>Kunde:</Text>
+            <Text style={styles.fontSizeBoldMedium}>Projekt:</Text>
+            <Text style={styles.fontSizeBoldMedium}>Zeitraum:</Text>
+            <Text style={styles.fontSizeBoldMedium}>Ort:</Text>
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.fontSizeMedium}>{projectStats.customer?.name || ' '}</Text>
+            <Text style={styles.fontSizeMedium}>{projectStats.project.name || ' '}</Text>
+            <Text style={styles.fontSizeMedium}>{period}</Text>
+            <Text style={styles.fontSizeMedium}>{projectStats.customer?.address}</Text>
+          </View>
         </View>
-      </View>
-    </Page>
-  </Document>
-)
+
+        {/* Time table area */}
+        <View style={styles.table}>
+          <View style={styles.tableHeader}>
+            <Text style={styles.fontSizeMedium}>Datum</Text>
+            <Text style={styles.fontSizeMedium}>Beschreibung</Text>
+            <Text style={styles.fontSizeMedium}>Stunden</Text>
+          </View>
+          {margedDays.map((session) => {
+            return (
+              <View style={styles.tableContent} key={session.start}>
+                <View style={styles.tableCell}>
+                  <Text style={styles.fontSizeSmall}>{moment(session.start).format('DD.MM.YYYY')}</Text>
+                </View>
+                <View style={styles.tableCenterCell}>
+                  <Text style={[styles.fontSizeSmall, { textAlign: 'left' }]}>{session.notes}</Text>
+                </View>
+                <View style={styles.tableCell}>
+                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{(session.duration / 60).toFixed(0)}</Text>
+                </View>
+              </View>
+            )
+          })}
+          <View style={styles.tablefooter}>
+            <Text style={styles.fontSizeMedium}>Stunden Gesamt</Text>
+            <Text style={styles.fontSizeMedium}>{(projectStats.totalMinutesWorked / 60).toFixed(0)}</Text>
+          </View>
+        </View>
+      </Page>
+    </Document>
+  )
+}

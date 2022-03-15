@@ -28,6 +28,7 @@ export interface Session {
 export interface ProjectStats {
   project: Project
   sessions: Session[]
+  customer?: Customer
   totalEarning: number
   totalMinutesWorked: number
 }

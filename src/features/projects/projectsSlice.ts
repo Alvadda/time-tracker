@@ -95,6 +95,7 @@ export const selectProjectsInRage = (from: number, to: number) => {
     (sessions, projects, customers, defaultRate) =>
       projects.map((project): ProjectStats => {
         const sessionsToProject = sessions.filter((session) => session.projectId === project.id)
+        const customer = customers.find((customer) => project.customerId === customer.id)
 
         const { earning, minutes } = sessionsToProject.reduce(
           (sum, session) => {
@@ -106,7 +107,7 @@ export const selectProjectsInRage = (from: number, to: number) => {
           },
           { earning: 0, minutes: 0 }
         )
-        return { project, totalEarning: earning, totalMinutesWorked: minutes, sessions: sessionsToProject }
+        return { project, totalEarning: earning, totalMinutesWorked: minutes, sessions: sessionsToProject, customer }
       })
   )
 }

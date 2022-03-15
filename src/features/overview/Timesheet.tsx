@@ -8,10 +8,11 @@ import { TimesheetPdf } from './TimesheetPdf'
 
 interface TimesheetProps {
   projectStats: ProjectStats
+  period: string
   onClose: () => void
 }
 
-export const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats }) => {
+export const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats, period }) => {
   return (
     <Box
       sx={{
@@ -40,9 +41,9 @@ export const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats }) => {
       </Box>
       <Box sx={{ flex: '1' }}>
         <PDFViewer height={'90%'} width={'100%'}>
-          <TimesheetPdf projectStats={projectStats} />
+          <TimesheetPdf period={period} projectStats={projectStats} />
         </PDFViewer>
-        <PDFDownloadLink document={<TimesheetPdf projectStats={projectStats} />} fileName="etest.pdf">
+        <PDFDownloadLink document={<TimesheetPdf period={period} projectStats={projectStats} />} fileName="etest.pdf">
           {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
         </PDFDownloadLink>
       </Box>

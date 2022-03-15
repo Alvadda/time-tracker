@@ -19,6 +19,7 @@ const Overview: VFC = ({}) => {
 
   const fromInMS = timeInMiliseconds(fromDate)
   const toInMS = timeInMiliseconds(toDate)
+  const formatPeriod = `${fromDate.format('DD.MM.YYYY')} - ${toDate.format('DD.MM.YYYY')}`
 
   const projectStats = useSelector(selectProjectsInRage(fromInMS, toInMS))
 
@@ -88,7 +89,9 @@ const Overview: VFC = ({}) => {
         </List>
       </Grid>
       {selectedProjectStats && <ProjectOverview onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />}
-      {/* {selectedProjectStats && <Timesheet onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />} */}
+      {/* {selectedProjectStats && (
+        <Timesheet period={formatPeriod} onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />
+      )} */}
     </Grid>
   )
 }

@@ -47,7 +47,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
           const duration = getDurationWithBreak(session)
           return (
             <React.Fragment key={session.id}>
-              <ListItem data-testId="overview_session">
+              <ListItem data-testid="overview_session">
                 <ListItemText
                   primary={moment(session.start).format('DD MMM YYYY')}
                   secondary={`${moment(session.start).format('hh:mm')} - ${moment(session.end).format('hh:mm')}`}
