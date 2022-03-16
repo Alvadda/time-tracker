@@ -140,10 +140,10 @@ export const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) =
                   <Text style={styles.fontSizeSmall}>{moment(session.start).format('DD.MM.YYYY')}</Text>
                 </View>
                 <View style={styles.tableCenterCell}>
-                  <Text style={[styles.fontSizeSmall, { textAlign: 'left' }]}>{session.notes}</Text>
+                  <Text style={[styles.fontSizeSmall, { textAlign: 'left' }]}>{session.note}</Text>
                 </View>
                 <View style={styles.tableCell}>
-                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{(session.duration / 60).toFixed(0)}</Text>
+                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{((session.duration || 0) / 60).toFixed(0)}</Text>
                 </View>
               </View>
             )
