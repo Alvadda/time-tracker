@@ -2,7 +2,7 @@ import moment, { Moment } from 'moment'
 import { calcSessionDuration } from '../../src/utils/timeUtil'
 import { overview } from '../support/fields'
 
-describe('overview', () => {
+describe.skip('overview', () => {
   before(() => {
     cy.resetFirestore()
   })

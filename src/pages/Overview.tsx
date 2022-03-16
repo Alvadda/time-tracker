@@ -2,13 +2,14 @@ import { DatePicker } from '@mui/lab'
 import { Box, Divider, Grid, List, ListItem, ListItemButton, TextField, Typography } from '@mui/material'
 import moment, { Moment } from 'moment'
 import { useState, VFC } from 'react'
+import { isBrowser, isMobile } from 'react-device-detect'
 import { useSelector } from 'react-redux'
 import ProjectOverview from '../features/overview/ProjectOverview'
 import ProjectStatsOverview from '../features/overview/ProjectStatsOverview'
+import { Timesheet } from '../features/overview/Timesheet'
 import { selectProjectsInRage } from '../features/projects/projectsSlice'
 import { ProjectStats } from '../types'
 import { timeInMiliseconds } from '../utils/timeUtil'
-
 const Overview: VFC = ({}) => {
   const defaultFromDate = moment().subtract(7, 'd').startOf('day')
   const defaultToDate = moment().endOf('day')
@@ -88,10 +89,12 @@ const Overview: VFC = ({}) => {
           ))}
         </List>
       </Grid>
-      {selectedProjectStats && <ProjectOverview onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />}
-      {/* {selectedProjectStats && (
+      {isMobile && selectedProjectStats && (
+        <ProjectOverview onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />
+      )}
+      {isBrowser && selectedProjectStats && (
         <Timesheet period={formatPeriod} onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />
-      )} */}
+      )}
     </Grid>
   )
 }
