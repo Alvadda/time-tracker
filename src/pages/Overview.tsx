@@ -90,7 +90,7 @@ const Overview: VFC = ({}) => {
         </List>
       </Grid>
       {isMobile && selectedProjectStats && (
-        <ProjectOverview onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />
+        <ProjectOverview period={formatPeriod} onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />
       )}
       {isBrowser && selectedProjectStats && (
         <Timesheet period={formatPeriod} onClose={() => setSelectedProjectStats(undefined)} projectStats={selectedProjectStats} />

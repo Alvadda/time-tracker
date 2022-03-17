@@ -1,5 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material'
+import { PDFDownloadLink } from '@react-pdf/renderer'
 import moment from 'moment'
 import React, { VFC } from 'react'
 import { ProjectStats } from '../../types'
@@ -7,13 +8,15 @@ import { APP_WIDTH } from '../../utils/constants '
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
 import { getDurationWithBreak } from '../sessions/sessionUtils'
 import { useRate } from '../sessions/useRate'
+import { TimesheetPdf } from './TimesheetPdf'
 
 interface ProjectOverviewProps {
   projectStats: ProjectStats
+  period: string
   onClose: () => void
 }
 
-const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) => {
+const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, period }) => {
   const { getRate } = useRate()
 
   return (
@@ -42,7 +45,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
           {projectStats.project.name}
         </Typography>
       </Box>
-      <List sx={{ overflow: 'auto', width: '100%', bgcolor: 'background.paper' }}>
+      <List sx={{ flex: '1', overflow: 'auto', width: '100%', bgcolor: 'background.paper' }}>
         {projectStats.sessions.map((session) => {
           const duration = getDurationWithBreak(session)
           return (
@@ -62,6 +65,11 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose }) =
           )
         })}
       </List>
+      <Box sx={{ flex: '0 1 auto', padding: '16px 16px', display: 'flex', justifyContent: 'center' }}>
+        <PDFDownloadLink document={<TimesheetPdf period={period} projectStats={projectStats} />} fileName="etest.pdf">
+          {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
+        </PDFDownloadLink>
+      </Box>
     </Box>
   )
 }

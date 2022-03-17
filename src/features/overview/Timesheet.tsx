@@ -43,9 +43,11 @@ export const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats, period }
         <PDFViewer height={'90%'} width={'100%'}>
           <TimesheetPdf period={period} projectStats={projectStats} />
         </PDFViewer>
-        <PDFDownloadLink document={<TimesheetPdf period={period} projectStats={projectStats} />} fileName="etest.pdf">
-          {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
-        </PDFDownloadLink>
+        <Box sx={{ flex: '0 1 auto', padding: '16px 16px', display: 'flex', justifyContent: 'center' }}>
+          <PDFDownloadLink document={<TimesheetPdf period={period} projectStats={projectStats} />} fileName="etest.pdf">
+            {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
+          </PDFDownloadLink>
+        </Box>
       </Box>
     </Box>
   )
