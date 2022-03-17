@@ -88,13 +88,15 @@ describe('feature/sessions', () => {
     describe('mergeDaysTogether', () => {
       const today = moment().endOf('day')
       const yesterDay = moment().subtract(1, 'days').endOf('day')
+      const startCombined = moment(today).subtract(9, 'hours').valueOf()
+      const endCombined = moment(today).subtract(10, 'hours').valueOf()
 
       const sessions: Session[] = [
         {
           id: '1',
           projectId: '1',
           activ: false,
-          start: moment(today).subtract(9, 'hours').valueOf(),
+          start: startCombined,
           end: moment(today).subtract(1, 'hours').valueOf(),
           duration: 480,
           break: 60,
@@ -117,7 +119,7 @@ describe('feature/sessions', () => {
           projectId: '1',
           activ: false,
           start: moment(today).subtract(18, 'hours').valueOf(),
-          end: moment(today).subtract(10, 'hours').valueOf(),
+          end: endCombined,
           duration: 480,
           break: 60,
           note: 'part 2',
@@ -152,6 +154,7 @@ describe('feature/sessions', () => {
         expect(combined?.break).toBe(120)
         expect(combined?.note).toBe('part 1 part 2')
         expect(combined?.taskIds).toStrictEqual(['1', '2', '3', '4'])
+        expect(combined?.start < combined?.end).toBe(true)
       })
     })
   })

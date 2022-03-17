@@ -2,13 +2,13 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import moment from 'moment'
-import React, { VFC } from 'react'
+import React, { useMemo, VFC } from 'react'
 import { ProjectStats } from '../../types'
 import { APP_WIDTH } from '../../utils/constants '
 import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
-import { getDurationWithBreak } from '../sessions/sessionUtils'
+import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
 import { useRate } from '../sessions/useRate'
-import { TimesheetPdf } from './TimesheetPdf'
+import TimesheetPdf from './TimesheetPdf'
 
 interface ProjectOverviewProps {
   projectStats: ProjectStats
@@ -17,6 +17,7 @@ interface ProjectOverviewProps {
 }
 
 const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, period }) => {
+  const margedDays = useMemo(() => mergeDaysTogether(projectStats.sessions), [projectStats.sessions])
   const { getRate } = useRate()
 
   return (
@@ -46,7 +47,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
         </Typography>
       </Box>
       <List sx={{ flex: '1', overflow: 'auto', width: '100%', bgcolor: 'background.paper' }}>
-        {projectStats.sessions.map((session) => {
+        {margedDays.map((session) => {
           const duration = getDurationWithBreak(session)
           return (
             <React.Fragment key={session.id}>

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) => {
+const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) => {
   const margedDays = useMemo(() => mergeDaysTogether(projectStats.sessions), [projectStats.sessions])
 
   const getPariod = () => {
@@ -105,7 +105,7 @@ export const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) =
             <Text style={styles.fontSizeBigMedium}>{getPariod()}</Text>
           </View>
           <View style={styles.column}>
-            <Text style={styles.fontSizeMedium}>Christian Pansch</Text>
+            <Text style={styles.fontSizeMedium}>Max Mustermann</Text>
             <Text style={styles.fontSizeMedium}>Mustermann str. 9b</Text>
             <Text style={styles.fontSizeMedium}>21217 Hamburg</Text>
           </View>
@@ -157,3 +157,5 @@ export const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) =
     </Document>
   )
 }
+
+export default TimesheetPdf

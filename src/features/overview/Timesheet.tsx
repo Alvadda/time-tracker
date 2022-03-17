@@ -4,7 +4,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { VFC } from 'react'
 import { ProjectStats } from '../../types'
 import { APP_WIDTH } from '../../utils/constants '
-import { TimesheetPdf } from './TimesheetPdf'
+import TimesheetPdf from './TimesheetPdf'
 
 interface TimesheetProps {
   projectStats: ProjectStats
@@ -12,7 +12,7 @@ interface TimesheetProps {
   onClose: () => void
 }
 
-export const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats, period }) => {
+const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats, period }) => {
   return (
     <Box
       sx={{
@@ -52,3 +52,5 @@ export const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats, period }
     </Box>
   )
 }
+
+export default Timesheet

@@ -40,7 +40,8 @@ module.exports = ({ prod }) => {
     devtool: 'inline-source-map',
     output: {
       path: outputPath,
-      filename: 'bundle.js',
+      filename: '[name].bundle.js',
+      chunkFilename: '[name].bundle.js',
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.json'],
