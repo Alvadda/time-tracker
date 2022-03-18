@@ -10,6 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set Version
+        run: echo "BUILD_NUMBER=$GITHUB_RUN_ID" >> $GITHUB_ENV
+
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:

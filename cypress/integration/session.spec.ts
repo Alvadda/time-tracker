@@ -43,7 +43,7 @@ describe('session', () => {
 
   //TODO check session form validation
 
-  it('create session', () => {
+  it.skip('create session', () => {
     cy.fixture('session.json').then((data) => {
       //Todo generate date with time to type
       cy.get(session.addSessionButton).click()
@@ -62,7 +62,7 @@ describe('session', () => {
     })
   })
 
-  it('update session', () => {
+  it.skip('update session', () => {
     cy.fixture('session.json').then((data) => {
       cy.contains(data.projectWebsite.name).click()
       cy.get(session.formHeader).should('exist')
@@ -81,7 +81,7 @@ describe('session', () => {
     })
   })
 
-  it('delete session', () => {
+  it.skip('delete session', () => {
     cy.fixture('session.json').then((data) => {
       cy.contains(data.projectApp.name).click()
 
