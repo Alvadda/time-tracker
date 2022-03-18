@@ -47,11 +47,11 @@ jobs:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          VERSION: ${{ env.BUILD_VERSION }}
+          VERSION: ${{ env.BUILD_VERSION }}.${{ github.run_number }}
 
       - name: Upload Cypress Results
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: cypress-results.${{ env.BUILD_VERSION }}
+          name: cypress-results.${{ env.BUILD_VERSION }}.${{ github.run_number }}
           path: cypress/videos
