@@ -14,7 +14,7 @@ jobs:
         run: echo 'BUILD_VERSION'=$(node -p -e "require('./package.json').version") >> $GITHUB_ENV
 
       - name: Check Version
-        run: echo $BUILD_VERSION ${{  github.run.id }}
+        run: echo $BUILD_VERSION $GITHUB_RUN_ID
 
       - name: Use Node.js 14
         uses: actions/setup-node@v2
