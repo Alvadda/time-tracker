@@ -9,3 +9,6 @@ ui-debug.log
 mock/dev
 serviceAccount.json
 cypress.env.json
+
+# Local Netlify folder
+.netlify
