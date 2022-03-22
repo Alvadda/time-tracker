@@ -22,7 +22,7 @@
     "cy:ui": "cypress run --browser chrome",
     "cy:open": "cypress open",
     "serviceAccount": "cd bin && node createServiceAccount.js",
-    "deploy:prod": "netlify deploy --dir=dir"
+    "deploy:prod": "netlify deploy --dir=dist --prod"
   },
   "keywords": [],
   "author": "",
