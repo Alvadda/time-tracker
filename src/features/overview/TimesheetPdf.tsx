@@ -90,7 +90,7 @@ const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) => {
 
   const getPariod = () => {
     const firstDay = moment(margedDays[0].start)
-    const lastDay = moment(margedDays.at(-1)?.start)
+    const lastDay = moment(margedDays[margedDays.length - 1]?.start)
 
     return firstDay.isSame(lastDay, 'month') ? firstDay.format('MMMM') : `${firstDay.format('MMMM')} - ${lastDay.format('MMMM')}`
   }
