@@ -2,18 +2,21 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
+const packageJson = require('./package.json')
 var webpack = require('webpack')
 require('dotenv').config({ path: './.env' })
 
 const outputPath = path.resolve(__dirname, 'dist')
 
 module.exports = ({ prod }) => {
+  const version = process.env.VERSION ?? packageJson.version
+
   const plugins = [
     new HtmlWebpackPlugin({
       template: 'public/index.html',
     }),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env),
+      'process.env': JSON.stringify({ ...process.env, VERSION: version }),
     }),
     new CopyPlugin({
       patterns: [{ from: 'public/pwa', to: './' }],
