@@ -3,6 +3,7 @@ import StopIcon from '@mui/icons-material/Stop'
 import { Button, Chip, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useState, VFC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Project, Session } from '../../types'
 import { DEFAULT_DURATION } from '../../utils/constants '
@@ -28,6 +29,7 @@ const createStartSession = (projectId: string): Partial<Session> => {
 }
 
 const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const [projectId, setProjectId] = useState<string>('')
   const [sessionDuration, setSessionDuration] = useState<string>(DEFAULT_DURATION)
@@ -145,7 +147,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
               onClick={track}
               startIcon={activeSession ? <StopIcon /> : <PlayArrowIcon />}
             >
-              {activeSession ? 'Stop' : 'Start'}
+              {activeSession ? t('liveTracker.stop') : t('liveTracker.start')}
             </Button>
           </Grid>
         </Grid>

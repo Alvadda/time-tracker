@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { Workbox } from 'workbox-window'
 import { App } from './App'
+import './i18n'
 import { store } from './store/store'
 
 if (process.env.NODE_ENV === 'production') {
