@@ -52,6 +52,7 @@ export interface AppSettings {
   defaultBreak: NumberOrEmpty
   defaultBreakRule: NumberOrEmpty
   defaultRate: NumberOrEmpty
+  language: string
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'

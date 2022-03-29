@@ -1,4 +1,8 @@
 {
   "liveTracker.start": "START",
-  "liveTracker.stop": "STOP"
+  "liveTracker.stop": "STOP",
+  "settings.language": "Language",
+  "date": "{{val, datetime}}",
+  "de": "German",
+  "en": "English"
 }

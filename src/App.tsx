@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectAuth } from './features/auth/authSlice'
 import Login from './features/auth/Login'
-import { selectDarkMode } from './features/settings/settingsSlice'
+import { selectDarkMode, selectLanguage } from './features/settings/settingsSlice'
 import FirebaseProvider from './firebase/FirebaseContext'
 import { useFirebaseAuth } from './hooks/useFirebaseAuth'
+import { changeLanguage } from './i18n'
 import Wizard from './pages/wizard/Wizard'
 import { APP_WIDTH } from './utils/constants '
 
@@ -17,6 +18,7 @@ export const App = () => {
   useFirebaseAuth()
   const auth = useSelector(selectAuth)
   const darkMode = useSelector(selectDarkMode)
+  const language = useSelector(selectLanguage)
 
   const theme = createTheme({
     palette: {
@@ -30,6 +32,10 @@ export const App = () => {
       setUpdate(true)
     })
   }, [])
+
+  useEffect(() => {
+    changeLanguage(language)
+  }, [language])
 
   return (
     <ThemeProvider theme={theme}>

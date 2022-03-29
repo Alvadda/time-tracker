@@ -1,4 +1,7 @@
 {
   "liveTracker.start": "STARTEN",
-  "liveTracker.stop": "STOPPEN"
+  "liveTracker.stop": "STOPPEN",
+  "settings.language": "Sprache",
+  "de": "Deutsch",
+  "en": "Englisch"
 }

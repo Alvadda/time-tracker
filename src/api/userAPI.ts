@@ -11,6 +11,7 @@ const mapSettings = (settings: any): AppSettings => {
       defaultBreak: 0,
       defaultBreakRule: 0,
       defaultRate: 0,
+      language: 'en',
     }
 
   return {
@@ -19,6 +20,7 @@ const mapSettings = (settings: any): AppSettings => {
     defaultBreak: settings.defaultBreak || 0,
     defaultBreakRule: settings.defaultBreakRule || 0,
     defaultRate: settings.defaultRate || 0,
+    language: settings.language || 'en',
   }
 }
 

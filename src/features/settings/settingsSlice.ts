@@ -9,7 +9,7 @@ export interface SettingsState {
 
 const initialState: SettingsState = {
   page: 'settings',
-  appSettings: { darkMode: true, defaultProjectId: '', defaultBreak: 0, defaultBreakRule: 0, defaultRate: 0 },
+  appSettings: { darkMode: true, defaultProjectId: '', defaultBreak: 0, defaultBreakRule: 0, defaultRate: 0, language: 'en' },
 }
 
 const getSettings = createAsyncThunk<AppSettings | undefined, undefined, { state: RootState; extra: Extra }>(
@@ -51,6 +51,9 @@ export const settingsSlice = createSlice({
     setDefaultRate: (state, action: PayloadAction<NumberOrEmpty>) => {
       state.appSettings.defaultRate = action.payload
     },
+    setLanguage: (state, action: PayloadAction<string>) => {
+      state.appSettings.language = action.payload
+    },
     navigateTo: (state, action: PayloadAction<SettingPage>) => {
       state.page = action.payload
     },
@@ -77,10 +80,19 @@ export const selectDefaultProjectId = (state: RootState) => state.settings.appSe
 export const selectDefaultBreak = (state: RootState) => state.settings.appSettings.defaultBreak
 export const selectDefaultBreakRule = (state: RootState) => state.settings.appSettings.defaultBreakRule
 export const selectDefaultRate = (state: RootState) => state.settings.appSettings.defaultRate
+export const selectLanguage = (state: RootState) => state.settings.appSettings.language
 
 //ACTIONS
-export const { setDarkMode, navigateBack, navigateTo, setDefaultBreak, setDefaultBreakRule, setDefaultProjectId, setDefaultRate } =
-  settingsSlice.actions
+export const {
+  setDarkMode,
+  navigateBack,
+  navigateTo,
+  setDefaultBreak,
+  setDefaultBreakRule,
+  setDefaultProjectId,
+  setDefaultRate,
+  setLanguage,
+} = settingsSlice.actions
 export { getSettings, updateSettings }
 
 export default settingsSlice.reducer

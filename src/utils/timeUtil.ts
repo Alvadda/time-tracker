@@ -3,6 +3,8 @@ import { NumberOrEmpty } from './../types/index'
 
 const formatNumberToTwoDigits = (number: number) => ('0' + number).slice(-2)
 
+const formatDateShort = (dateInMil: number) => moment(dateInMil).format('L')
+
 const formatMinToHourMin = (minutes?: number) => {
   if (!minutes) return '0:00'
 
@@ -47,4 +49,12 @@ const timeInMiliseconds = (time: Date | Moment) => {
   }
 }
 
-export { formatMinToHourMin, calcActiveSessionDuration, calcSessionDuration, nowMiliseconds, timeInMiliseconds, calcEarningFromMin }
+export {
+  formatMinToHourMin,
+  calcActiveSessionDuration,
+  calcSessionDuration,
+  nowMiliseconds,
+  timeInMiliseconds,
+  calcEarningFromMin,
+  formatDateShort,
+}

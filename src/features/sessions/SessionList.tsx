@@ -1,8 +1,7 @@
 import { List, ListItem, ListItemButton } from '@mui/material'
-import moment from 'moment'
 import React, { VFC } from 'react'
 import { Project, Session } from '../../types'
-import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
+import { calcEarningFromMin, formatDateShort, formatMinToHourMin } from '../../utils/timeUtil'
 import SessionItem from './components/SessionItem'
 import { getDurationWithBreak } from './sessionUtils'
 import { useRate } from './useRate'
@@ -31,7 +30,7 @@ const SessionList: VFC<SessionListProps> = ({ projects, sessions, onSelect }) =>
           <ListItem disablePadding key={session.id}>
             <ListItemButton onClick={() => onSelect(session)}>
               <SessionItem
-                displayDate={moment(session.start).format('DD.MM.YYYY')}
+                displayDate={formatDateShort(session.start)}
                 project={getProjectName(session.projectId)}
                 projectColor={getProjectColor(session.projectId)}
                 duration={formatMinToHourMin(duration)}

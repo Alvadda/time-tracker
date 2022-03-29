@@ -14,8 +14,10 @@ import {
   Typography,
 } from '@mui/material'
 import { useEffect, VFC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
+import { isLanguageSupported, supportedLngs } from '../../i18n'
 import { SettingPage } from '../../types'
 import { selectUserEmail } from '../auth/authSlice'
 import { selectProjects } from '../projects/projectsSlice'
@@ -26,11 +28,13 @@ import {
   selectDefaultBreakRule,
   selectDefaultProjectId,
   selectDefaultRate,
+  selectLanguage,
   setDarkMode,
   setDefaultBreak,
   setDefaultBreakRule,
   setDefaultProjectId,
   setDefaultRate,
+  setLanguage,
   updateSettings,
 } from './settingsSlice'
 interface SettingsProps {
@@ -44,6 +48,7 @@ const getNumberOrEmpty = (value: string) => {
 const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const dispatch = useDispatch()
   const { logout } = useFirebaseLogin()
+  const { t } = useTranslation()
 
   const userEmail = useSelector(selectUserEmail)
   const darkMode = useSelector(selectDarkMode)
@@ -52,12 +57,19 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
   const defaultBreakApplyRule = useSelector(selectDefaultBreakRule)
   const defaultRate = useSelector(selectDefaultRate)
   const projects = useSelector(selectProjects)
+  const language = useSelector(selectLanguage)
 
   useEffect(() => {
     return () => {
       dispatch(updateSettings())
     }
   }, [dispatch])
+
+  const onChangeLanguage = (lang?: string) => {
+    if (!lang || !isLanguageSupported(lang)) return
+
+    dispatch(setLanguage(lang))
+  }
 
   return (
     <Stack spacing={2} padding={2}>
@@ -174,6 +186,17 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
               <Typography variant="body1" data-testid="settings_userEmail">
                 {userEmail}
               </Typography>
+            </Label>
+          </ListItem>
+          <ListItem data-testid="settings_Lngs">
+            <Label label={t('settings.language')}>
+              <Select data-testid="settings_Lngs_select" value={language} onChange={(event) => onChangeLanguage(event.target.value)}>
+                {supportedLngs.map((lng) => (
+                  <MenuItem key={lng} value={lng}>
+                    {t(lng)}
+                  </MenuItem>
+                ))}
+              </Select>
             </Label>
           </ListItem>
           <ListItem disablePadding>
