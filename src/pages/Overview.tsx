@@ -5,10 +5,9 @@ import { lazy, Suspense, useState, VFC } from 'react'
 import { isBrowser, isMobile } from 'react-device-detect'
 import { useSelector } from 'react-redux'
 import ProjectStatsOverview from '../features/overview/ProjectStatsOverview'
-// import { Timesheet } from '../features/overview/Timesheet'
 import { selectProjectsInRage } from '../features/projects/projectsSlice'
 import { ProjectStats } from '../types'
-import { timeInMiliseconds } from '../utils/timeUtil'
+import { getLocalDateFormatShort, timeInMiliseconds } from '../utils/timeUtil'
 
 const Timesheet = lazy(() => import('../features/overview/Timesheet'))
 const ProjectOverview = lazy(() => import('../features/overview/ProjectOverview'))
@@ -52,8 +51,8 @@ const Overview: VFC = ({}) => {
             renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} data-testid="overview_from" />}
             label="From"
             value={fromDate}
-            inputFormat="DD.MM.YYYY"
-            mask="DD.MM.YYYY"
+            inputFormat={getLocalDateFormatShort()}
+            mask={getLocalDateFormatShort()}
             onChange={(newValue) => {
               setFromDate(newValue || defaultFromDate)
             }}
@@ -62,8 +61,8 @@ const Overview: VFC = ({}) => {
             renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} data-testid="overview_to" />}
             label="To"
             value={toDate}
-            inputFormat="DD.MM.YYYY"
-            mask="DD.MM.YYYY"
+            inputFormat={getLocalDateFormatShort()}
+            mask={getLocalDateFormatShort()}
             minDate={fromDate}
             onChange={(newValue) => {
               setToDate(newValue || defaultToDate)

@@ -5,6 +5,7 @@ import { overview } from '../support/fields'
 describe.skip('overview', () => {
   before(() => {
     cy.resetFirestore()
+    moment.locale('en')
   })
 
   beforeEach(() => {
@@ -30,8 +31,8 @@ describe.skip('overview', () => {
     getCard('Total').find(overview.time).should('exist')
     getCard('Total').find(overview.earing).should('exist')
 
-    cy.checkDateTimeMui(overview.from, moment().subtract(7, 'days').format('DD.MM.YYYY'))
-    cy.checkDateTimeMui(overview.to, moment().format('DD.MM.YYYY'))
+    cy.checkDateTimeMui(overview.from, moment().subtract(7, 'days').format('L'))
+    cy.checkDateTimeMui(overview.to, moment().format('L'))
   })
 
   it('Totel summs', () => {
@@ -46,7 +47,7 @@ describe.skip('overview', () => {
   })
 
   it('Summs one month', () => {
-    cy.enterDateTimeMui(overview.from, moment().subtract(1, 'months').format('DD.MM.YYYY'))
+    cy.enterDateTimeMui(overview.from, moment().subtract(1, 'months').format('L'))
 
     cy.get(overview.card).should('have.length', 3)
     checkCardValues('Total', '10:30', '140.00')
@@ -55,7 +56,7 @@ describe.skip('overview', () => {
   })
 
   it('Summs two month', () => {
-    cy.enterDateTimeMui(overview.from, moment().subtract(2, 'months').format('DD.MM.YYYY'))
+    cy.enterDateTimeMui(overview.from, moment().subtract(2, 'months').format('L'))
 
     cy.get(overview.card).should('have.length', 4)
     checkCardValues('Total', '17:30', '140.00')
@@ -83,7 +84,7 @@ describe.skip('overview', () => {
     cy.get(overview.sessionBack).click()
     cy.contains('Overview').should('exist')
 
-    cy.enterDateTimeMui(overview.from, moment().subtract(2, 'days').format('DD.MM.YYYY'))
+    cy.enterDateTimeMui(overview.from, moment().subtract(2, 'days').format('L'))
 
     getCard('Project').click()
     cy.contains('Project')

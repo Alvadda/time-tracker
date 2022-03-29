@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { AppSettings } from '../../types'
 import settingReducer, {
   navigateBack,
   navigateTo,
@@ -11,9 +12,15 @@ import settingReducer, {
 
 describe('feature/settings', () => {
   describe('reducer', () => {
+    const appSettings: AppSettings = {
+      darkMode: true,
+      defaultProjectId: '',
+      defaultBreak: 0,
+      defaultBreakRule: 0,
+      defaultRate: 0,
+      language: 'en',
+    }
     test('appSettings default', () => {
-      const appSettings = { darkMode: true, defaultProjectId: '', defaultBreak: 0, defaultBreakRule: 0, defaultRate: 0 }
-
       const reducer = settingReducer(undefined, setDarkMode(true))
       expect(reducer.appSettings).toEqual(appSettings)
     })
@@ -70,8 +77,6 @@ describe('feature/settings', () => {
     })
 
     test('unknown action', () => {
-      const appSettings = { darkMode: true, defaultProjectId: '', defaultBreak: 0, defaultBreakRule: 0, defaultRate: 0 }
-
       const reducer = settingReducer(undefined, { type: 'UNKNOWN' })
       expect(reducer).toEqual({ page: 'settings', appSettings })
     })

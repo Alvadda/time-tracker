@@ -16,7 +16,7 @@ import { useEffect, VFC } from 'react'
 import { useForm } from 'react-hook-form'
 import FormBox from '../../components/FormBox'
 import { NumberOrEmpty, Project, Session, Task } from '../../types'
-import { calcSessionDuration } from '../../utils/timeUtil'
+import { calcSessionDuration, getLocalDateFormatShort, getLocalTimeFormatShort } from '../../utils/timeUtil'
 
 interface SessionFormProps {
   variant?: 'create' | 'update'
@@ -57,6 +57,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
   const startTime = moment(watch('startTime'))
   const endTime = moment(watch('endTime'))
   const isUpdate = variant === 'update'
+  const getDateFormat = `${getLocalDateFormatShort()} ${getLocalTimeFormatShort()}`
 
   useEffect(() => {
     if (session) {
@@ -126,7 +127,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         renderInput={(props) => <TextField {...props} data-testid="session_start" />}
         label="Start Time"
         value={startTime}
-        inputFormat="DD.MM.YY HH:mm"
+        inputFormat={getDateFormat}
         onChange={(newValue) => {
           if (newValue) {
             setValue('startTime', newValue?.valueOf())
@@ -137,7 +138,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         renderInput={(props) => <TextField {...props} data-testid="session_end" />}
         label="End Time"
         value={endTime}
-        inputFormat="DD.MM.YY HH:mm"
+        inputFormat={getDateFormat}
         minDate={startTime}
         minTime={startTime}
         onChange={(newValue) => {

@@ -5,6 +5,10 @@ const formatNumberToTwoDigits = (number: number) => ('0' + number).slice(-2)
 
 const formatDateShort = (dateInMil: number) => moment(dateInMil).format('L')
 
+const getLocalDateFormatShort = () => moment.localeData().longDateFormat('L')
+
+const getLocalTimeFormatShort = () => moment.localeData().longDateFormat('LT')
+
 const formatMinToHourMin = (minutes?: number) => {
   if (!minutes) return '0:00'
 
@@ -57,4 +61,6 @@ export {
   timeInMiliseconds,
   calcEarningFromMin,
   formatDateShort,
+  getLocalDateFormatShort,
+  getLocalTimeFormatShort,
 }
