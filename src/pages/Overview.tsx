@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import ProjectStatsOverview from '../features/overview/ProjectStatsOverview'
 import { selectProjectsInRage } from '../features/projects/projectsSlice'
 import { ProjectStats } from '../types'
-import { getLocalDateFormatShort, timeInMiliseconds } from '../utils/timeUtil'
+import { formatDateShort, getDateFormatShort, timeInMiliseconds } from '../utils/timeUtil'
 
 const Timesheet = lazy(() => import('../features/overview/Timesheet'))
 const ProjectOverview = lazy(() => import('../features/overview/ProjectOverview'))
@@ -22,7 +22,7 @@ const Overview: VFC = ({}) => {
 
   const fromInMS = timeInMiliseconds(fromDate)
   const toInMS = timeInMiliseconds(toDate)
-  const formatPeriod = `${fromDate.format('DD.MM.YYYY')} - ${toDate.format('DD.MM.YYYY')}`
+  const formatPeriod = `${formatDateShort(fromDate)} - ${formatDateShort(toDate)}`
 
   const projectStats = useSelector(selectProjectsInRage(fromInMS, toInMS))
 
@@ -51,8 +51,8 @@ const Overview: VFC = ({}) => {
             renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} data-testid="overview_from" />}
             label="From"
             value={fromDate}
-            inputFormat={getLocalDateFormatShort()}
-            mask={getLocalDateFormatShort()}
+            inputFormat={getDateFormatShort()}
+            mask={getDateFormatShort()}
             onChange={(newValue) => {
               setFromDate(newValue || defaultFromDate)
             }}
@@ -61,8 +61,8 @@ const Overview: VFC = ({}) => {
             renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} data-testid="overview_to" />}
             label="To"
             value={toDate}
-            inputFormat={getLocalDateFormatShort()}
-            mask={getLocalDateFormatShort()}
+            inputFormat={getDateFormatShort()}
+            mask={getDateFormatShort()}
             minDate={fromDate}
             onChange={(newValue) => {
               setToDate(newValue || defaultToDate)

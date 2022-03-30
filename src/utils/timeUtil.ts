@@ -1,15 +1,29 @@
 import moment, { Moment } from 'moment'
 import { NumberOrEmpty } from './../types/index'
 
-const formatNumberToTwoDigits = (number: number) => ('0' + number).slice(-2)
+export const formatNumberToTwoDigits = (number: number) => ('0' + number).slice(-2)
 
-const formatDateShort = (dateInMil: number) => moment(dateInMil).format('L')
+export const getDateFormatShort = () => 'DD.MM.YYYY'
 
-const getLocalDateFormatShort = () => moment.localeData().longDateFormat('L')
+export const getDateFormatLong = () => 'DD MMM YYYY'
 
-const getLocalTimeFormatShort = () => moment.localeData().longDateFormat('LT')
+export const getDateTimeFormatShort = () => 'DD.MM.YY HH:mm'
 
-const formatMinToHourMin = (minutes?: number) => {
+export const getTimeFormat = () => 'hh:mm'
+
+const formatDate = (time?: Date | Moment | number, format?: string) => {
+  if (!time || !format) return ''
+
+  return moment(time).format(format)
+}
+
+export const formatDateShort = (time?: Date | Moment | number) => formatDate(time, getDateFormatShort())
+export const formatDateLong = (time?: Date | Moment | number) => formatDate(time, getDateFormatLong())
+
+export const formatDateTimeShort = (time?: Date | Moment | number) => formatDate(time, getDateTimeFormatShort())
+export const formatTime = (time?: Date | Moment | number) => formatDate(time, getTimeFormat())
+
+export const formatMinToHourMin = (minutes?: number) => {
   if (!minutes) return '0:00'
 
   const hours = minutes / 60
@@ -19,7 +33,7 @@ const formatMinToHourMin = (minutes?: number) => {
   return `${rhours}:${rminutes}`
 }
 
-const calcActiveSessionDuration = (startTimeMS: number) => {
+export const calcActiveSessionDuration = (startTimeMS: number) => {
   const start = moment(startTimeMS)
   const now = moment()
   const hours = now.diff(start, 'hour')
@@ -27,40 +41,28 @@ const calcActiveSessionDuration = (startTimeMS: number) => {
   return `${hours}:${mins}`
 }
 
-const calcSessionDuration = (startTimeMS: number, endTimeMS: number) => {
+export const calcSessionDuration = (startTimeMS: number, endTimeMS: number) => {
   const start = moment(startTimeMS)
   const end = moment(endTimeMS)
   const minute = end.diff(start, 'minute')
   return minute
 }
 
-const calcEarningFromMin = (minutes?: number, hourRate?: NumberOrEmpty) => {
+export const calcEarningFromMin = (minutes?: number, hourRate?: NumberOrEmpty) => {
   const time = minutes || 0
   const rate = hourRate || 0
 
   return (time * rate) / 60
 }
 
-const nowMiliseconds = () => {
+export const nowMiliseconds = () => {
   return new Date().getTime()
 }
 
-const timeInMiliseconds = (time: Date | Moment) => {
+export const timeInMiliseconds = (time: Date | Moment) => {
   if (time instanceof Date) {
     return time.getTime()
   } else {
     return time.valueOf()
   }
-}
-
-export {
-  formatMinToHourMin,
-  calcActiveSessionDuration,
-  calcSessionDuration,
-  nowMiliseconds,
-  timeInMiliseconds,
-  calcEarningFromMin,
-  formatDateShort,
-  getLocalDateFormatShort,
-  getLocalTimeFormatShort,
 }

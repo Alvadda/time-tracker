@@ -1,11 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import moment from 'moment'
 import React, { useMemo, VFC } from 'react'
 import { ProjectStats } from '../../types'
 import { APP_WIDTH } from '../../utils/constants '
-import { calcEarningFromMin, formatMinToHourMin } from '../../utils/timeUtil'
+import { calcEarningFromMin, formatDateLong, formatMinToHourMin, formatTime } from '../../utils/timeUtil'
 import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
 import { useRate } from '../sessions/useRate'
 import TimesheetPdf from './TimesheetPdf'
@@ -53,8 +52,8 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
             <React.Fragment key={session.id}>
               <ListItem data-testid="overview_session">
                 <ListItemText
-                  primary={moment(session.start).format('DD MMM YYYY')}
-                  secondary={`${moment(session.start).format('hh:mm')} - ${moment(session.end).format('hh:mm')}`}
+                  primary={formatDateLong(session.start)}
+                  secondary={`${formatTime(session.start)} - ${formatTime(session.end)}`}
                 />
                 <ListItemText
                   primary={`${calcEarningFromMin(duration, getRate(session)).toFixed(2)} €`}
