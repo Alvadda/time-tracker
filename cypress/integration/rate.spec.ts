@@ -129,7 +129,7 @@ function getCard(name: string) {
 function checkCardValues(name: string, hour: string, earning: string) {
   getCard(name)
     .find(overview.hours)
-    .should((p) => expect(p).to.contain(`${hour} Hours`))
+    .should((p) => expect(p).to.contain(`${hour}`))
 
   getCard(name)
     .find(overview.earingAmount)
