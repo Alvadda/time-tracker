@@ -1,6 +1,7 @@
 import { TextField } from '@mui/material'
 import { useEffect, VFC } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import FormBox from '../../components/FormBox'
 import { Customer, NumberOrEmpty } from '../../types'
 
@@ -31,6 +32,7 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
     formState: { errors },
   } = useForm<CustomerFormData>()
 
+  const { t } = useTranslation()
   const isUpdate = variant === 'update'
 
   useEffect(() => {
@@ -93,19 +95,47 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
     >
       <TextField
         inputProps={{ 'data-testid': 'customer_name' }}
-        label="Name"
+        label={t('customer.name')}
         variant="standard"
         {...register('name', { required: true })}
         error={Boolean(errors.name)}
       />
-      <TextField inputProps={{ 'data-testid': 'customer_contact' }} label="Contact" variant="standard" {...register('contact')} />
-      <TextField inputProps={{ 'data-testid': 'customer_email' }} label="Email" variant="standard" type={'email'} {...register('email')} />
-      <TextField inputProps={{ 'data-testid': 'customer_address' }} label="Address" variant="standard" {...register('address')} />
-      <TextField inputProps={{ 'data-testid': 'customer_phone' }} label="Phone" variant="standard" type={'tel'} {...register('phone')} />
-      <TextField inputProps={{ 'data-testid': 'customer_rate' }} label="Rate" variant="standard" type={'number'} {...register('rate')} />
+      <TextField
+        inputProps={{ 'data-testid': 'customer_contact' }}
+        label={t('customer.contact')}
+        variant="standard"
+        {...register('contact')}
+      />
+      <TextField
+        inputProps={{ 'data-testid': 'customer_email' }}
+        label={t('customer.email')}
+        variant="standard"
+        type={'email'}
+        {...register('email')}
+      />
+      <TextField
+        inputProps={{ 'data-testid': 'customer_address' }}
+        label={t('customer.address')}
+        variant="standard"
+        {...register('address')}
+      />
+      <TextField
+        inputProps={{ 'data-testid': 'customer_phone' }}
+        label={t('customer.phoneNumber')}
+        variant="standard"
+        type={'tel'}
+        {...register('phone')}
+      />
+      <TextField
+        inputProps={{ 'data-testid': 'customer_rate' }}
+        label={t('customer.rate')}
+        variant="standard"
+        type={'number'}
+        {...register('rate')}
+      />
       <TextField
         inputProps={{ 'data-testid': 'customer_note' }}
-        label="Notes"
+        label={t('customer.note')}
         variant="standard"
         multiline
         rows={3}

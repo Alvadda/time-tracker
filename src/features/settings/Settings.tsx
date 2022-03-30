@@ -77,21 +77,21 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
         <List>
           <ListItem disablePadding>
             <ListItemButton data-testid="settings_projects" onClick={() => onNavigation('projects')}>
-              <Label label="Projects">
+              <Label label={t('settings.projects')}>
                 <KeyboardArrowRightOutlined />
               </Label>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton data-testid="settings_customers" onClick={() => onNavigation('customer')}>
-              <Label label="Customers">
+              <Label label={t('settings.customers')}>
                 <KeyboardArrowRightOutlined />
               </Label>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton data-testid="settings_tasks" onClick={() => onNavigation('tasks')}>
-              <Label label="Tasks">
+              <Label label={t('settings.tasks')}>
                 <KeyboardArrowRightOutlined />
               </Label>
             </ListItemButton>
@@ -102,7 +102,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem data-testid="settings_default_project">
-            <Label label="Default Project">
+            <Label label={t('settings.defaultProject')}>
               <Select
                 data-testid="settings_default_project_select"
                 value={defaultProjectId}
@@ -117,7 +117,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
             </Label>
           </ListItem>
           <ListItem data-testid="settings_break">
-            <Label label="Default break">
+            <Label label={t('settings.defaultBreak')}>
               <TextField
                 sx={{ maxWidth: '20%' }}
                 inputProps={{ 'aria-label': 'default break', 'data-testid': 'settings_breakInput' }}
@@ -132,7 +132,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
             </Label>
           </ListItem>
           <ListItem data-testid="settings_break_rule">
-            <Label label="Default break apply rule">
+            <Label label={t('settings.defaultBreakRule')}>
               <TextField
                 sx={{ maxWidth: '20%' }}
                 inputProps={{ 'aria-label': 'default break rule', 'data-testid': 'settings_break_ruleInput' }}
@@ -147,7 +147,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
             </Label>
           </ListItem>
           <ListItem data-testid="settings_rate">
-            <Label label="Default rate">
+            <Label label={t('settings.rate')}>
               <TextField
                 sx={{ maxWidth: '20%' }}
                 inputProps={{ 'aria-label': 'default rate', 'data-testid': 'settings_rateInput' }}
@@ -167,7 +167,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem data-testid="settings_darkmode">
-            <Label label="Darkmode">
+            <Label label={t('settings.darkmode')}>
               <Switch
                 inputProps={{ 'aria-label': 'settings_darkmode_switch_check' }}
                 data-testid="settings_darkmode_switch"
@@ -182,7 +182,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem data-testid="settings_email">
-            <Label label="E-Mail">
+            <Label label={t('settings.email')}>
               <Typography variant="body1" data-testid="settings_userEmail">
                 {userEmail}
               </Typography>
@@ -201,7 +201,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton data-testid="settings_logout" onClick={logout}>
-              <Label label="Logout">
+              <Label label={t('settings.logout')}>
                 <LogoutIcon />
               </Label>
             </ListItemButton>
@@ -212,7 +212,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
       <Paper>
         <List>
           <ListItem data-testid="settings_version">
-            <Label label="Version">{process.env.VERSION}</Label>
+            <Label label={t('settings.version')}>{process.env.VERSION}</Label>
           </ListItem>
         </List>
       </Paper>

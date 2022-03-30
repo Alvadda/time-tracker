@@ -1,8 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Stack, Typography } from '@mui/material'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { APP_WIDTH } from '../utils/constants '
-import DeleteButton from './DeleteButton'
 
 interface FormBoxProps {
   header: string
@@ -15,6 +15,7 @@ interface FormBoxProps {
 }
 
 const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, onDelete, onUpdate, onClose, children }) => {
+  const { t } = useTranslation()
   return (
     <Box
       component="form"
@@ -68,11 +69,15 @@ const FormBox: FC<FormBoxProps> = ({ header, update = false, isValid, onCreate, 
               update ? onUpdate() : onCreate()
             }}
           >
-            {update ? 'Update' : 'Create'}
+            {update ? t('common.update') : t('common.create')}
           </Button>
-          {update && <DeleteButton onClick={onDelete} />}
+          {update && (
+            <Button variant="contained" data-testid="form_delete" color="error" onClick={() => onDelete()}>
+              {t('common.delete')}
+            </Button>
+          )}
           <Button data-testid="form_cancle" variant="outlined" onClick={() => onClose()}>
-            cancle
+            {t('common.cancle')}
           </Button>
         </Box>
       </Box>

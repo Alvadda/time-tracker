@@ -4,6 +4,7 @@ import { Checkbox, TextField } from '@mui/material'
 import { useEffect, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import FormBox from '../../components/FormBox'
 import { Task } from '../../types'
 
@@ -37,9 +38,8 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
       isFavorite: false,
     },
   })
-
+  const { t } = useTranslation()
   const isFavorite = watch('isFavorite')
-  console.log(isFavorite)
 
   const getFormData = () => {
     const data = getValues()
@@ -94,14 +94,14 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
     >
       <TextField
         inputProps={{ 'data-testid': 'task_name' }}
-        label="Name"
+        label={t('task.name')}
         variant="standard"
         {...register('name', { required: true })}
         error={Boolean(errors.name)}
       />
       <TextField
         inputProps={{ 'data-testid': 'task_description' }}
-        label="Description"
+        label={t('task.description')}
         variant="standard"
         multiline
         rows={7}

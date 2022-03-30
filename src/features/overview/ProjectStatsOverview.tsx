@@ -1,5 +1,6 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import { VFC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { formatMinToHourMin } from '../../utils/timeUtil'
 
 interface ProjectStatsOverviewProps {
@@ -10,6 +11,7 @@ interface ProjectStatsOverviewProps {
 }
 
 const ProjectStatsOverview: VFC<ProjectStatsOverviewProps> = ({ header, time, earning, headerColor = 'text.secondary' }) => {
+  const { t } = useTranslation()
   return (
     <Card sx={{ width: '100%' }} data-testid="project_stats_card">
       <CardContent>
@@ -19,15 +21,15 @@ const ProjectStatsOverview: VFC<ProjectStatsOverviewProps> = ({ header, time, ea
         <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
           <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
             <Typography variant="h6" component="div" data-testid="project_stats_time">
-              Working Time
+              {t('common.hour')}
             </Typography>
             <Typography variant="h6" component="div" data-testid="project_stats_hours">
-              {formatMinToHourMin(time)} Hours
+              {formatMinToHourMin(time)}
             </Typography>
           </Box>
           <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
             <Typography variant="h6" component="div" data-testid="project_stats_earning">
-              Earning
+              {t('overview.earning')}
             </Typography>
             <Typography variant="h6" component="div" data-testid="project_stats_earning_amount">
               {earning.toFixed(2)}€

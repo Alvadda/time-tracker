@@ -2,6 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/mater
 import { useEffect, VFC } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import FormBox from '../../components/FormBox'
 import { Customer, NumberOrEmpty, Project } from '../../types'
 
@@ -35,6 +36,7 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
       customer: '',
     },
   })
+  const { t } = useTranslation()
   const isUpdate = variant === 'update'
 
   useEffect(() => {
@@ -91,17 +93,23 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
     >
       <TextField
         inputProps={{ 'data-testid': 'project_name' }}
-        label="Name"
+        label={t('project.name')}
         variant="standard"
         {...register('name', { required: true })}
         error={Boolean(errors.name)}
       />
-      <TextField inputProps={{ 'data-testid': 'project_rate' }} label="Rate" variant="standard" type="number" {...register('rate')} />
+      <TextField
+        inputProps={{ 'data-testid': 'project_rate' }}
+        label={t('project.rate')}
+        variant="standard"
+        type="number"
+        {...register('rate')}
+      />
       <FormControl>
-        <InputLabel>Customer</InputLabel>
+        <InputLabel>{t('project.customer')}</InputLabel>
         <Select
           inputProps={{ 'data-testid': 'project_customer' }}
-          label="Customer"
+          label={t('project.customer')}
           variant="standard"
           value={watch('customer')}
           onChange={(event) => setValue('customer', event.target.value)}

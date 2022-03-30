@@ -3,6 +3,7 @@ import { Box, Divider, Grid, List, ListItem, ListItemButton, TextField, Typograp
 import moment, { Moment } from 'moment'
 import { lazy, Suspense, useState, VFC } from 'react'
 import { isBrowser, isMobile } from 'react-device-detect'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import ProjectStatsOverview from '../features/overview/ProjectStatsOverview'
 import { selectProjectsInRage } from '../features/projects/projectsSlice'
@@ -16,6 +17,7 @@ const Overview: VFC = ({}) => {
   const defaultFromDate = moment().subtract(7, 'd').startOf('day')
   const defaultToDate = moment().endOf('day')
 
+  const { t } = useTranslation()
   const [fromDate, setFromDate] = useState<Moment>(defaultFromDate)
   const [toDate, setToDate] = useState<Moment>(defaultToDate)
   const [selectedProjectStats, setSelectedProjectStats] = useState<ProjectStats | undefined>()
@@ -42,14 +44,14 @@ const Overview: VFC = ({}) => {
     <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
       <Grid item container sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
         <Typography variant="h6" data-testid="page_header">
-          Overview
+          {t('common.overview')}
         </Typography>
       </Grid>
       <Grid item container flexDirection={'column'} overflow={'hidden'}>
         <Box padding={2} display={'flex'} gap={2}>
           <DatePicker
             renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} data-testid="overview_from" />}
-            label="From"
+            label={t('overview.from')}
             value={fromDate}
             inputFormat={getDateFormatShort()}
             mask={getDateFormatShort()}
@@ -59,7 +61,7 @@ const Overview: VFC = ({}) => {
           />
           <DatePicker
             renderInput={(props) => <TextField sx={{ width: '100%' }} {...props} data-testid="overview_to" />}
-            label="To"
+            label={t('overview.to')}
             value={toDate}
             inputFormat={getDateFormatShort()}
             mask={getDateFormatShort()}
@@ -71,7 +73,7 @@ const Overview: VFC = ({}) => {
         </Box>
 
         <Box padding={2} width={'100%'}>
-          <ProjectStatsOverview header="Total" time={totalMinutes} earning={totalEarning} />
+          <ProjectStatsOverview header={t('overview.total')} time={totalMinutes} earning={totalEarning} />
         </Box>
         <Divider />
       </Grid>

@@ -107,7 +107,7 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
         {activeSession && (
           <Chip
             data-testid="live_working"
-            label="Working"
+            label={t('liveTracker.working')}
             color="success"
             sx={{ position: 'absolute', top: '50%', left: '10%', transform: 'translateY(-50%)' }}
           />
@@ -125,10 +125,10 @@ const LiveTracker: VFC<LiveTrackerProps> = ({ projects }) => {
           </Grid>
           <Grid item container direction={'column'} gap={2} justifyContent={'center'} alignItems={'center'} xs={6} padding={2}>
             <FormControl fullWidth>
-              <InputLabel>Project</InputLabel>
+              <InputLabel>{t('common.project')}</InputLabel>
               <Select
                 inputProps={{ 'data-testid': 'live_project' }}
-                label="Project"
+                label={t('common.project')}
                 value={projectId}
                 onChange={(event) => setProjectId(event.target.value)}
               >

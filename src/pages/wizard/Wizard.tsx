@@ -2,6 +2,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import SettingsIcon from '@mui/icons-material/Settings'
 import TimelapseIcon from '@mui/icons-material/Timelapse'
 import { BottomNavigation, BottomNavigationAction, Grid } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCustomers } from '../../features/customer/customersSlice'
 import { getProjects } from '../../features/projects/projectsSlice'
@@ -16,6 +17,7 @@ import TimeTracker from '../TimeTracker'
 import { navigateTo, selectCurrentPage } from './wizardSlice'
 
 const Wizard = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const currentPage = useSelector(selectCurrentPage)
 
@@ -54,9 +56,9 @@ const Wizard = () => {
             dispatch(navigateTo(newPage))
           }}
         >
-          <BottomNavigationAction data-testid="nav_start" label="Start" value="time-tracker" icon={<TimelapseIcon />} />
-          <BottomNavigationAction data-testid="nav_overview" label="Date" value="overview" icon={<CalendarTodayIcon />} />
-          <BottomNavigationAction data-testid="nav_settings" label="Input" value="settings" icon={<SettingsIcon />} />
+          <BottomNavigationAction data-testid="nav_start" label={t('nav.start')} value="time-tracker" icon={<TimelapseIcon />} />
+          <BottomNavigationAction data-testid="nav_overview" label={t('nav.overview')} value="overview" icon={<CalendarTodayIcon />} />
+          <BottomNavigationAction data-testid="nav_settings" label={t('nav.settings')} value="settings" icon={<SettingsIcon />} />
         </BottomNavigation>
       </Grid>
     </Grid>
