@@ -1,6 +1,7 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import { VFC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { formatCurrency } from '../../utils'
 import { formatMinToHourMin } from '../../utils/timeUtil'
 
 interface ProjectStatsOverviewProps {
@@ -32,7 +33,7 @@ const ProjectStatsOverview: VFC<ProjectStatsOverviewProps> = ({ header, time, ea
               {t('overview.earning')}
             </Typography>
             <Typography variant="h6" component="div" data-testid="project_stats_earning_amount">
-              {earning.toFixed(2)}€
+              {formatCurrency(earning)}
             </Typography>
           </Box>
         </Box>

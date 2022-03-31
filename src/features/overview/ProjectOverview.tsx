@@ -3,6 +3,7 @@ import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import React, { useMemo, VFC } from 'react'
 import { ProjectStats } from '../../types'
+import { formatCurrency } from '../../utils'
 import { APP_WIDTH } from '../../utils/constants '
 import { calcEarningFromMin, formatDateLong, formatMinToHourMin, formatTime } from '../../utils/timeUtil'
 import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
@@ -48,6 +49,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
       <List sx={{ flex: '1', overflow: 'auto', width: '100%', bgcolor: 'background.paper' }}>
         {margedDays.map((session) => {
           const duration = getDurationWithBreak(session)
+          const earning = calcEarningFromMin(duration, getRate(session))
           return (
             <React.Fragment key={session.id}>
               <ListItem data-testid="overview_session">
@@ -55,10 +57,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
                   primary={formatDateLong(session.start)}
                   secondary={`${formatTime(session.start)} - ${formatTime(session.end)}`}
                 />
-                <ListItemText
-                  primary={`${calcEarningFromMin(duration, getRate(session)).toFixed(2)} €`}
-                  secondary={formatMinToHourMin(duration)}
-                />
+                <ListItemText primary={formatCurrency(earning)} secondary={`${formatMinToHourMin(duration)}h`} />
               </ListItem>
               <Divider />
             </React.Fragment>

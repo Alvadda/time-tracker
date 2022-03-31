@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import React, { VFC } from 'react'
+import { formatCurrency } from '../../../utils'
 
 interface SessionItemProps {
   displayDate: string
@@ -22,7 +23,7 @@ const SessionItem: VFC<SessionItemProps> = ({ displayDate, project, projectColor
             {project}
           </Typography>
           <Typography variant="h6" component="div" align="right">
-            {erning > 0 && `${erning.toFixed(2)}€`} {duration}H
+            {erning > 0 && formatCurrency(erning)} {duration}h
           </Typography>
         </Box>
       </CardContent>
