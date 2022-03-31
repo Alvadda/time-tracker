@@ -12,3 +12,4 @@ cypress.env.json
 
 # Local Netlify folder
 .netlify
+cypress/screenshots

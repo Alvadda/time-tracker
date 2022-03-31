@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { formatCurrency } from '../../src/utils'
 import { session } from '../support/fields'
 
 describe('session', () => {
@@ -97,7 +98,7 @@ describe('session', () => {
     cy.wait(2000)
     cy.get(session.sessionLiveTrack).click()
     cy.get(session.sessionLiveWorking).should('not.exist')
-    cy.contains('0:00H').click()
+    cy.contains('0:00h').click()
     cy.get(session.formDeleteButton).click({ force: true })
   })
 
@@ -133,8 +134,8 @@ describe('session', () => {
 
         cy.get(session.sessionLiveTrack).click()
         cy.get(session.sessionLiveWorking).should('not.exist')
-        cy.contains('2:00H')
-        cy.contains('60.00€')
+        cy.contains('2:00h')
+        cy.contains(formatCurrency(60))
       })
     })
   })

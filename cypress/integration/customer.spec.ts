@@ -13,7 +13,7 @@ describe('customer', () => {
   it('check customer form', () => {
     cy.get(customer.addCustomerButton).click()
     cy.get(customer.formHeader).should('exist')
-    cy.contains('customer').should('exist')
+    cy.contains('Customer').should('exist')
     cy.get(customer.formName).should('exist')
     cy.get(customer.formContact).should('exist')
     cy.get(customer.formEmail).should('exist')

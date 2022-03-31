@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { calcSessionDuration } from '../../src/utils/timeUtil'
 import { customer, overview, project, session, settings } from '../support/fields'
+import { formatCurrency } from './../../src/utils/index'
 
 describe('rate', () => {
   before(() => {
@@ -38,18 +39,18 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains('€').should('not.exist')
     cy.get(overview.overviewButton).click()
 
-    checkCardValues('Total', '2:00', '0.00')
-    checkCardValues('Rate', '2:00', '0.00')
+    checkCardValues('Total', '2:00', 0)
+    checkCardValues('Rate', '2:00', 0)
   })
 
   it('Only default rate of "10"', () => {
     cy.get(settings.rateInput).clear().type('10').should('have.value', '10')
     cy.get(session.startButton).click()
-    cy.get(session.sessionCard).first().contains('20.00€').should('exist')
+    cy.get(session.sessionCard).first().contains(formatCurrency(20)).should('exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', '20.00')
-    checkCardValues('Rate', '2:00', '20.00')
+    checkCardValues('Total', '2:00', 20)
+    checkCardValues('Rate', '2:00', 20)
   })
 
   it('Customer with rate of "0"', () => {
@@ -62,8 +63,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains('€').should('not.exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', '0.00')
-    checkCardValues('Rate', '2:00', '0.00')
+    checkCardValues('Total', '2:00', 0)
+    checkCardValues('Rate', '2:00', 0)
   })
 
   it('Customer with rate of "20"', () => {
@@ -73,11 +74,11 @@ describe('rate', () => {
     cy.get(customer.formSubmitButton).click({ force: true })
 
     cy.get(session.startButton).click()
-    cy.get(session.sessionCard).first().contains('40.00€').should('exist')
+    cy.get(session.sessionCard).first().contains(formatCurrency(40)).should('exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', '40.00')
-    checkCardValues('Rate', '2:00', '40.00')
+    checkCardValues('Total', '2:00', 40)
+    checkCardValues('Rate', '2:00', 40)
   })
 
   it('Project with rate of "0"', () => {
@@ -90,8 +91,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains('€').should('not.exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', '0.00')
-    checkCardValues('Rate', '2:00', '0.00')
+    checkCardValues('Total', '2:00', 0)
+    checkCardValues('Rate', '2:00', 0)
   })
 
   it('Project with rate of "30"', () => {
@@ -101,11 +102,11 @@ describe('rate', () => {
     cy.get(project.formSubmitButton).click({ force: true })
 
     cy.get(session.startButton).click()
-    cy.get(session.sessionCard).first().contains('60.00€').should('exist')
+    cy.get(session.sessionCard).first().contains(formatCurrency(60)).should('exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', '60.00')
-    checkCardValues('Rate', '2:00', '60.00')
+    checkCardValues('Total', '2:00', 60)
+    checkCardValues('Rate', '2:00', 60)
   })
 
   it('Rate with break', () => {
@@ -114,11 +115,11 @@ describe('rate', () => {
     cy.get(session.sessionBreak).clear().type('60')
     cy.get(project.formSubmitButton).click({ force: true })
 
-    cy.get(session.sessionCard).first().contains('30.00€').should('exist')
+    cy.get(session.sessionCard).first().contains(formatCurrency(30)).should('exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '1:00', '30.00')
-    checkCardValues('Rate', '1:00', '30.00')
+    checkCardValues('Total', '1:00', 30)
+    checkCardValues('Rate', '1:00', 30)
   })
 })
 
@@ -126,12 +127,12 @@ function getCard(name: string) {
   return cy.contains(name).parent().parent()
 }
 
-function checkCardValues(name: string, hour: string, earning: string) {
+function checkCardValues(name: string, hour: string, earning: number) {
   getCard(name)
     .find(overview.hours)
     .should((p) => expect(p).to.contain(`${hour}`))
 
   getCard(name)
     .find(overview.earingAmount)
-    .should((p) => expect(p).to.contain(`${earning}€`))
+    .should((p) => expect(p).to.contain(formatCurrency(earning)))
 }

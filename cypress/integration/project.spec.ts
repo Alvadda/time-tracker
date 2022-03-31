@@ -13,7 +13,7 @@ describe('project', () => {
   it('check project form', () => {
     cy.get(project.addProjectButton).click()
     cy.get(project.formHeader).should('exist')
-    cy.contains('project').should('exist')
+    cy.contains('Project').should('exist')
     cy.get(project.formName).should('exist')
     cy.get(project.formRate).should('exist')
     cy.get(project.formCustomer).should('exist')

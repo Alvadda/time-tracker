@@ -11,7 +11,7 @@ describe('settings', () => {
   })
   it('check page', () => {
     cy.fixture('settings.json').then((data) => {
-      cy.contains(data.headerText)
+      cy.contains('Settings')
       cy.get(settings.header).should('exist')
       cy.get(settings.projects).should('exist')
       cy.get(settings.customers).should('exist')
