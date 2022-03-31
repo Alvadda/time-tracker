@@ -44,7 +44,7 @@ const Overview: VFC = ({}) => {
     <Grid container sx={{ height: '100%', flexDirection: 'column', flexWrap: 'nowrap' }} justifyContent={'center'}>
       <Grid item container sx={{ flex: '0 0 40px', display: 'felx', justifyContent: 'center', alignItems: 'center' }} position={'relative'}>
         <Typography variant="h6" data-testid="page_header">
-          {t('common.overview')}
+          {t('nav.overview')}
         </Typography>
       </Grid>
       <Grid item container flexDirection={'column'} overflow={'hidden'}>

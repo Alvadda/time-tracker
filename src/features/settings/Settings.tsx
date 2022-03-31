@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'
 import { isLanguageSupported, supportedLngs } from '../../i18n'
 import { SettingPage } from '../../types'
+import { LANGUAGE_STORE } from '../../utils/constants '
 import { selectUserEmail } from '../auth/authSlice'
 import { selectProjects } from '../projects/projectsSlice'
 import Label from './components/Label'
@@ -69,6 +70,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
     if (!lang || !isLanguageSupported(lang)) return
 
     dispatch(setLanguage(lang))
+    localStorage.setItem(LANGUAGE_STORE, lang)
   }
 
   return (
@@ -83,7 +85,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton data-testid="settings_customers" onClick={() => onNavigation('customer')}>
+            <ListItemButton data-testid="settings_customers" onClick={() => onNavigation('customers')}>
               <Label label={t('settings.customers')}>
                 <KeyboardArrowRightOutlined />
               </Label>
@@ -107,6 +109,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
                 data-testid="settings_default_project_select"
                 value={defaultProjectId}
                 onChange={(event) => dispatch(setDefaultProjectId(event.target.value))}
+                variant="standard"
               >
                 {projects.map((project) => (
                   <MenuItem key={project.id} value={project.id}>
@@ -190,7 +193,12 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
           </ListItem>
           <ListItem data-testid="settings_Lngs">
             <Label label={t('settings.language')}>
-              <Select data-testid="settings_Lngs_select" value={language} onChange={(event) => onChangeLanguage(event.target.value)}>
+              <Select
+                data-testid="settings_Lngs_select"
+                variant="standard"
+                value={language}
+                onChange={(event) => onChangeLanguage(event.target.value)}
+              >
                 {supportedLngs.map((lng) => (
                   <MenuItem key={lng} value={lng}>
                     {t(lng)}

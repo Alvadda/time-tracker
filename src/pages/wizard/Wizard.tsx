@@ -22,10 +22,10 @@ const Wizard = () => {
   const currentPage = useSelector(selectCurrentPage)
 
   useEffectOnce(() => {
+    dispatch(getSettings())
     dispatch(getProjects())
     dispatch(getCustomers())
     dispatch(getTasks())
-    dispatch(getSettings())
   })
 
   useEffectOnce(() => {

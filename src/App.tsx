@@ -8,10 +8,11 @@ import { selectAuth } from './features/auth/authSlice'
 import Login from './features/auth/Login'
 import { selectDarkMode, selectLanguage } from './features/settings/settingsSlice'
 import FirebaseProvider from './firebase/FirebaseContext'
+import { useEffectOnce } from './hooks/useEffectOnce'
 import { useFirebaseAuth } from './hooks/useFirebaseAuth'
-import { changeLanguage } from './i18n'
+import { changeLanguage, isLanguageSupported } from './i18n'
 import Wizard from './pages/wizard/Wizard'
-import { APP_WIDTH } from './utils/constants '
+import { APP_WIDTH, LANGUAGE_STORE } from './utils/constants '
 
 export const App = () => {
   const [update, setUpdate] = useState(false)
@@ -36,6 +37,11 @@ export const App = () => {
   useEffect(() => {
     changeLanguage(language)
   }, [language])
+
+  useEffectOnce(() => {
+    const language = localStorage.getItem(LANGUAGE_STORE)
+    if (language && isLanguageSupported(language)) changeLanguage(language)
+  })
 
   return (
     <ThemeProvider theme={theme}>

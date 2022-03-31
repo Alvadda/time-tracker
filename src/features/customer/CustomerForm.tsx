@@ -85,7 +85,7 @@ const CustomerForm: VFC<CustomerFormProps> = ({ variant = 'update', customer, on
 
   return (
     <FormBox
-      header="Customer"
+      header={t('common.customer')}
       isValid={true}
       update={isUpdate}
       onCreate={createCustomer}

@@ -14,6 +14,7 @@ import {
 import moment from 'moment'
 import { useEffect, VFC } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import FormBox from '../../components/FormBox'
 import { NumberOrEmpty, Project, Session, Task } from '../../types'
 import { calcSessionDuration, getDateTimeFormatShort } from '../../utils/timeUtil'
@@ -45,6 +46,7 @@ const getDuration = (start: number, end?: number) => {
 }
 
 const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, projects, tasks, onCancle, onCreate, onUpdate, onDelete }) => {
+  const { t } = useTranslation()
   const { register, watch, setValue, getValues } = useForm<SessionFormData>({
     defaultValues: {
       startTime: moment().valueOf(),
@@ -121,10 +123,18 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
   }
 
   return (
-    <FormBox header="Session" isValid={true} update={isUpdate} onCreate={create} onUpdate={update} onDelete={remove} onClose={onCancle}>
+    <FormBox
+      header={t('common.session')}
+      isValid={true}
+      update={isUpdate}
+      onCreate={create}
+      onUpdate={update}
+      onDelete={remove}
+      onClose={onCancle}
+    >
       <DateTimePicker
         renderInput={(props) => <TextField {...props} data-testid="session_start" />}
-        label="Start Time"
+        label={t('session.startTime')}
         value={startTime}
         inputFormat={getDateTimeFormatShort()}
         onChange={(newValue) => {
@@ -135,7 +145,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
       />
       <DateTimePicker
         renderInput={(props) => <TextField {...props} data-testid="session_end" />}
-        label="End Time"
+        label={t('session.endTime')}
         value={endTime}
         inputFormat={getDateTimeFormatShort()}
         minDate={startTime}
@@ -147,7 +157,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         }}
       />
       <TextField
-        label="Break"
+        label={t('session.break')}
         variant="outlined"
         type="number"
         InputProps={{
@@ -160,7 +170,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         <InputLabel>Project</InputLabel>
         <Select
           inputProps={{ 'data-testid': 'session_project' }}
-          label="Project"
+          label={t('session.project')}
           value={watch('projectId')}
           onChange={(event) => setValue('projectId', event.target.value)}
         >
@@ -172,7 +182,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
         </Select>
       </FormControl>
       <FormControl fullWidth>
-        <InputLabel id="session-tasks">Tasks</InputLabel>
+        <InputLabel id="session-tasks">{t('session.tasks')}</InputLabel>
         <Select
           labelId="session-tasks"
           multiple
@@ -194,7 +204,14 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
           ))}
         </Select>
       </FormControl>
-      <TextField inputProps={{ 'data-testid': 'session_note' }} label="Note" variant="standard" multiline rows={5} {...register('note')} />
+      <TextField
+        inputProps={{ 'data-testid': 'session_note' }}
+        label={t('session.note')}
+        variant="standard"
+        multiline
+        rows={5}
+        {...register('note')}
+      />
     </FormBox>
   )
 }

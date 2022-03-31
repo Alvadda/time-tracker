@@ -56,4 +56,4 @@ export interface AppSettings {
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'
-export type SettingPage = 'settings' | 'projects' | 'customer' | 'tasks'
+export type SettingPage = 'settings' | 'projects' | 'customers' | 'tasks'

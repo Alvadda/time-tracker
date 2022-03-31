@@ -84,7 +84,7 @@ const TaskForm: VFC<TaskFormProps> = ({ task, isUpdate, onCreate, onUpdate, onDe
 
   return (
     <FormBox
-      header="Task"
+      header={t('common.task')}
       isValid={true}
       update={isUpdate}
       onCreate={createTask}

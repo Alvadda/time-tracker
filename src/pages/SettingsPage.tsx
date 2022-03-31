@@ -1,6 +1,7 @@
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import { Button, Grid, Typography } from '@mui/material'
 import { VFC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomerManager from '../features/customer/CustomerManager'
 import ProjectManager from '../features/projects/ProjectManager'
@@ -10,7 +11,10 @@ import TaskManager from '../features/task/TaskManager'
 import { useEffectOnce } from '../hooks/useEffectOnce'
 import { SettingPage } from '../types'
 
+const getPageTranslationKey = (page: string) => `nav.${page}`
+
 const SettingsPage: VFC = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const page = useSelector(selectSettingPage)
 
@@ -42,13 +46,13 @@ const SettingsPage: VFC = () => {
           </Button>
         )}
         <Typography variant="h6" data-testid="page_header">
-          {page}
+          {t(getPageTranslationKey(page))}
         </Typography>
       </Grid>
       <Grid item sx={{ flex: '1 0', width: '100%', overflow: 'auto' }}>
         {page === 'settings' && <Settings onNavigation={onNavigation} />}
         {page === 'projects' && <ProjectManager />}
-        {page === 'customer' && <CustomerManager />}
+        {page === 'customers' && <CustomerManager />}
         {page === 'tasks' && <TaskManager />}
       </Grid>
     </Grid>

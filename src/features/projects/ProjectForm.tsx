@@ -83,7 +83,7 @@ const ProjectForm: VFC<ProjectFormProps> = ({ variant = 'update', project, custo
   }
   return (
     <FormBox
-      header="Project"
+      header={t('common.project')}
       isValid={true}
       update={isUpdate}
       onCreate={createProject}
