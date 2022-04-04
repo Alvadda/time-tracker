@@ -164,6 +164,13 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
               />
             </Label>
           </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton data-testid="settings_timesheet_infos" onClick={() => onNavigation('timesheetInfos')}>
+              <Label label={t('settings.timeSheetInfos')}>
+                <KeyboardArrowRightOutlined />
+              </Label>
+            </ListItemButton>
+          </ListItem>
         </List>
       </Paper>
 

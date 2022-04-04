@@ -4,6 +4,7 @@ import { VFC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomerManager from '../features/customer/CustomerManager'
+import TimeSheetInfos from '../features/overview/TimesheetInfos'
 import ProjectManager from '../features/projects/ProjectManager'
 import Settings from '../features/settings/Settings'
 import { navigateBack, navigateTo, selectSettingPage } from '../features/settings/settingsSlice'
@@ -54,6 +55,7 @@ const SettingsPage: VFC = () => {
         {page === 'projects' && <ProjectManager />}
         {page === 'customers' && <CustomerManager />}
         {page === 'tasks' && <TaskManager />}
+        {page === 'timesheetInfos' && <TimeSheetInfos />}
       </Grid>
     </Grid>
   )

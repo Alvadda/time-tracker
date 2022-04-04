@@ -46,6 +46,13 @@ export interface Task extends Form {
   color: string
 }
 
+export interface TimesheetInfos {
+  name?: string
+  street?: string
+  zipCode?: string
+  city?: string
+}
+
 export interface AppSettings {
   darkMode: boolean
   defaultProjectId: string
@@ -53,7 +60,8 @@ export interface AppSettings {
   defaultBreakRule: NumberOrEmpty
   defaultRate: NumberOrEmpty
   language: string
+  timesheetInfos?: TimesheetInfos
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'
-export type SettingPage = 'settings' | 'projects' | 'customers' | 'tasks'
+export type SettingPage = 'settings' | 'projects' | 'customers' | 'tasks' | 'timesheetInfos'

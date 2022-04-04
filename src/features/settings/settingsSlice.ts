@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Extra, RootState } from '../../store/store'
-import { AppSettings, NumberOrEmpty, SettingPage } from '../../types'
+import { AppSettings, NumberOrEmpty, SettingPage, TimesheetInfos } from '../../types'
 
 export interface SettingsState {
   page: SettingPage
@@ -54,6 +54,9 @@ export const settingsSlice = createSlice({
     setLanguage: (state, action: PayloadAction<string>) => {
       state.appSettings.language = action.payload
     },
+    setTimesheetInfos: (state, action: PayloadAction<TimesheetInfos>) => {
+      state.appSettings.timesheetInfos = action.payload
+    },
     navigateTo: (state, action: PayloadAction<SettingPage>) => {
       state.page = action.payload
     },
@@ -81,6 +84,7 @@ export const selectDefaultBreak = (state: RootState) => state.settings.appSettin
 export const selectDefaultBreakRule = (state: RootState) => state.settings.appSettings.defaultBreakRule
 export const selectDefaultRate = (state: RootState) => state.settings.appSettings.defaultRate
 export const selectLanguage = (state: RootState) => state.settings.appSettings.language
+export const selectTimesheetInfos = (state: RootState) => state.settings.appSettings.timesheetInfos
 
 //ACTIONS
 export const {
@@ -92,6 +96,7 @@ export const {
   setDefaultProjectId,
   setDefaultRate,
   setLanguage,
+  setTimesheetInfos,
 } = settingsSlice.actions
 export { getSettings, updateSettings }
 
