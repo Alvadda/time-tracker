@@ -2,12 +2,14 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import React, { useMemo, VFC } from 'react'
+import { useSelector } from 'react-redux'
 import { ProjectStats } from '../../types'
 import { formatCurrency } from '../../utils'
 import { APP_WIDTH } from '../../utils/constants '
 import { calcEarningFromMin, formatDateLong, formatMinToHourMin, formatTime } from '../../utils/timeUtil'
 import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
 import { useRate } from '../sessions/useRate'
+import { selectTimesheetInfos } from '../settings/settingsSlice'
 import TimesheetPdf from './TimesheetPdf'
 
 interface ProjectOverviewProps {
@@ -20,6 +22,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
   const margedDays = useMemo(() => mergeDaysTogether(projectStats.sessions), [projectStats.sessions])
   const { getRate } = useRate()
 
+  const timeSheetinfos = useSelector(selectTimesheetInfos)
   return (
     <Box
       sx={{
@@ -65,7 +68,10 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
         })}
       </List>
       <Box sx={{ flex: '0 1 auto', padding: '16px 16px', display: 'flex', justifyContent: 'center' }}>
-        <PDFDownloadLink document={<TimesheetPdf period={period} projectStats={projectStats} />} fileName="etest.pdf">
+        <PDFDownloadLink
+          document={<TimesheetPdf period={period} projectStats={projectStats} timesheetInfos={timeSheetinfos} />}
+          fileName="etest.pdf"
+        >
           {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
         </PDFDownloadLink>
       </Box>

@@ -47,7 +47,7 @@ export interface Task extends Form {
 }
 
 export interface TimesheetInfos {
-  name?: string
+  fullName?: string
   street?: string
   zipCode?: string
   city?: string

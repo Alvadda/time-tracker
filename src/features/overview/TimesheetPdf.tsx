@@ -1,12 +1,13 @@
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
 import moment from 'moment'
 import React, { useMemo, VFC } from 'react'
-import { ProjectStats } from '../../types'
+import { ProjectStats, TimesheetInfos } from '../../types'
 import { mergeDaysTogether } from '../sessions/sessionUtils'
 
 interface TimesheetPdfProps {
   projectStats: ProjectStats
   period: string
+  timesheetInfos?: TimesheetInfos
 }
 
 // Create styles
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) => {
+const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period, timesheetInfos }) => {
   const margedDays = useMemo(() => mergeDaysTogether(projectStats.sessions), [projectStats.sessions])
 
   const getPariod = () => {
@@ -105,9 +106,11 @@ const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period }) => {
             <Text style={styles.fontSizeBigMedium}>{getPariod()}</Text>
           </View>
           <View style={styles.column}>
-            <Text style={styles.fontSizeMedium}>Max Mustermann</Text>
-            <Text style={styles.fontSizeMedium}>Mustermann str. 9b</Text>
-            <Text style={styles.fontSizeMedium}>21217 Hamburg</Text>
+            <Text style={styles.fontSizeMedium}>{timesheetInfos?.fullName}</Text>
+            <Text style={styles.fontSizeMedium}>{timesheetInfos?.street}</Text>
+            <Text style={styles.fontSizeMedium}>
+              {timesheetInfos?.zipCode} {timesheetInfos?.city}
+            </Text>
           </View>
         </View>
 

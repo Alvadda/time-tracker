@@ -14,7 +14,7 @@ const TimeSheetInfos: VFC = ({}) => {
   const timeSheetinfos = useSelector(selectTimesheetInfos)
 
   useLayoutEffect(() => {
-    setValue('name', timeSheetinfos?.name)
+    setValue('fullName', timeSheetinfos?.fullName)
     setValue('street', timeSheetinfos?.street)
     setValue('zipCode', timeSheetinfos?.zipCode)
     setValue('city', timeSheetinfos?.city)
@@ -31,7 +31,7 @@ const TimeSheetInfos: VFC = ({}) => {
           inputProps={{ 'data-testid': 'timesheetInfo_name' }}
           label={t('timesheetInfo.name')}
           variant="standard"
-          {...register('name')}
+          {...register('fullName')}
         />
         <TextField
           inputProps={{ 'data-testid': 'timesheetInfo_street' }}
