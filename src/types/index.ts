@@ -60,7 +60,6 @@ export interface AppSettings {
   defaultBreakRule: NumberOrEmpty
   defaultRate: NumberOrEmpty
   language: string
-  timesheetInfos?: TimesheetInfos
 }
 
 export type Page = 'time-tracker' | 'overview' | 'settings'

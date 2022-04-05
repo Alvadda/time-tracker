@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { TimesheetInfos } from '../../types'
-import { selectTimesheetInfos, setTimesheetInfos } from '../settings/settingsSlice'
+import { selectTimesheetInfos, updateTimesheetInfoSettings } from '../settings/settingsSlice'
 
 const TimeSheetInfos: VFC = ({}) => {
   const { register, getValues, setValue } = useForm<TimesheetInfos>()
@@ -20,7 +20,7 @@ const TimeSheetInfos: VFC = ({}) => {
     setValue('city', timeSheetinfos?.city)
 
     return () => {
-      dispatch(setTimesheetInfos(getValues()))
+      dispatch(updateTimesheetInfoSettings(getValues()))
     }
   }, [dispatch, getValues, setValue, timeSheetinfos])
 

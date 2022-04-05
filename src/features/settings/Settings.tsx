@@ -36,7 +36,7 @@ import {
   setDefaultProjectId,
   setDefaultRate,
   setLanguage,
-  updateSettings,
+  updateAppSettings,
 } from './settingsSlice'
 interface SettingsProps {
   onNavigation: (to: SettingPage) => void
@@ -62,7 +62,7 @@ const Settings: VFC<SettingsProps> = ({ onNavigation }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(updateSettings())
+      dispatch(updateAppSettings())
     }
   }, [dispatch])
 

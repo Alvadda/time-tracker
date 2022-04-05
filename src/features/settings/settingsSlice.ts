@@ -5,6 +5,7 @@ import { AppSettings, NumberOrEmpty, SettingPage, TimesheetInfos } from '../../t
 export interface SettingsState {
   page: SettingPage
   appSettings: AppSettings
+  timesheetInfos?: TimesheetInfos
 }
 
 const initialState: SettingsState = {
@@ -12,25 +13,36 @@ const initialState: SettingsState = {
   appSettings: { darkMode: true, defaultProjectId: '', defaultBreak: 0, defaultBreakRule: 0, defaultRate: 0, language: 'en' },
 }
 
-const getSettings = createAsyncThunk<AppSettings | undefined, undefined, { state: RootState; extra: Extra }>(
-  'settings/get',
-  async (_, { getState, extra }) => {
-    const { auth } = getState()
-    if (!auth?.uid) return undefined
+const getSettings = createAsyncThunk<
+  Pick<SettingsState, 'appSettings' | 'timesheetInfos'> | undefined,
+  undefined,
+  { state: RootState; extra: Extra }
+>('settings/get', async (_, { getState, extra }) => {
+  const { auth } = getState()
+  if (!auth?.uid) return undefined
 
-    return await extra.user.get(auth.uid)
-  }
-)
+  return await extra.user.get(auth.uid)
+})
 
-const updateSettings = createAsyncThunk<AppSettings, undefined, { state: RootState; extra: Extra }>(
-  'settings/update',
+const updateAppSettings = createAsyncThunk<AppSettings, undefined, { state: RootState; extra: Extra }>(
+  'settings/app/update',
   async (_, { getState, extra }) => {
     const { auth, settings } = getState()
     if (!auth?.uid) throw new Error('User needs to be logged in')
 
-    return await extra.user.updateSettings(auth.uid, settings.appSettings)
+    return await extra.user.updateAppSettings(auth.uid, settings.appSettings)
   }
 )
+const updateTimesheetInfoSettings = createAsyncThunk<
+  TimesheetInfos | undefined,
+  TimesheetInfos | undefined,
+  { state: RootState; extra: Extra }
+>('settings/timesheetInfo/update', async (timesheetInfos, { getState, extra }) => {
+  const { auth } = getState()
+  if (!auth?.uid) throw new Error('User needs to be logged in')
+
+  return await extra.user.updateTimesheetInfoSettings(auth.uid, timesheetInfos)
+})
 
 export const settingsSlice = createSlice({
   name: 'settings',
@@ -55,7 +67,7 @@ export const settingsSlice = createSlice({
       state.appSettings.language = action.payload
     },
     setTimesheetInfos: (state, action: PayloadAction<TimesheetInfos>) => {
-      state.appSettings.timesheetInfos = action.payload
+      state.timesheetInfos = action.payload
     },
     navigateTo: (state, action: PayloadAction<SettingPage>) => {
       state.page = action.payload
@@ -67,11 +79,14 @@ export const settingsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getSettings.fulfilled, (state, action) => {
       if (action.payload) {
-        state.appSettings = action.payload
+        ;(state.appSettings = action.payload.appSettings), (state.timesheetInfos = action.payload.timesheetInfos)
       }
     })
-    builder.addCase(updateSettings.fulfilled, (state, action) => {
+    builder.addCase(updateAppSettings.fulfilled, (state, action) => {
       state.appSettings = action.payload
+    })
+    builder.addCase(updateTimesheetInfoSettings.fulfilled, (state, action) => {
+      state.timesheetInfos = action.payload
     })
   },
 })
@@ -84,7 +99,7 @@ export const selectDefaultBreak = (state: RootState) => state.settings.appSettin
 export const selectDefaultBreakRule = (state: RootState) => state.settings.appSettings.defaultBreakRule
 export const selectDefaultRate = (state: RootState) => state.settings.appSettings.defaultRate
 export const selectLanguage = (state: RootState) => state.settings.appSettings.language
-export const selectTimesheetInfos = (state: RootState) => state.settings.appSettings.timesheetInfos
+export const selectTimesheetInfos = (state: RootState) => state.settings.timesheetInfos
 
 //ACTIONS
 export const {
@@ -98,6 +113,6 @@ export const {
   setLanguage,
   setTimesheetInfos,
 } = settingsSlice.actions
-export { getSettings, updateSettings }
+export { getSettings, updateAppSettings, updateTimesheetInfoSettings }
 
 export default settingsSlice.reducer

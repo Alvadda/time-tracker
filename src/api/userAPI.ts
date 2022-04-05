@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { doc, Firestore, getDoc, updateDoc } from 'firebase/firestore'
-import { AppSettings } from '../types'
+import { AppSettings, TimesheetInfos } from '../types'
 
 const mapSettings = (settings: any): AppSettings => {
   if (!settings)
@@ -32,11 +32,15 @@ const userAPI = (db: Firestore) => {
     const docSnap = await getDoc(userRef)
 
     if (docSnap.exists()) {
-      return mapSettings(docSnap.data().settings)
+      const data = docSnap.data()
+      return {
+        appSettings: mapSettings(data.settings),
+        timesheetInfos: data.timesheetInfos as TimesheetInfos,
+      }
     }
   }
 
-  const updateSettings = async (userId: string, settings: AppSettings) => {
+  const updateAppSettings = async (userId: string, settings: AppSettings) => {
     try {
       const userRef = doc(db, userPath, userId)
       await updateDoc(userRef, {
@@ -45,11 +49,24 @@ const userAPI = (db: Firestore) => {
 
       return settings
     } catch (error: any) {
-      throw new Error(`Update settings for user ${userId} faild: ${error.message}`)
+      throw new Error(`Update app settings for user ${userId} faild: ${error.message}`)
     }
   }
 
-  return { get, updateSettings }
+  const updateTimesheetInfoSettings = async (userId: string, timesheetInfos?: TimesheetInfos) => {
+    try {
+      const userRef = doc(db, userPath, userId)
+      await updateDoc(userRef, {
+        timesheetInfos,
+      })
+
+      return timesheetInfos
+    } catch (error: any) {
+      throw new Error(`Update timesheetInfos settings for user ${userId} faild: ${error.message}`)
+    }
+  }
+
+  return { get, updateAppSettings, updateTimesheetInfoSettings }
 }
 
 export default userAPI
