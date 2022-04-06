@@ -4,7 +4,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer'
 import React, { useMemo, VFC } from 'react'
 import { useSelector } from 'react-redux'
 import { ProjectStats } from '../../types'
-import { formatCurrency } from '../../utils'
+import { createCSVDownloadLink, formatCurrency } from '../../utils'
 import { APP_WIDTH } from '../../utils/constants '
 import { calcEarningFromMin, formatDateLong, formatMinToHourMin, formatTime } from '../../utils/timeUtil'
 import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
@@ -23,6 +23,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
   const { getRate } = useRate()
 
   const timeSheetinfos = useSelector(selectTimesheetInfos)
+
   return (
     <Box
       sx={{
@@ -74,6 +75,9 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
         >
           {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
         </PDFDownloadLink>
+        <a href={createCSVDownloadLink(margedDays)} download={'timesheet.csv'}>
+          CSV
+        </a>
       </Box>
     </Box>
   )

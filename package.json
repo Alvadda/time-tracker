@@ -40,6 +40,7 @@
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
+    "convert-array-to-csv": "^2.0.0",
     "dotenv": "^16.0.0",
     "firebase": "^9.6.10",
     "i18next": "^21.6.14",
