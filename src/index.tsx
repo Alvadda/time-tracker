@@ -1,4 +1,5 @@
-import ReactDOM from 'react-dom'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { Workbox } from 'workbox-window'
 import { App } from './App'
@@ -17,10 +18,12 @@ if (process.env.NODE_ENV === 'production') {
   }
 }
 
-const root = document.body.appendChild(document.createElement('div'))
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  root
+const container = document.body.appendChild(document.createElement('div'))
+const root = createRoot(container)
+root.render(
+  <StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>
 )
