@@ -29,6 +29,7 @@ export const settings = {
   breakRule: '[data-testid="settings_break_rule"]',
   rateInput: '[data-testid="settings_rateInput"]',
   rate: '[data-testid="settings_rate"]',
+  timesheetInfos: '[data-testid="settings_timesheet_infos"]',
   darkmode: '[data-testid="settings_darkmode"]',
   darkmodeSwitch: '[data-testid="settings_darkmode_switch"]',
   darkmodeSwitchCheck: '[aria-label="settings_darkmode_switch_check"]',
@@ -36,6 +37,10 @@ export const settings = {
   userEmail: '[data-testid="settings_userEmail"]',
   logout: '[data-testid="settings_logout"]',
   version: '[data-testid="settings_version"]',
+  fullname: '[data-testid="timesheetInfo_fullname"]',
+  street: '[data-testid="timesheetInfo_street"]',
+  zipCode: '[data-testid="timesheetInfo_zipCode"]',
+  city: '[data-testid="timesheetInfo_city"]',
 }
 
 export const customer = {

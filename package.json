@@ -9,6 +9,7 @@
     "dev": "webpack serve --open --hot",
     "qa": "webpack serve",
     "dev:test": "concurrently --kill-others \"npm run emu:test\" \"npm run qa\"",
+    "dev:emu": "concurrently --kill-others \"npm run emu\" \"npm run dev\"",
     "clean": "rimraf dist",
     "lint:fix": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx,json}\"",

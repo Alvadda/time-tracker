@@ -37,7 +37,7 @@
   "customer.note": "Notiz",
   "task.name": "Name",
   "task.description": "Beschreibung",
-  "timesheetInfo.name": "Name",
+  "timesheetInfo.fullname": "Voller Name",
   "timesheetInfo.street": "Straße",
   "timesheetInfo.zipCode": "PLZ",
   "timesheetInfo.city": "Stadt",

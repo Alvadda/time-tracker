@@ -28,8 +28,8 @@ const TimeSheetInfos: VFC = ({}) => {
     <Box height={'100%'} overflow={'auto'} padding={2}>
       <Stack spacing={2} padding={2}>
         <TextField
-          inputProps={{ 'data-testid': 'timesheetInfo_name' }}
-          label={t('timesheetInfo.name')}
+          inputProps={{ 'data-testid': 'timesheetInfo_fullname' }}
+          label={t('timesheetInfo.fullname')}
           variant="standard"
           {...register('fullName')}
         />

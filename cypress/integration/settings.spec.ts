@@ -49,4 +49,26 @@ describe('settings', () => {
     cy.get(settings.darkmodeSwitch).click()
     cy.get(settings.darkmodeSwitchCheck).should('be.checked')
   })
+
+  it('check timesheet infos', () => {
+    cy.get(settings.timesheetInfos).click()
+    cy.contains('Timesheet Infos')
+
+    cy.get(settings.fullname).should('exist')
+    cy.get(settings.street).should('exist')
+    cy.get(settings.zipCode).should('exist')
+    cy.get(settings.city).should('exist')
+
+    cy.get(settings.fullname).clear().type('Meier')
+    cy.get(settings.street).clear().type('Meier Street 9A')
+    cy.get(settings.zipCode).clear().type('45458')
+    cy.get(settings.city).clear().type('Hamburg')
+
+    cy.get(settings.back).click()
+    cy.get(settings.timesheetInfos).click()
+    cy.get(settings.fullname).should('have.value', 'Meier')
+    cy.get(settings.street).should('have.value', 'Meier Street 9A')
+    cy.get(settings.zipCode).should('have.value', '45458')
+    cy.get(settings.city).should('have.value', 'Hamburg')
+  })
 })
