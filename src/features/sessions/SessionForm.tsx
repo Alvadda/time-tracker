@@ -64,7 +64,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
     if (session) {
       setValue('startTime', session.start || moment().valueOf())
       setValue('endTime', session.end || moment().valueOf())
-      setValue('sessionBreak', session.break || 0)
+      setValue('sessionBreak', Number(session.break || 0))
       setValue('projectId', session.projectId || '')
       setValue('taskIds', session.taskIds || [])
       setValue('note', session.note)
@@ -74,6 +74,7 @@ const SessionForm: VFC<SessionFormProps> = ({ variant = 'update', session, proje
   const getFormData = () => {
     const data = getValues()
     const duration = getDuration(data.startTime, data.endTime) || 0
+
     return {
       start: data.startTime,
       end: data.endTime,
