@@ -2,7 +2,9 @@ import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
 import moment from 'moment'
 import React, { useMemo, VFC } from 'react'
 import { ProjectStats, TimesheetInfos } from '../../types'
-import { mergeDaysTogether } from '../sessions/sessionUtils'
+import { formatDateShort } from '../../utils'
+import { HOUR } from '../../utils/constants '
+import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
 
 interface TimesheetPdfProps {
   projectStats: ProjectStats
@@ -137,23 +139,24 @@ const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period, timesheetI
             <Text style={styles.fontSizeMedium}>Stunden</Text>
           </View>
           {margedDays.map((session) => {
+            const duration = getDurationWithBreak(session)
             return (
               <View style={styles.tableContent} key={session.start}>
                 <View style={styles.tableCell}>
-                  <Text style={styles.fontSizeSmall}>{moment(session.start).format('DD.MM.YYYY')}</Text>
+                  <Text style={styles.fontSizeSmall}>{formatDateShort(session.start)}</Text>
                 </View>
                 <View style={styles.tableCenterCell}>
                   <Text style={[styles.fontSizeSmall, { textAlign: 'left' }]}>{session.note}</Text>
                 </View>
                 <View style={styles.tableCell}>
-                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{((session.duration || 0) / 60).toFixed(0)}</Text>
+                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{(duration / HOUR).toFixed(0)}</Text>
                 </View>
               </View>
             )
           })}
           <View style={styles.tablefooter}>
             <Text style={styles.fontSizeMedium}>Stunden Gesamt</Text>
-            <Text style={styles.fontSizeMedium}>{(projectStats.totalMinutesWorked / 60).toFixed(0)}</Text>
+            <Text style={styles.fontSizeMedium}>{(projectStats.totalMinutesWorked / HOUR).toFixed(0)}</Text>
           </View>
         </View>
       </Page>

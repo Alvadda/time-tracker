@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux'
+import { HOUR } from '../../utils/constants '
 import { selectDefaultBreak, selectDefaultBreakRule } from '../settings/settingsSlice'
 import { NumberOrEmpty } from './../../types/index'
 
 const isBreakToAplly = (duration: number, defaultBreakRule: NumberOrEmpty) => {
   if (defaultBreakRule === '' || defaultBreakRule <= 0) return false
-  return duration > defaultBreakRule * 60
+  return duration > defaultBreakRule * HOUR
 }
 
 const isDurationLongerThenBreak = (duration: number, defaultBreak: NumberOrEmpty) => {

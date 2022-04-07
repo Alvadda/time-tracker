@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { ProjectStats } from '../../types'
 import { createCSVDownloadLink, formatCurrency } from '../../utils'
 import { APP_WIDTH } from '../../utils/constants '
-import { calcEarningFromMin, formatDateLong, formatMinToHourMin, formatTime } from '../../utils/timeUtil'
+import { calcEarningFromMin, formatDateShort, formatMinToHourMin } from '../../utils/timeUtil'
 import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
 import { useRate } from '../sessions/useRate'
 import { selectTimesheetInfos } from '../settings/settingsSlice'
@@ -23,6 +23,17 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
   const { getRate } = useRate()
 
   const timeSheetinfos = useSelector(selectTimesheetInfos)
+
+  const formatedDays = margedDays.map((session) => {
+    const duration = getDurationWithBreak(session)
+    const earning = calcEarningFromMin(duration, getRate(session))
+    return {
+      date: formatDateShort(session.start),
+      duration: formatMinToHourMin(duration),
+      earning: formatCurrency(earning),
+      notes: session.note,
+    }
+  })
 
   return (
     <Box
@@ -51,17 +62,12 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
         </Typography>
       </Box>
       <List sx={{ flex: '1', overflow: 'auto', width: '100%', bgcolor: 'background.paper' }}>
-        {margedDays.map((session) => {
-          const duration = getDurationWithBreak(session)
-          const earning = calcEarningFromMin(duration, getRate(session))
+        {formatedDays.map((day) => {
           return (
-            <React.Fragment key={session.id}>
+            <React.Fragment key={day.date}>
               <ListItem data-testid="overview_session">
-                <ListItemText
-                  primary={formatDateLong(session.start)}
-                  secondary={`${formatTime(session.start)} - ${formatTime(session.end)}`}
-                />
-                <ListItemText primary={formatCurrency(earning)} secondary={`${formatMinToHourMin(duration)}h`} />
+                <ListItemText primary={day.date} />
+                <ListItemText primary={day.earning} secondary={`${day.duration}h`} />
               </ListItem>
               <Divider />
             </React.Fragment>
@@ -75,7 +81,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
         >
           {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
         </PDFDownloadLink>
-        <a href={createCSVDownloadLink(margedDays)} download={'timesheet.csv'}>
+        <a href={createCSVDownloadLink(formatedDays)} download={'timesheet.csv'}>
           CSV
         </a>
       </Box>

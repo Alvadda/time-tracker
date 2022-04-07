@@ -1,5 +1,6 @@
 import moment, { Moment } from 'moment'
 import { NumberOrEmpty } from './../types/index'
+import { HOUR } from './constants '
 
 export const formatNumberToTwoDigits = (number: number) => ('0' + number).slice(-2)
 
@@ -26,9 +27,9 @@ export const formatTime = (time?: Date | Moment | number) => formatDate(time, ge
 export const formatMinToHourMin = (minutes?: number) => {
   if (!minutes) return '0:00'
 
-  const hours = minutes / 60
+  const hours = minutes / HOUR
   const rhours = Math.floor(hours)
-  const m = (hours - rhours) * 60
+  const m = (hours - rhours) * HOUR
   const rminutes = formatNumberToTwoDigits(Math.round(m))
   return `${rhours}:${rminutes}`
 }
@@ -52,7 +53,7 @@ export const calcEarningFromMin = (minutes?: number, hourRate?: NumberOrEmpty) =
   const time = minutes || 0
   const rate = hourRate || 0
 
-  return (time * rate) / 60
+  return (time * rate) / HOUR
 }
 
 export const nowMiliseconds = () => {
