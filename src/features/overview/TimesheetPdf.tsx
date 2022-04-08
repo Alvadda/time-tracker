@@ -1,14 +1,18 @@
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
 import moment from 'moment'
-import React, { useMemo, VFC } from 'react'
-import { ProjectStats, TimesheetInfos } from '../../types'
+import React, { VFC } from 'react'
+import { Session, TimesheetInfos } from '../../types'
 import { formatDateShort } from '../../utils'
 import { HOUR } from '../../utils/constants '
-import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
+import { getDurationWithBreak } from '../sessions/sessionUtils'
 
 interface TimesheetPdfProps {
-  projectStats: ProjectStats
+  sessions: Session[]
+  totalMinutesWorked: number
   period: string
+  projectName: string
+  customerName: string
+  customerAdress: string
   timesheetInfos?: TimesheetInfos
 }
 
@@ -88,12 +92,18 @@ const styles = StyleSheet.create({
   },
 })
 
-const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period, timesheetInfos }) => {
-  const margedDays = useMemo(() => mergeDaysTogether(projectStats.sessions), [projectStats.sessions])
-
+const TimesheetPdf: VFC<TimesheetPdfProps> = ({
+  sessions,
+  totalMinutesWorked,
+  period,
+  projectName,
+  customerName,
+  customerAdress,
+  timesheetInfos,
+}) => {
   const getPariod = () => {
-    const firstDay = moment(margedDays[0].start)
-    const lastDay = moment(margedDays[margedDays.length - 1]?.start)
+    const firstDay = moment(sessions[0].start)
+    const lastDay = moment(sessions[sessions.length - 1]?.start)
 
     return firstDay.isSame(lastDay, 'month') ? firstDay.format('MMMM') : `${firstDay.format('MMMM')} - ${lastDay.format('MMMM')}`
   }
@@ -124,10 +134,10 @@ const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period, timesheetI
             <Text style={styles.fontSizeBoldMedium}>Ort:</Text>
           </View>
           <View style={styles.column}>
-            <Text style={styles.fontSizeMedium}>{projectStats.customer?.name || ' '}</Text>
-            <Text style={styles.fontSizeMedium}>{projectStats.project.name || ' '}</Text>
+            <Text style={styles.fontSizeMedium}>{customerName}</Text>
+            <Text style={styles.fontSizeMedium}>{projectName}</Text>
             <Text style={styles.fontSizeMedium}>{period}</Text>
-            <Text style={styles.fontSizeMedium}>{projectStats.customer?.address}</Text>
+            <Text style={styles.fontSizeMedium}>{customerAdress}</Text>
           </View>
         </View>
 
@@ -138,7 +148,7 @@ const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period, timesheetI
             <Text style={styles.fontSizeMedium}>Beschreibung</Text>
             <Text style={styles.fontSizeMedium}>Stunden</Text>
           </View>
-          {margedDays.map((session) => {
+          {sessions.map((session) => {
             const duration = getDurationWithBreak(session)
             return (
               <View style={styles.tableContent} key={session.start}>
@@ -149,14 +159,14 @@ const TimesheetPdf: VFC<TimesheetPdfProps> = ({ projectStats, period, timesheetI
                   <Text style={[styles.fontSizeSmall, { textAlign: 'left' }]}>{session.note}</Text>
                 </View>
                 <View style={styles.tableCell}>
-                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{(duration / HOUR).toFixed(0)}</Text>
+                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{duration}</Text>
                 </View>
               </View>
             )
           })}
           <View style={styles.tablefooter}>
             <Text style={styles.fontSizeMedium}>Stunden Gesamt</Text>
-            <Text style={styles.fontSizeMedium}>{(projectStats.totalMinutesWorked / HOUR).toFixed(0)}</Text>
+            <Text style={styles.fontSizeMedium}>{(totalMinutesWorked / HOUR).toFixed(0)}</Text>
           </View>
         </View>
       </Page>

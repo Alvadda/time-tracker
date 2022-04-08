@@ -5,11 +5,12 @@ import React, { useMemo, VFC } from 'react'
 import { useSelector } from 'react-redux'
 import { ProjectStats } from '../../types'
 import { createCSVDownloadLink, formatCurrency } from '../../utils'
-import { APP_WIDTH } from '../../utils/constants '
-import { calcEarningFromMin, formatDateShort, formatMinToHourMin } from '../../utils/timeUtil'
+import { APP_WIDTH, HOUR } from '../../utils/constants '
+import { calcEarningFromMin, formatDateShort } from '../../utils/timeUtil'
 import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
 import { useRate } from '../sessions/useRate'
 import { selectTimesheetInfos } from '../settings/settingsSlice'
+import { useTask } from '../task/useTask'
 import TimesheetPdf from './TimesheetPdf'
 
 interface ProjectOverviewProps {
@@ -21,6 +22,7 @@ interface ProjectOverviewProps {
 const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, period }) => {
   const margedDays = useMemo(() => mergeDaysTogether(projectStats.sessions), [projectStats.sessions])
   const { getRate } = useRate()
+  const { getTaskNamesByIds } = useTask()
 
   const timeSheetinfos = useSelector(selectTimesheetInfos)
 
@@ -29,9 +31,10 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
     const earning = calcEarningFromMin(duration, getRate(session))
     return {
       date: formatDateShort(session.start),
-      duration: formatMinToHourMin(duration),
+      duration: (duration / HOUR).toFixed(0),
       earning: formatCurrency(earning),
       notes: session.note,
+      tasks: getTaskNamesByIds(session.taskIds ?? []).join(' '),
     }
   })
 
@@ -76,7 +79,17 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
       </List>
       <Box sx={{ flex: '0 1 auto', padding: '16px 16px', display: 'flex', justifyContent: 'center' }}>
         <PDFDownloadLink
-          document={<TimesheetPdf period={period} projectStats={projectStats} timesheetInfos={timeSheetinfos} />}
+          document={
+            <TimesheetPdf
+              sessions={margedDays}
+              projectName={projectStats.project.name}
+              customerName={projectStats.customer?.name ?? ''}
+              customerAdress={projectStats.customer?.address ?? ''}
+              totalMinutesWorked={projectStats.totalMinutesWorked}
+              period={period}
+              timesheetInfos={timeSheetinfos}
+            />
+          }
           fileName="etest.pdf"
         >
           {({ loading }) => (loading ? 'downloading...' : <Button variant="contained"> Download </Button>)}
