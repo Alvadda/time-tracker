@@ -97,16 +97,10 @@ export const selectProjectsInRage = (from: number, to: number) => {
         const customer = customers.find((customer) => project.customerId === customer.id)
         const rate = getRateFrom(project, customers, defaultRate)
 
-        const { minutes } = sessionsToProject.reduce(
-          (sum, session) => {
-            const duration = getDurationWithBreak(session)
-            return {
-              minutes: sum.minutes + duration,
-            }
-          },
-          { minutes: 0 }
-        )
-        return { project, totalMinutesWorked: minutes, sessions: sessionsToProject, customer, rate }
+        const totalMinutesWorked = sessionsToProject.reduce((sum, session) => {
+          return sum + getDurationWithBreak(session)
+        }, 0)
+        return { project, totalMinutesWorked, sessions: sessionsToProject, customer, rate }
       })
   )
 }

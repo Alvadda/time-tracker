@@ -7,7 +7,7 @@ interface SessionItemProps {
   displayDate: string
   project: string
   projectColor: string
-  duration: string
+  duration: number
   erning: number
 }
 
