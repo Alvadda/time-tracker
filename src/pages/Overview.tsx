@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import ProjectStatsOverview from '../features/overview/ProjectStatsOverview'
 import { selectProjectsInRage } from '../features/projects/projectsSlice'
 import { ProjectStats } from '../types'
-import { formatDateShort, getDateFormatShort, timeInMiliseconds } from '../utils/timeUtil'
+import { formatDateShort, getDateFormatShort, getRoundedHours, timeInMiliseconds } from '../utils/timeUtil'
 
 const Timesheet = lazy(() => import('../features/overview/Timesheet'))
 const ProjectOverview = lazy(() => import('../features/overview/ProjectOverview'))
@@ -30,14 +30,16 @@ const Overview: VFC = ({}) => {
 
   const projectStatsWithSession = projectStats.filter((project) => project.sessions.length > 0)
 
-  const { totalEarning, totalMinutes } = projectStats.reduce(
+  const { totalEarning, totalHours } = projectStats.reduce(
     (sum, projectStats) => {
+      const hours = getRoundedHours(projectStats.totalMinutesWorked)
+
       return {
-        totalEarning: sum.totalEarning + projectStats.totalEarning,
-        totalMinutes: sum.totalMinutes + projectStats.totalMinutesWorked,
+        totalEarning: sum.totalEarning + hours * projectStats.rate,
+        totalHours: sum.totalHours + hours,
       }
     },
-    { totalEarning: 0, totalMinutes: 0 }
+    { totalEarning: 0, totalHours: 0 }
   )
 
   return (
@@ -73,7 +75,7 @@ const Overview: VFC = ({}) => {
         </Box>
 
         <Box padding={2} width={'100%'}>
-          <ProjectStatsOverview header={t('overview.total')} time={totalMinutes} earning={totalEarning} />
+          <ProjectStatsOverview header={t('overview.total')} time={totalHours} earning={totalEarning} />
         </Box>
         <Divider />
       </Grid>
@@ -85,8 +87,8 @@ const Overview: VFC = ({}) => {
                 <ProjectStatsOverview
                   header={projectStats.project.name}
                   headerColor={projectStats.project.color}
-                  time={projectStats.totalMinutesWorked}
-                  earning={projectStats.totalEarning}
+                  time={getRoundedHours(projectStats.totalMinutesWorked)}
+                  earning={getRoundedHours(projectStats.totalMinutesWorked) * projectStats.rate}
                 />
               </ListItemButton>
             </ListItem>

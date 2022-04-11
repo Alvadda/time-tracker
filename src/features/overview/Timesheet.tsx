@@ -12,6 +12,7 @@ interface TimesheetProps {
   onClose: () => void
 }
 
+// TODO do we need this still?
 const Timesheet: VFC<TimesheetProps> = ({ onClose, projectStats, period }) => {
   return (
     <Box

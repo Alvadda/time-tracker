@@ -56,6 +56,10 @@ export const calcEarningFromMin = (minutes?: number, hourRate?: NumberOrEmpty) =
   return (time * rate) / HOUR
 }
 
+export const getRoundedHours = (min: number) => {
+  return Math.round((min / HOUR) * 10) / 10
+}
+
 export const nowMiliseconds = () => {
   return new Date().getTime()
 }

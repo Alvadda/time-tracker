@@ -29,8 +29,9 @@ export interface ProjectStats {
   project: Project
   sessions: Session[]
   customer?: Customer
-  totalEarning: number
+  // totalEarning: number
   totalMinutesWorked: number
+  rate: number
 }
 export interface Customer extends Form {
   contact?: string

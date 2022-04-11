@@ -2,8 +2,7 @@ import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
 import moment from 'moment'
 import React, { VFC } from 'react'
 import { Session, TimesheetInfos } from '../../types'
-import { formatDateShort } from '../../utils'
-import { HOUR } from '../../utils/constants '
+import { formatDateShort, getRoundedHours } from '../../utils'
 import { getDurationWithBreak } from '../sessions/sessionUtils'
 
 interface TimesheetPdfProps {
@@ -159,14 +158,14 @@ const TimesheetPdf: VFC<TimesheetPdfProps> = ({
                   <Text style={[styles.fontSizeSmall, { textAlign: 'left' }]}>{session.note}</Text>
                 </View>
                 <View style={styles.tableCell}>
-                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{duration}</Text>
+                  <Text style={[styles.fontSizeSmall, { textAlign: 'right' }]}>{getRoundedHours(duration)}</Text>
                 </View>
               </View>
             )
           })}
           <View style={styles.tablefooter}>
             <Text style={styles.fontSizeMedium}>Stunden Gesamt</Text>
-            <Text style={styles.fontSizeMedium}>{(totalMinutesWorked / HOUR).toFixed(0)}</Text>
+            <Text style={styles.fontSizeMedium}>{getRoundedHours(totalMinutesWorked)}</Text>
           </View>
         </View>
       </Page>

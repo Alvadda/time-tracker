@@ -2,7 +2,6 @@ import { Box, Card, CardContent, Typography } from '@mui/material'
 import { VFC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatCurrency } from '../../utils'
-import { formatMinToHourMin } from '../../utils/timeUtil'
 
 interface ProjectStatsOverviewProps {
   header: string
@@ -25,7 +24,7 @@ const ProjectStatsOverview: VFC<ProjectStatsOverviewProps> = ({ header, time, ea
               {t('common.hour')}
             </Typography>
             <Typography variant="h6" component="div" data-testid="project_stats_hours">
-              {formatMinToHourMin(time)}
+              {time}
             </Typography>
           </Box>
           <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'100%'}>

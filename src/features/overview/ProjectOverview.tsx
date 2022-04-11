@@ -5,10 +5,9 @@ import React, { useMemo, VFC } from 'react'
 import { useSelector } from 'react-redux'
 import { ProjectStats } from '../../types'
 import { createCSVDownloadLink, formatCurrency } from '../../utils'
-import { APP_WIDTH, HOUR } from '../../utils/constants '
-import { calcEarningFromMin, formatDateShort } from '../../utils/timeUtil'
+import { APP_WIDTH } from '../../utils/constants '
+import { formatDateShort, getRoundedHours } from '../../utils/timeUtil'
 import { getDurationWithBreak, mergeDaysTogether } from '../sessions/sessionUtils'
-import { useRate } from '../sessions/useRate'
 import { selectTimesheetInfos } from '../settings/settingsSlice'
 import { useTask } from '../task/useTask'
 import TimesheetPdf from './TimesheetPdf'
@@ -21,17 +20,16 @@ interface ProjectOverviewProps {
 
 const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, period }) => {
   const margedDays = useMemo(() => mergeDaysTogether(projectStats.sessions), [projectStats.sessions])
-  const { getRate } = useRate()
   const { getTaskNamesByIds } = useTask()
 
   const timeSheetinfos = useSelector(selectTimesheetInfos)
 
   const formatedDays = margedDays.map((session) => {
-    const duration = getDurationWithBreak(session)
-    const earning = calcEarningFromMin(duration, getRate(session))
+    const hours = getRoundedHours(getDurationWithBreak(session))
+    const earning = hours * projectStats.rate
     return {
       date: formatDateShort(session.start),
-      duration: (duration / HOUR).toFixed(0),
+      hours,
       earning: formatCurrency(earning),
       notes: session.note,
       tasks: getTaskNamesByIds(session.taskIds ?? []).join(' '),
@@ -70,7 +68,7 @@ const ProjectOverview: VFC<ProjectOverviewProps> = ({ projectStats, onClose, per
             <React.Fragment key={day.date}>
               <ListItem data-testid="overview_session">
                 <ListItemText primary={day.date} />
-                <ListItemText primary={day.earning} secondary={`${day.duration}h`} />
+                <ListItemText primary={day.earning} secondary={`${day.hours}h`} />
               </ListItem>
               <Divider />
             </React.Fragment>
