@@ -39,8 +39,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains('€').should('not.exist')
     cy.get(overview.overviewButton).click()
 
-    checkCardValues('Total', '2:00', 0)
-    checkCardValues('Rate', '2:00', 0)
+    checkCardValues('Total', '2', 0)
+    checkCardValues('Rate', '2', 0)
   })
 
   it('Only default rate of "10"', () => {
@@ -49,8 +49,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains(formatCurrency(20)).should('exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', 20)
-    checkCardValues('Rate', '2:00', 20)
+    checkCardValues('Total', '2', 20)
+    checkCardValues('Rate', '2', 20)
   })
 
   it('Customer with rate of "0"', () => {
@@ -63,8 +63,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains('€').should('not.exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', 0)
-    checkCardValues('Rate', '2:00', 0)
+    checkCardValues('Total', '2', 0)
+    checkCardValues('Rate', '2', 0)
   })
 
   it('Customer with rate of "20"', () => {
@@ -77,8 +77,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains(formatCurrency(40)).should('exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', 40)
-    checkCardValues('Rate', '2:00', 40)
+    checkCardValues('Total', '2', 40)
+    checkCardValues('Rate', '2', 40)
   })
 
   it('Project with rate of "0"', () => {
@@ -91,8 +91,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains('€').should('not.exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', 0)
-    checkCardValues('Rate', '2:00', 0)
+    checkCardValues('Total', '2', 0)
+    checkCardValues('Rate', '2', 0)
   })
 
   it('Project with rate of "30"', () => {
@@ -105,8 +105,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains(formatCurrency(60)).should('exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '2:00', 60)
-    checkCardValues('Rate', '2:00', 60)
+    checkCardValues('Total', '2', 60)
+    checkCardValues('Rate', '2', 60)
   })
 
   it('Rate with break', () => {
@@ -118,8 +118,8 @@ describe('rate', () => {
     cy.get(session.sessionCard).first().contains(formatCurrency(30)).should('exist')
 
     cy.get(overview.overviewButton).click()
-    checkCardValues('Total', '1:00', 30)
-    checkCardValues('Rate', '1:00', 30)
+    checkCardValues('Total', '1', 30)
+    checkCardValues('Rate', '1', 30)
   })
 })
 

@@ -20,7 +20,7 @@ describe('default break', () => {
       cy.get(session.sessionLiveTrack).click()
       cy.get(session.sessionLiveWorking).should('not.exist')
 
-      cy.get(session.sessionCard).first().contains('3:00h')
+      cy.get(session.sessionCard).first().contains('3h')
     })
   })
 
@@ -36,7 +36,7 @@ describe('default break', () => {
       cy.get(session.sessionLiveTrack).click()
       cy.get(session.sessionLiveWorking).should('not.exist')
 
-      cy.get(session.sessionCard).first().contains('3:00h')
+      cy.get(session.sessionCard).first().contains('3h')
     })
   })
 
@@ -52,7 +52,7 @@ describe('default break', () => {
       cy.get(session.sessionLiveTrack).click()
       cy.get(session.sessionLiveWorking).should('not.exist')
 
-      cy.get(session.sessionCard).first().contains('1:00h')
+      cy.get(session.sessionCard).first().contains('1h')
     })
   })
 
@@ -68,7 +68,7 @@ describe('default break', () => {
       cy.get(session.sessionLiveTrack).click()
       cy.get(session.sessionLiveWorking).should('not.exist')
 
-      cy.get(session.sessionCard).first().contains('1:00')
+      cy.get(session.sessionCard).first().contains('1')
     })
   })
 
@@ -84,7 +84,7 @@ describe('default break', () => {
       cy.get(session.sessionLiveTrack).click()
       cy.get(session.sessionLiveWorking).should('not.exist')
 
-      cy.get(session.sessionCard).first().contains('6:30h')
+      cy.get(session.sessionCard).first().contains('6.5h')
     })
   })
 })
