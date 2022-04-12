@@ -2,6 +2,7 @@ import { browserLocalPersistence, inMemoryPersistence, setPersistence } from 'fi
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { clearError, login, logout } from '../features/auth/authSlice'
 import { useFirebaseContext } from '../firebase/FirebaseContext'
 
@@ -11,6 +12,10 @@ const persistance = isTest ? inMemoryPersistence : browserLocalPersistence
 export const useFirebaseAuth = () => {
   const { auth, db } = useFirebaseContext()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const from = location.state?.from?.pathname || '/'
 
   useEffect(() => {
     setPersistence(auth, persistance)
@@ -40,10 +45,11 @@ export const useFirebaseAuth = () => {
             email: user.email || '',
           })
         )
+        navigate(from, { replace: true })
       } else {
         dispatch(logout())
       }
     })
     return unsubscribe
-  }, [auth, db, dispatch])
+  }, [auth, db, dispatch, from, navigate])
 }

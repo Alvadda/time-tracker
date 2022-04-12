@@ -52,6 +52,7 @@
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.29.0",
     "react-redux": "^7.2.8",
+    "react-router-dom": "^6.3.0",
     "redux": "^4.1.2",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.4",

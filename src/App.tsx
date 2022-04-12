@@ -4,13 +4,18 @@ import { Alert, Box, Button, createTheme, Snackbar, ThemeProvider } from '@mui/m
 import CssBaseline from '@mui/material/CssBaseline'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Route, Routes } from 'react-router-dom'
 import { selectAuth } from './features/auth/authSlice'
 import Login from './features/auth/Login'
+import { RequireAuth } from './features/auth/RequireAuth'
 import { selectDarkMode, selectLanguage } from './features/settings/settingsSlice'
 import FirebaseProvider from './firebase/FirebaseContext'
 import { useEffectOnce } from './hooks/useEffectOnce'
 import { useFirebaseAuth } from './hooks/useFirebaseAuth'
 import { changeLanguage, isLanguageSupported } from './i18n'
+import Overview from './pages/Overview'
+import SettingsPage from './pages/SettingsPage'
+import TimeTracker from './pages/TimeTracker'
 import Wizard from './pages/wizard/Wizard'
 import { APP_WIDTH, LANGUAGE_STORE } from './utils/constants '
 
@@ -50,7 +55,22 @@ export const App = () => {
           <CssBaseline />
           <Box width="100vw" height="100vh" display="flex" justifyContent="center">
             <Box width={APP_WIDTH} height="100vh" position="relative">
-              {auth.uid ? <Wizard /> : <Login />}
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <RequireAuth>
+                      <Wizard />
+                    </RequireAuth>
+                  }
+                >
+                  <Route path="/" element={<TimeTracker />} />
+                  <Route path="overview" element={<Overview />} />
+                  <Route path="settings" element={<SettingsPage />} />
+                </Route>
+                <Route path="login" element={<Login />} />
+              </Routes>
+              {/* ,{auth.uid ? <Wizard /> : <Login />} */}
               {update && (
                 <Snackbar
                   anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
