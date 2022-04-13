@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { Workbox } from 'workbox-window'
@@ -23,7 +23,9 @@ const root = createRoot(container)
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <Suspense fallback={<p>...Loading</p>}>
+        <App />
+      </Suspense>
     </Provider>
   </StrictMode>
 )

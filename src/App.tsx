@@ -4,6 +4,7 @@ import { Alert, Box, Button, createTheme, Snackbar, ThemeProvider } from '@mui/m
 import CssBaseline from '@mui/material/CssBaseline'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Spinner } from './components/Spinner'
 import { selectAuth } from './features/auth/authSlice'
 import Login from './features/auth/Login'
 import { selectDarkMode, selectLanguage } from './features/settings/settingsSlice'
@@ -16,7 +17,8 @@ import { APP_WIDTH, LANGUAGE_STORE } from './utils/constants '
 
 export const App = () => {
   const [update, setUpdate] = useState(false)
-  useFirebaseAuth()
+  const [init, setInit] = useState(true)
+  const { onAuthStateInit } = useFirebaseAuth()
   const auth = useSelector(selectAuth)
   const darkMode = useSelector(selectDarkMode)
   const language = useSelector(selectLanguage)
@@ -43,6 +45,10 @@ export const App = () => {
     if (language && isLanguageSupported(language)) changeLanguage(language)
   })
 
+  useEffectOnce(() => {
+    onAuthStateInit().then(() => setInit(false))
+  })
+
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -50,6 +56,7 @@ export const App = () => {
           <CssBaseline />
           <Box width="100vw" height="100vh" display="flex" justifyContent="center">
             <Box width={APP_WIDTH} height="100vh" position="relative">
+              {init && <Spinner />}
               {auth.uid ? <Wizard /> : <Login />}
               {update && (
                 <Snackbar
