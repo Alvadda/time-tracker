@@ -44,6 +44,7 @@ describe('rate', () => {
   })
 
   it('Only default rate of "10"', () => {
+    cy.get(settings.rateInput).clear()
     cy.get(settings.rateInput).clear().type('10').should('have.value', '10')
     cy.get(session.startButton).click()
     cy.get(session.sessionCard).first().contains(formatCurrency(20)).should('exist')
